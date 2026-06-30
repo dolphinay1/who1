@@ -330,6 +330,63 @@ function setupWindowDragging() {
   }
 }
 
+const translations = {
+  tr: {
+    "logo": "Who is Yunus?",
+    "hero-line1": "Ben Kimim?",
+    "hero-line2": "Yunus",
+    "hero-bubble": "Dijital Stratejist & Yapay Zeka Mimarı",
+    "hero-line3": "Aydoğdu",
+    "about-eyebrow": "HAKKIMDA · BİYOGRAFİ",
+    "about-heading": "Dürüstlük, Uyum<br />ve Sürekli Gelişim",
+    "about-desc": "Matematiksel düşünce yapımla yazılımı birleştiriyor, müşteri memnuniyeti odaklı elit hizmetler sunuyorum.",
+    "card1-title": "Ben Kimim?",
+    "card1-desc": "25 yaşındayım, İstanbul'da yaşıyorum. İtalyan bir anne ve Erzincanlı bir babanın oğluyum. Dürüst, yardımsever biriyim; girdiğim ekiplere hızla uyum sağlar, insanları koordine edebilirim. İstanbul Üniversitesi-Cerrahpaşa Turizm İşletmeciliği okuyorum.",
+    "card1-link": "Keşfet →",
+    "card2-title": "Girişim & Tecrübe",
+    "card2-desc": "Daha önce birkaç kez kendi işimi kurdum, bu bana eşsiz tecrübeler kattı. Satış, pazarlama ve hizmet sektöründe 4 yılı aşkın deneyime sahibim. Diksiyon, iş sağlığı, zaman/stres yönetimi, ikna teknikleri, moda illüstrasyonu ve gastronomi sertifikalarım var.",
+    "card2-link": "Sertifikalar →",
+    "card3-title": "Yazılım & Vizyonum",
+    "card3-desc": "Yazılım ve bilgisayara hobi olarak başladım; matematiksel okuma becerimle kendimi geliştirdim. Marketing alanında 4+ yıl tecrübeyle müşteri memnuniyeti odaklı, elit kalitede hizmet sunuyorum. Hedefim, Yapay Zeka (AI) otomasyonlarında Türkiye pazarında öncü rol oynamak.",
+    "card3-link": "Vizyonumu Gör →",
+    "cta-title": "Geleceği Birlikte<br /><em>İnşa Edelim</em>.",
+    "cta-desc": "Yapay zeka otomasyonları ve elit düzeyde marketing iş birlikleri için benimle iletişime geçin.",
+    "cta-btn": "İletişime Geç"
+  },
+  en: {
+    "logo": "Who is Yunus?",
+    "hero-line1": "Who Is",
+    "hero-line2": "Yunus",
+    "hero-bubble": "Digital Strategist & AI Architect",
+    "hero-line3": "Aydoğdu?",
+    "about-eyebrow": "ABOUT ME · BIOGRAPHY",
+    "about-heading": "Honesty, Adaptation<br />& Continuous Growth",
+    "about-desc": "I merge a logical, mathematical mindset with software engineering to deliver elite-class services obsessed with client satisfaction.",
+    "card1-title": "Who Am I?",
+    "card1-desc": "I am 25 years old, based in Istanbul. Born to an Italian mother and an Erzincan father. I am an honest, helpful person who adapts rapidly to workplaces and excels at coordinating teams. I am studying Tourism & Hotel Management at Istanbul University-Cerrahpaşa.",
+    "card1-link": "Explore →",
+    "card2-title": "Ventures & Expertise",
+    "card2-desc": "I have previously founded several businesses, which taught me invaluable lessons. I hold over 4 years of experience in sales, marketing, and services, alongside certifications in Diction, HSE, Time/Stress Management, Sales & Persuasion, Fashion Illustration, and Gastronomy.",
+    "card2-link": "Certifications →",
+    "card3-title": "Coding & Vision",
+    "card3-desc": "Software and computers started as a hobby. However, leveraging my logical and mathematical analysis capabilities, I have elevated my skills. Backed by 4+ years of marketing experience, I deliver elite-level client satisfaction. My goal is to play a pioneering role in Turkey's AI automation market.",
+    "card3-link": "See Vision →",
+    "cta-title": "Let's build a new<br /><em>future together</em>.",
+    "cta-desc": "Get in touch to discuss AI automations, digital strategy, or elite business collaborations.",
+    "cta-btn": "Get in Touch"
+  }
+};
+
+function applyTranslation(lang) {
+  const elements = document.querySelectorAll("[data-translate]");
+  elements.forEach((el) => {
+    const key = el.getAttribute("data-translate");
+    if (translations[lang] && translations[lang][key]) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+}
+
 function initMonaxGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -337,10 +394,6 @@ function initMonaxGSAP() {
   gsap.set(".window-content .nav", { opacity: 0, y: -20 });
   gsap.set(".window-content .headline .word > span", { y: "105%" });
   gsap.set(".window-content #inlineImg, .window-content #ideaPill", { scale: 0 });
-  gsap.set(".window-content .col-left > *, .window-content .col-right > *", { opacity: 0, y: 30 });
-  gsap.set(".window-content .big-image", { opacity: 0, y: 40, scale: 0.95 });
-  gsap.set(".window-content .try-pill-wrap", { opacity: 0, y: -20 });
-  gsap.set(".window-content .sphere", { scale: 0, opacity: 0 });
   gsap.set(".window-content .feat-card, .window-content .cta-inner", { opacity: 0 });
 
   const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -350,12 +403,7 @@ function initMonaxGSAP() {
     .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.9 }, 0.55)
     .to(".window-content #inlineImg", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.5)
     .to(".window-content #ideaPill", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.7)
-    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.75)
-    .to(".window-content .big-image", { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "back.out(1.3)" }, 1.0)
-    .to(".window-content .sphere", { scale: 1, opacity: 1, duration: 0.8, stagger: 0.05, ease: "back.out(1.6)" }, 1.2)
-    .to(".window-content .try-pill-wrap", { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.6)" }, 1.4)
-    .to(".window-content .col-left > *", { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 1.3)
-    .to(".window-content .col-right > *", { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 1.4);
+    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.75);
 
   // Bobbing effects inside the window
   gsap.to(".window-content #inlineImg", {
@@ -375,35 +423,6 @@ function initMonaxGSAP() {
     ease: "sine.inOut",
     yoyo: true,
     repeat: -1
-  });
-  document.querySelectorAll(".window-content .sphere").forEach((sp, i) => {
-    gsap.to(sp, {
-      y: `+=${5 + (i % 3) * 3}`,
-      x: `+=${(i % 2 === 0 ? 1 : -1) * 4}`,
-      rotation: `+=${i % 2 === 0 ? 3 : -3}`,
-      duration: 3.5 + (i % 3) * 0.5,
-      delay: 2 + i * 0.1,
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1
-    });
-  });
-
-  // Scroll triggers scoped to scrollable container `.window-content`
-  ScrollTrigger.create({
-    trigger: ".window-content .below",
-    scroller: ".window-content",
-    start: "top 80%",
-    end: "bottom top",
-    scrub: 0.8,
-    onUpdate: (self) => {
-      const p = self.progress;
-      gsap.set(".window-content #bigImage", { scale: 1 + 0.04 * p, rotation: 1 * p });
-      document.querySelectorAll(".window-content .sphere").forEach((sp, i) => {
-        const dir = i % 2 === 0 ? 1 : -1;
-        gsap.set(sp, { y: dir * 20 * p, rotation: dir * 8 * p });
-      });
-    }
   });
 
   ScrollTrigger.create({
@@ -443,31 +462,6 @@ function initMonaxGSAP() {
     ease: "power3.out",
     scrollTrigger: { trigger: ".window-content .cta-section", scroller: ".window-content", start: "top 80%" }
   });
-
-  // 120+ counter triggering inside scrollable window container
-  ScrollTrigger.create({
-    trigger: ".window-content .col-right",
-    scroller: ".window-content",
-    start: "top 80%",
-    onEnter: () => {
-      const el = document.querySelector(".window-content .stat-block .num");
-      if (!el) return;
-      const target = parseFloat(el.dataset.count);
-      const span = el.querySelector("span");
-      gsap.to(
-        { v: 0 },
-        {
-          v: target,
-          duration: 1.6,
-          ease: "power2.out",
-          onUpdate: function () {
-            span.textContent = Math.floor(this.targets()[0].v).toLocaleString();
-          }
-        }
-      );
-    },
-    once: true
-  });
 }
 
 function initSpaceModule() {
@@ -496,10 +490,31 @@ function initSpaceModule() {
       win.removeAttribute("style");
       win.classList.add("open");
       
+      // Default to Turkish translation on open
+      applyTranslation("tr");
+      
       // Initialize GSAP anims inside scrollable window content
       setTimeout(() => {
         initMonaxGSAP();
       }, 400);
+    });
+  }
+
+  // Language buttons logic
+  const langBtnTR = document.getElementById("langBtnTR");
+  const langBtnEN = document.getElementById("langBtnEN");
+  if (langBtnTR && langBtnEN) {
+    langBtnTR.addEventListener("click", () => {
+      langBtnTR.classList.add("active");
+      langBtnEN.classList.remove("active");
+      applyTranslation("tr");
+      ScrollTrigger.refresh();
+    });
+    langBtnEN.addEventListener("click", () => {
+      langBtnEN.classList.add("active");
+      langBtnTR.classList.remove("active");
+      applyTranslation("en");
+      ScrollTrigger.refresh();
     });
   }
 
