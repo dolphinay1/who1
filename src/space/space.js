@@ -352,9 +352,8 @@ const translations = {
     "card3-title": "Dijital Zanaat ve Vizyon",
     "card3-desc": "Bilgisayarlara duyduğum kişisel tutku, zamanla matematiksel analize ve sistem kurma becerisine dönüştü. Bugün, pazarlama dünyasındaki tecrübemi yazılım ve Yapay Zeka (AI) ile harmanlayarak, karmaşık süreçleri sadeleştiren mimariler kuruyorum. Vizyonum 'elit hizmetler' gibi içi boş vaatler satmak değil; insan odağından kopmadan, sistematik işleyen ve kendi kendini büyüten şeffaf sistemler inşa etmek.",
     "card3-link": "DİJİTAL YAKLAŞIMIM ➔",
-    "cta-title": "Geleceği Birlikte<br /><em>İnşa Edelim</em>.",
-    "cta-desc": "Yapay zeka otomasyonları ve elit düzeyde marketing iş birlikleri için benimle iletişime geçin.",
-    "cta-btn": "İletişime Geç"
+    "cta-quote-text": "“İyi yapılmış bir iş, iyi söylenmiş bir sözden daima daha iyidir.”",
+    "cta-quote-author": "— Benjamin Franklin"
   },
   en: {
     "logo": "PERSONAL IDENTITY",
@@ -377,9 +376,8 @@ const translations = {
     "card3-title": "Digital Craft & Vision",
     "card3-desc": "My personal passion for computers evolved over time into mathematical analysis and system building skills. Today, blending my marketing experience with software and Artificial Intelligence (AI), I design architectures that simplify complex processes. My vision is not to sell empty promises like 'elite services', but to build transparent systems that function systematically and grow self-sufficiently without losing focus on people.",
     "card3-link": "MY DIGITAL APPROACH ➔",
-    "cta-title": "Let's build a new<br /><em>future together</em>.",
-    "cta-desc": "Get in touch to discuss AI automations, digital strategy, or elite business collaborations.",
-    "cta-btn": "Get in Touch"
+    "cta-quote-text": "“Well done is better than well said.”",
+    "cta-quote-author": "— Benjamin Franklin"
   }
 };
 

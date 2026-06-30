@@ -736,47 +736,44 @@
   border-radius: 36px;
   padding: 80px 60px;
   color: #f4f0eb;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 50px;
-  align-items: center;
   box-shadow: 0 40px 80px -30px rgba(20, 12, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.window-content .cta-inner h2 {
-  font-size: clamp(32px, 4vw, 60px);
-  line-height: 1;
-  font-weight: 800;
-}
-
-.window-content .cta-inner h2 em {
-  font-style: italic;
-  font-weight: 700;
-  background: linear-gradient(135deg, #bfd58f, #ffd66b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.window-content .cta-right p {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 24px;
-}
-
-.window-content .cta-btn {
-  background: #fafaf7;
-  color: #0d0d10;
-  border: none;
-  padding: 14px 36px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
+.window-content .cta-inner.cta-quote-mode {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 40px;
+}
+
+.window-content .cta-quote {
+  max-width: 850px;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.window-content .cta-quote p {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(20px, 2.8vw, 36px);
+  line-height: 1.45;
+  color: #fafaf7;
+  margin-bottom: 24px;
+  letter-spacing: -0.015em;
+}
+
+.window-content .cta-quote cite {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 1.2vw, 15px);
+  color: var(--mute);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
 /* Responsive Window Content */
