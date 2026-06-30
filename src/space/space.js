@@ -1,5 +1,6 @@
 /**
  * Space Anomaly Module logic compiling and running WebGL shaders.
+ * Coordinates folder clicking and macOS window drag/opening logic.
  */
 
 const fragmentShaderSource = `#version 300 es
@@ -195,6 +196,8 @@ class SpacePointerHandler {
     const mapCoords = (el, sc, x, y) => [x * sc, el.height - y * sc];
 
     element.addEventListener("pointerdown", (e) => {
+      // Ignore click inputs that are on UI overlay files
+      if (e.target.closest("#desktop-workspace")) return;
       this.active = true;
       this.pointers.set(e.pointerId, mapCoords(element, this.getScale(), e.clientX, e.clientY));
     });
@@ -270,6 +273,203 @@ function spaceLoop(now) {
   animationFrameId = requestAnimationFrame(spaceLoop);
 }
 
+function handleResize() {
+  const canvas = document.getElementById("space-canvas");
+  if (!canvas || !spaceRenderer) return;
+  const dpr = Math.max(1, resolutionScale * window.devicePixelRatio);
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  spaceRenderer.updateScale(dpr);
+}
+
+/* ==========================================
+ * macOS Window Interactive Features
+ * ========================================== */
+
+function setupWindowDragging() {
+  const header = document.getElementById("windowHeader");
+  const win = document.getElementById("macos-window");
+  if (!header || !win) return;
+
+  let isDragging = false;
+  let startX, startY, winLeft, winTop;
+
+  header.addEventListener("mousedown", (e) => {
+    if (e.target.closest(".window-controls")) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    
+    // Get current window bounds
+    const rect = win.getBoundingClientRect();
+    winLeft = rect.left;
+    winTop = rect.top;
+    
+    // Disable translate transition while dragging
+    win.style.transition = "none";
+    win.style.transform = "none";
+    win.style.left = `${winLeft}px`;
+    win.style.top = `${winTop}px`;
+    
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  });
+
+  function onMouseMove(e) {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    win.style.left = `${winLeft + dx}px`;
+    win.style.top = `${winTop + dy}px`;
+  }
+
+  function onMouseUp() {
+    isDragging = false;
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  }
+}
+
+function initMonaxGSAP() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Scoped animations running inside .window-content
+  gsap.set(".window-content .nav", { opacity: 0, y: -20 });
+  gsap.set(".window-content .headline .word > span", { y: "105%" });
+  gsap.set(".window-content #inlineImg, .window-content #ideaPill", { scale: 0 });
+  gsap.set(".window-content .col-left > *, .window-content .col-right > *", { opacity: 0, y: 30 });
+  gsap.set(".window-content .big-image", { opacity: 0, y: 40, scale: 0.95 });
+  gsap.set(".window-content .try-pill-wrap", { opacity: 0, y: -20 });
+  gsap.set(".window-content .sphere", { scale: 0, opacity: 0 });
+  gsap.set(".window-content .feat-card, .window-content .cta-inner", { opacity: 0 });
+
+  const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+  intro
+    .to(".window-content .nav", { opacity: 1, y: 0, duration: 0.8 }, 0.1)
+    .to(".window-content .line-1 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.3)
+    .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.9 }, 0.55)
+    .to(".window-content #inlineImg", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.5)
+    .to(".window-content #ideaPill", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.7)
+    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.75)
+    .to(".window-content .big-image", { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "back.out(1.3)" }, 1.0)
+    .to(".window-content .sphere", { scale: 1, opacity: 1, duration: 0.8, stagger: 0.05, ease: "back.out(1.6)" }, 1.2)
+    .to(".window-content .try-pill-wrap", { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.6)" }, 1.4)
+    .to(".window-content .col-left > *", { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 1.3)
+    .to(".window-content .col-right > *", { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 1.4);
+
+  // Bobbing effects inside the window
+  gsap.to(".window-content #inlineImg", {
+    y: "+=6",
+    rotation: 2,
+    duration: 2.8,
+    delay: 1.8,
+    ease: "sine.inOut",
+    yoyo: true,
+    repeat: -1
+  });
+  gsap.to(".window-content #ideaPill", {
+    y: "+=5",
+    rotation: -1.5,
+    duration: 3.2,
+    delay: 2.0,
+    ease: "sine.inOut",
+    yoyo: true,
+    repeat: -1
+  });
+  document.querySelectorAll(".window-content .sphere").forEach((sp, i) => {
+    gsap.to(sp, {
+      y: `+=${5 + (i % 3) * 3}`,
+      x: `+=${(i % 2 === 0 ? 1 : -1) * 4}`,
+      rotation: `+=${i % 2 === 0 ? 3 : -3}`,
+      duration: 3.5 + (i % 3) * 0.5,
+      delay: 2 + i * 0.1,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1
+    });
+  });
+
+  // Scroll triggers scoped to scrollable container `.window-content`
+  ScrollTrigger.create({
+    trigger: ".window-content .below",
+    scroller: ".window-content",
+    start: "top 80%",
+    end: "bottom top",
+    scrub: 0.8,
+    onUpdate: (self) => {
+      const p = self.progress;
+      gsap.set(".window-content #bigImage", { scale: 1 + 0.04 * p, rotation: 1 * p });
+      document.querySelectorAll(".window-content .sphere").forEach((sp, i) => {
+        const dir = i % 2 === 0 ? 1 : -1;
+        gsap.set(sp, { y: dir * 20 * p, rotation: dir * 8 * p });
+      });
+    }
+  });
+
+  ScrollTrigger.create({
+    trigger: ".window-content .hero",
+    scroller: ".window-content",
+    start: "top top",
+    end: "bottom top",
+    scrub: 0.8,
+    onUpdate: (self) => {
+      const p = self.progress;
+      gsap.set(".window-content .headline", { y: -50 * p, opacity: 1 - p * 0.4 });
+    }
+  });
+
+  gsap.from(".window-content .eyebrow, .window-content .features-head h2, .window-content .features-head p", {
+    opacity: 0,
+    y: 30,
+    duration: 0.9,
+    stagger: 0.1,
+    ease: "power3.out",
+    scrollTrigger: { trigger: ".window-content .features-head", scroller: ".window-content", start: "top 80%" }
+  });
+  
+  gsap.to(".window-content .feat-card", {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    stagger: 0.12,
+    ease: "power3.out",
+    scrollTrigger: { trigger: ".window-content .features-grid", scroller: ".window-content", start: "top 50%" }
+  });
+
+  gsap.to(".window-content .cta-inner", {
+    opacity: 1,
+    y: 0,
+    duration: 1.2,
+    ease: "power3.out",
+    scrollTrigger: { trigger: ".window-content .cta-section", scroller: ".window-content", start: "top 80%" }
+  });
+
+  // 120+ counter triggering inside scrollable window container
+  ScrollTrigger.create({
+    trigger: ".window-content .col-right",
+    scroller: ".window-content",
+    start: "top 80%",
+    onEnter: () => {
+      const el = document.querySelector(".window-content .stat-block .num");
+      if (!el) return;
+      const target = parseFloat(el.dataset.count);
+      const span = el.querySelector("span");
+      gsap.to(
+        { v: 0 },
+        {
+          v: target,
+          duration: 1.6,
+          ease: "power2.out",
+          onUpdate: function () {
+            span.textContent = Math.floor(this.targets()[0].v).toLocaleString();
+          }
+        }
+      );
+    },
+    once: true
+  });
+}
+
 function initSpaceModule() {
   const canvas = document.getElementById("space-canvas");
   if (!canvas) return;
@@ -285,15 +485,70 @@ function initSpaceModule() {
   spaceLoop(0);
 
   window.addEventListener("resize", handleResize);
-}
 
-function handleResize() {
-  const canvas = document.getElementById("space-canvas");
-  if (!canvas || !spaceRenderer) return;
-  const dpr = Math.max(1, resolutionScale * window.devicePixelRatio);
-  canvas.width = window.innerWidth * dpr;
-  canvas.height = window.innerHeight * dpr;
-  spaceRenderer.updateScale(dpr);
+  // Folder click interaction
+  const folder = document.getElementById("desktop-folder");
+  const win = document.getElementById("macos-window");
+  
+  if (folder && win) {
+    folder.addEventListener("click", () => {
+      // Re-enable CSS transitions when opening
+      win.removeAttribute("style");
+      win.classList.add("open");
+      
+      // Initialize GSAP anims inside scrollable window content
+      setTimeout(() => {
+        initMonaxGSAP();
+      }, 400);
+    });
+  }
+
+  // Window header draggable bindings
+  setupWindowDragging();
+
+  // Close action on Red Dot button
+  const closeBtn = document.getElementById("closeWindowBtn");
+  if (closeBtn && win) {
+    closeBtn.addEventListener("click", () => {
+      win.classList.remove("open");
+      
+      // Clean up scroll triggers inside the window
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach(trigger => {
+        if (trigger.vars.scroller === ".window-content") {
+          trigger.kill();
+        }
+      });
+    });
+  }
+
+  // Minimize action on Yellow Dot
+  const minimizeBtn = document.getElementById("minimizeWindowBtn");
+  if (minimizeBtn && win) {
+    minimizeBtn.addEventListener("click", () => {
+      win.classList.remove("open");
+    });
+  }
+
+  // Maximize action on Green Dot
+  const maximizeBtn = document.getElementById("maximizeWindowBtn");
+  if (maximizeBtn && win) {
+    maximizeBtn.addEventListener("click", () => {
+      win.removeAttribute("style");
+      win.classList.toggle("fullscreen-window");
+      
+      if (win.classList.contains("fullscreen-window")) {
+        win.style.width = "100vw";
+        win.style.height = "100vh";
+        win.style.borderRadius = "0px";
+      } else {
+        win.style.width = "85vw";
+        win.style.height = "80vh";
+        win.style.borderRadius = "12px";
+      }
+      ScrollTrigger.refresh();
+    });
+  }
 }
 
 function destroySpaceModule() {
