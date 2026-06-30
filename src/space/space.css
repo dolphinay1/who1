@@ -345,11 +345,11 @@
 .window-content .headline {
   font-family: "Inter", sans-serif;
   font-weight: 800;
-  font-size: clamp(48px, 8vw, 130px);
-  line-height: 1;
-  letter-spacing: -0.045em;
+  font-size: clamp(20px, 3vw, 34px);
+  line-height: 1.45;
+  letter-spacing: -0.025em;
   color: var(--ink);
-  max-width: 1300px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -357,9 +357,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 16px;
   overflow: visible;
-  padding: 4px 0;
+  padding: 8px 0;
+  flex-wrap: wrap;
 }
 
 .window-content .headline .word {
@@ -376,8 +377,8 @@
 
 .window-content .inline-img {
   display: inline-block;
-  width: clamp(110px, 14vw, 220px);
-  height: clamp(58px, 7.4vw, 116px);
+  width: clamp(70px, 8vw, 110px);
+  height: clamp(35px, 4vw, 55px);
   border-radius: 999px;
   overflow: hidden;
   position: relative;
@@ -398,10 +399,10 @@
 .window-content .idea-pill {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: var(--green);
   border-radius: 999px;
-  padding: 8px 12px 8px 22px;
+  padding: 6px 14px 6px 18px;
   box-shadow: 0 14px 24px -10px rgba(60, 100, 30, 0.3),
     0 5px 10px -2px rgba(60, 100, 30, 0.15),
     inset 0 2px 0 rgba(255, 255, 255, 0.4),
@@ -411,8 +412,8 @@
 
 .window-content .idea-pill .txt {
   font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: clamp(11px, 1.2vw, 18px);
+  font-weight: 700;
+  font-size: clamp(10px, 1vw, 14px);
   line-height: 1.15;
   letter-spacing: -0.015em;
   color: var(--ink);

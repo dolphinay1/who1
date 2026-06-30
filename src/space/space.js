@@ -332,11 +332,12 @@ function setupWindowDragging() {
 
 const translations = {
   tr: {
-    "logo": "Who is Yunus?",
-    "hero-line1": "Ben Kimim?",
-    "hero-line2": "Yunus",
-    "hero-bubble": "Dijital Stratejist & Yapay Zeka Mimarı",
-    "hero-line3": "Aydoğdu",
+    "logo": "Kişisel Kimlik",
+    "window-title": "Who is Yunus?",
+    "hero-line1": "Teknolojinin rasyonel dünyası ile",
+    "hero-line2": "insan ilişkilerinin samimiyetini dengeleyebilen;",
+    "hero-bubble": "Ruh kimliğe bürünmelidir.",
+    "hero-line3": "karakterini kelimelerle pazarlamayı reddedip, işine duyduğu saygı ve netliğiyle var olmayı benimsemiş biri.",
     "about-eyebrow": "HAKKIMDA · BİYOGRAFİ",
     "about-heading": "Dürüstlük, Uyum<br />ve Sürekli Gelişim",
     "about-desc": "Matematiksel düşünce yapımla yazılımı birleştiriyor, müşteri memnuniyeti odaklı elit hizmetler sunuyorum.",
@@ -354,11 +355,12 @@ const translations = {
     "cta-btn": "İletişime Geç"
   },
   en: {
-    "logo": "Who is Yunus?",
-    "hero-line1": "Who Is",
-    "hero-line2": "Yunus",
-    "hero-bubble": "Digital Strategist & AI Architect",
-    "hero-line3": "Aydoğdu?",
+    "logo": "Personal Identity",
+    "window-title": "Who is Yunus?",
+    "hero-line1": "One who balances the rational world of technology with",
+    "hero-line2": "the sincerity of human relationships;",
+    "hero-bubble": "The soul must materialize.",
+    "hero-line3": "refusing to market character with words, choosing to exist through respect and clarity in work.",
     "about-eyebrow": "ABOUT ME · BIOGRAPHY",
     "about-heading": "Honesty, Adaptation<br />& Continuous Growth",
     "about-desc": "I merge a logical, mathematical mindset with software engineering to deliver elite-class services obsessed with client satisfaction.",
