@@ -332,12 +332,13 @@ function setupWindowDragging() {
 
 const translations = {
   tr: {
-    "logo": "Kişisel Kimlik",
+    "logo": "KİŞİSEL KİMLİK",
     "window-title": "Who is Yunus?",
-    "hero-line1": "Teknolojinin rasyonel dünyası ile",
-    "hero-line2": "insan ilişkilerinin samimiyetini dengeleyebilen;",
-    "hero-bubble": "Ruh kimliğe bürünmelidir.",
-    "hero-line3": "karakterini kelimelerle pazarlamayı reddedip, işine duyduğu saygı ve netliğiyle var olmayı benimsemiş biri.",
+    "hero-line1": "TEKNOLOJİNİN RASYONEL DÜNYASI İLE",
+    "hero-line2": "İNSAN İLİŞKİLERİNİN SAMİMİYETİNİ DENGELEYEBİLEN;",
+    "hero-bubble": "RUH KİMLİĞE BÜRÜNMELİDİR.",
+    "hero-line3": "KARAKTERİNİ KELİMELERLE PAZARLAMAYI REDDEDİP,",
+    "hero-line4": "İŞİNE DUYDUĞU SAYGI VE NETLİĞİYLE VAR OLMAYI BENİMSEMİŞ BİRİ.",
     "about-eyebrow": "HAKKIMDA · BİYOGRAFİ",
     "about-heading": "Dürüstlük, Uyum<br />ve Sürekli Gelişim",
     "about-desc": "Matematiksel düşünce yapımla yazılımı birleştiriyor, müşteri memnuniyeti odaklı elit hizmetler sunuyorum.",
@@ -355,12 +356,13 @@ const translations = {
     "cta-btn": "İletişime Geç"
   },
   en: {
-    "logo": "Personal Identity",
+    "logo": "PERSONAL IDENTITY",
     "window-title": "Who is Yunus?",
-    "hero-line1": "One who balances the rational world of technology with",
-    "hero-line2": "the sincerity of human relationships;",
-    "hero-bubble": "The soul must materialize.",
-    "hero-line3": "refusing to market character with words, choosing to exist through respect and clarity in work.",
+    "hero-line1": "BALANCING THE RATIONAL WORLD OF TECHNOLOGY WITH",
+    "hero-line2": "THE SINCERITY OF HUMAN RELATIONSHIPS;",
+    "hero-bubble": "THE SOUL MUST MATERIALIZE.",
+    "hero-line3": "REFUSING TO MARKET CHARACTER WITH WORDS,",
+    "hero-line4": "CHOOSING TO EXIST THROUGH RESPECT AND CLARITY IN WORK.",
     "about-eyebrow": "ABOUT ME · BIOGRAPHY",
     "about-heading": "Honesty, Adaptation<br />& Continuous Growth",
     "about-desc": "I merge a logical, mathematical mindset with software engineering to deliver elite-class services obsessed with client satisfaction.",
@@ -401,11 +403,12 @@ function initMonaxGSAP() {
   const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
   intro
     .to(".window-content .nav", { opacity: 1, y: 0, duration: 0.8 }, 0.1)
-    .to(".window-content .line-1 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.3)
-    .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.9 }, 0.55)
-    .to(".window-content #inlineImg", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.5)
-    .to(".window-content #ideaPill", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.7)
-    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9, stagger: 0.1 }, 0.75);
+    .to(".window-content .line-1 .word > span", { y: "0%", duration: 0.9 }, 0.3)
+    .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.9 }, 0.5)
+    .to(".window-content #inlineImg", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.45)
+    .to(".window-content #ideaPill", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.6)
+    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9 }, 0.7)
+    .to(".window-content .line-4 .word > span", { y: "0%", duration: 0.9 }, 0.85);
 
   // Bobbing effects inside the window
   gsap.to(".window-content #inlineImg", {
