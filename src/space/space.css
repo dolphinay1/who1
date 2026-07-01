@@ -400,7 +400,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(170px, 22vw, 340px);
+  width: clamp(100px, 13vw, 200px);
   height: clamp(52px, 6.8vw, 106px);
   border-radius: 999px;
   overflow: hidden;
@@ -419,15 +419,39 @@
   transform: scale(0);
 }
 
-.window-content .idea-pill .txt {
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  font-size: clamp(8px, 1.1vw, 15px);
-  color: #1a3c03;
-  line-height: 1.25;
-  text-align: center;
-  padding: 0 16px;
-  white-space: nowrap;
+.window-content .idea-pill .leaf {
+  width: clamp(34px, 4.4vw, 70px);
+  height: clamp(34px, 4.4vw, 70px);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 12px -2px rgba(60, 100, 30, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(40, 80, 20, 0.4);
+  background: radial-gradient(
+    circle at 35% 35%,
+    #d7f08c 0%,
+    #8fb852 40%,
+    #4a6e22 100%
+  );
+  flex-shrink: 0;
+}
+
+.window-content .idea-pill .leaf::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 70% 70%,
+      transparent 30%,
+      rgba(255, 255, 255, 0.25) 70%
+    ),
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.35) 0%,
+      transparent 40%
+    );
+  pointer-events: none;
 }
 
 /* 3-Column below section */
@@ -876,12 +900,8 @@
     height: 30px;
   }
   .window-content .idea-pill {
-    width: clamp(100px, 15vw, 180px);
+    width: 60px;
     height: 30px;
-  }
-  .window-content .idea-pill .txt {
-    font-size: 8px;
-    padding: 0 6px;
   }
 }
 
