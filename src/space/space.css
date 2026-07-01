@@ -745,11 +745,14 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 45px 30px;
+  padding: 40px 30px;
 }
 
 .window-content .cta-quote {
-  max-width: 850px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 95%;
   margin: 0;
   border: none;
   padding: 0;
@@ -759,11 +762,12 @@
   font-family: "Inter", sans-serif;
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(18px, 2.4vw, 30px);
-  line-height: 1.45;
+  font-size: clamp(16px, 2.1vw, 24px);
+  line-height: 1.4;
   color: #fafaf7;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   letter-spacing: -0.015em;
+  white-space: nowrap;
 }
 
 .window-content .cta-quote p em {
@@ -781,10 +785,11 @@
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: clamp(11px, 1.1vw, 13px);
+  font-size: clamp(10px, 0.9vw, 12px);
   color: var(--mute);
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  margin-top: 4px;
 }
 
 /* Responsive Window Content */
@@ -800,6 +805,13 @@
   }
   .window-content .features-grid {
     grid-template-columns: 1fr;
+  }
+  .window-content .cta-quote {
+    align-items: center;
+  }
+  .window-content .cta-quote p {
+    white-space: normal;
+    text-align: center;
   }
 }
 
