@@ -398,8 +398,10 @@
 }
 
 .window-content .idea-pill {
-  display: inline-block;
-  width: clamp(80px, 11vw, 160px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(140px, 18vw, 320px);
   height: clamp(40px, 5.5vw, 80px);
   border-radius: 999px;
   overflow: hidden;
@@ -416,6 +418,20 @@
     #3f651c 100%
   );
   transform: scale(0);
+}
+
+.window-content .idea-pill .txt {
+  font-family: "Outfit", "Inter", sans-serif;
+  font-weight: 700;
+  font-size: clamp(8px, 1.1vw, 15px);
+  color: #1a3c03;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-align: center;
+  padding: 0 12px;
+  white-space: nowrap;
 }
 
 /* 3-Column below section */
@@ -864,8 +880,12 @@
     height: 30px;
   }
   .window-content .idea-pill {
-    width: 60px;
+    width: clamp(100px, 15vw, 180px);
     height: 30px;
+  }
+  .window-content .idea-pill .txt {
+    font-size: 8px;
+    padding: 0 6px;
   }
 }
 

@@ -334,15 +334,13 @@ const translations = {
   tr: {
     "logo": "KİŞİSEL KİMLİK",
     "window-title": "Who is Yunus?",
-    "hero-line1": "TEKNOLOJİNİN RASYONEL DÜNYASI VE",
-    "hero-line2": "İNSAN İLİŞKİLERİNİN SAMİMİYETİNİ",
-    "hero-line3": "DENGELEYEBİLEN",
-    "hero-line4": "KARAKTERİNİ KELİMELERLE PAZARLAMAYI REDDEDİP,",
-    "hero-line5": "İŞİNE DUYDUĞU SAYGI VE NETLİĞİYLE",
-    "hero-line6": "VAR OLMAYI BENİMSEMİŞ BİRİ.",
+    "hero-line1": "YUNUS ASLINDA",
+    "hero-line2": "TAM",
+    "hero-line3": "OLARAK ŞÖYLE BİRİ.",
+    "hero-bubble": "RUH KARAKTERİ YANSITMALI",
     "about-eyebrow": "KİMLİĞİM VE YAKLAŞIMIM",
     "about-heading": "İnsanı Anlamak,<br />Sistemi İnşa Etmek.",
-    "about-desc": "Teknolojinin rasyonel dünyası ile insan ilişkilerinin samimiyetini dengeliyor; kendimi iddialı sıfatlarla övmek yerine, ortaya koyduğum sessiz emek ve kurduğum şeffaf sistemlerle tanımlamayı seçiyorum.",
+    "about-desc": "Teknolojinin rasyonel dünyası ve insan ilişkilerinin samimiyetini dengeleyebilen; karakterini kelimelerle pazarlamayı reddedip, işine duyduğu saygı ve netliğiyle var olmayı benimsemiş biri.",
     "card1-title": "Köklerim ve Karakterim",
     "card1-desc": "25 yaşındayım, İstanbul'da yaşıyorum. İtalyan bir anne ve Erzincanlı bir babanın oğlu olarak, zıtlıkların uyumunu ve farklılıkları kucaklamayı erken yaşta öğrendim. İ.Ü. Cerrahpaşa'daki Turizm İşletmeciliği eğitimimle de derinleşen bu kültürel altyapı, bana insanları anlama ve koordine etme yeteneği kazandırdı. Karakterimi 'yardımsever' veya 'uyumlu' gibi ezberlenmiş sıfatlarla övmek yerine; ekiplere taşıdığım şeffaflık, netlik ve samimiyetle göstermeyi felsefe edindim.",
     "card1-link": "HİKAYEMİ KEŞFET ➔",
@@ -358,15 +356,13 @@ const translations = {
   en: {
     "logo": "PERSONAL IDENTITY",
     "window-title": "Who is Yunus?",
-    "hero-line1": "BALANCING THE RATIONAL WORLD OF",
-    "hero-line2": "TECHNOLOGY WITH HUMAN RELATIONSHIPS;",
-    "hero-line3": "REFUSING",
-    "hero-line4": "TO MARKET CHARACTER WITH WORDS,",
-    "hero-line5": "EXISTING THROUGH RESPECT",
-    "hero-line6": "AND CLARITY IN WORK.",
+    "hero-line1": "YUNUS IS ACTUALLY",
+    "hero-line2": "EXACTLY",
+    "hero-line3": "LIKE THIS.",
+    "hero-bubble": "SOUL MUST REFLECT CHARACTER",
     "about-eyebrow": "MY IDENTITY & APPROACH",
     "about-heading": "Understanding People,<br />Building Systems.",
-    "about-desc": "I balance the rational world of technology with the sincerity of human relationships; choosing to define myself not through boastful adjectives, but through the quiet dedication I put forth and the transparent systems I construct.",
+    "about-desc": "Balancing the rational world of technology with human relationships; refusing to market character with words, existing through respect and clarity in work.",
     "card1-title": "Roots & Character",
     "card1-desc": "I am 25 years old, living in Istanbul. As the son of an Italian mother and an Erzincan father, I learned early on to embrace diversity and the harmony of contrasts. This cultural background, enriched by my Tourism Management education at Istanbul University-Cerrahpaşa, gave me the ability to understand and coordinate people. Rather than praising my character with rote adjectives like 'helpful' or 'adaptable', I make it my philosophy to demonstrate it through the transparency, clarity, and sincerity I bring to teams.",
     "card1-link": "EXPLORE MY STORY ➔",
@@ -403,14 +399,11 @@ function initMonaxGSAP() {
   const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
   intro
     .to(".window-content .nav", { opacity: 1, y: 0, duration: 0.8 }, 0.1)
-    .to(".window-content .line-1 .word > span", { y: "0%", duration: 0.8 }, 0.3)
-    .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.8 }, 0.42)
-    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.8 }, 0.54)
-    .to(".window-content #inlineImg", { scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 0.5)
-    .to(".window-content #ideaPill", { scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 0.65)
-    .to(".window-content .line-4 .word > span", { y: "0%", duration: 0.8 }, 0.68)
-    .to(".window-content .line-5 .word > span", { y: "0%", duration: 0.8 }, 0.8)
-    .to(".window-content .line-6 .word > span", { y: "0%", duration: 0.8 }, 0.92);
+    .to(".window-content .line-1 .word > span", { y: "0%", duration: 0.9 }, 0.3)
+    .to(".window-content .line-2 .word > span", { y: "0%", duration: 0.9 }, 0.45)
+    .to(".window-content #inlineImg", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.4)
+    .to(".window-content #ideaPill", { scale: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.55)
+    .to(".window-content .line-3 .word > span", { y: "0%", duration: 0.9 }, 0.6);
 
   // Bobbing effects inside the window
   gsap.to(".window-content #inlineImg", {
