@@ -344,21 +344,20 @@
 
 .window-content .headline {
   font-family: "Inter", sans-serif;
-  font-weight: 900;
-  font-size: clamp(22px, 3.6vw, 46px);
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+  font-weight: 800;
+  font-size: clamp(38px, 6.8vw, 105px);
+  line-height: 1.0;
+  letter-spacing: -0.045em;
   color: var(--ink);
-  max-width: 1250px;
+  max-width: 1300px;
   margin: 0 auto;
-  text-transform: uppercase;
 }
 
 .window-content .headline .line {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 2vw, 24px);
+  gap: clamp(14px, 2.2vw, 32px);
   overflow: visible;
   padding: 6px 0;
   white-space: nowrap;
@@ -378,8 +377,8 @@
 
 .window-content .inline-img {
   display: inline-block;
-  width: clamp(80px, 11vw, 160px);
-  height: clamp(40px, 5.5vw, 80px);
+  width: clamp(100px, 13vw, 200px);
+  height: clamp(52px, 6.8vw, 106px);
   border-radius: 999px;
   overflow: hidden;
   position: relative;
@@ -401,8 +400,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(140px, 18vw, 320px);
-  height: clamp(40px, 5.5vw, 80px);
+  width: clamp(170px, 22vw, 340px);
+  height: clamp(52px, 6.8vw, 106px);
   border-radius: 999px;
   overflow: hidden;
   position: relative;
@@ -421,16 +420,13 @@
 }
 
 .window-content .idea-pill .txt {
-  font-family: "Outfit", "Inter", sans-serif;
-  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
   font-size: clamp(8px, 1.1vw, 15px);
   color: #1a3c03;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 1.1;
+  line-height: 1.25;
   text-align: center;
-  padding: 0 12px;
+  padding: 0 16px;
   white-space: nowrap;
 }
 
