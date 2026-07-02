@@ -16,20 +16,14 @@
 
 /* --- DESKTOP FOLDER (2nd folder on Space viewport) --- */
 .desktop-folder-right {
-  position: absolute;
-  bottom: 60px;
-  left: calc(50% + 100px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   cursor: pointer;
   z-index: 10;
+  user-select: none;
   transition: transform 0.3s ease;
-}
-
-.desktop-folder-right:hover {
-  transform: scale(1.08);
 }
 
 /* --- macOS WINDOW (experiences) --- */
@@ -377,13 +371,6 @@
   transform: translate(-50%, -50%);
 }
 
-/* --- SCROLL PROXY --- */
-.exp-scroll-proxy {
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-}
-
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
   .exp-card {
@@ -403,10 +390,5 @@
   .exp-hud {
     font-size: 8px;
     inset: 0.8rem;
-  }
-
-  .desktop-folder-right {
-    left: calc(50% + 70px);
-    bottom: 50px;
   }
 }

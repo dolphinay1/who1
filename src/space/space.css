@@ -28,10 +28,6 @@
  * ========================================== */
 
 .desktop-folder-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +35,16 @@
   cursor: pointer;
   z-index: 10;
   user-select: none;
+}
+
+#desktop-workspace {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  z-index: 10;
 }
 
 .folder {
@@ -100,19 +106,23 @@
 }
 
 /* Hover States for 3D Folder */
-.desktop-folder-center:hover .folder {
+.desktop-folder-center:hover .folder,
+.desktop-folder-right:hover .folder {
   transform: translateY(-8px);
 }
 
-.desktop-folder-center:hover .paper {
+.desktop-folder-center:hover .paper,
+.desktop-folder-right:hover .paper {
   transform: translate(-50%, 0%);
 }
 
-.desktop-folder-center:hover .folder__front {
+.desktop-folder-center:hover .folder__front,
+.desktop-folder-right:hover .folder__front {
   transform: skew(15deg) scaleY(0.6);
 }
 
-.desktop-folder-center:hover .right {
+.desktop-folder-center:hover .right,
+.desktop-folder-right:hover .right {
   transform: skew(-15deg) scaleY(0.6);
 }
 

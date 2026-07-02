@@ -59,12 +59,12 @@ const ExperiencesModule = (() => {
     }
   ];
 
-  let lenis = null;
   let rafId = null;
   let items = [];
   let state = { scroll: 0, velocity: 0, targetSpeed: 0, mouseX: 0, mouseY: 0 };
   let loopSize = 0;
   let lastTime = 0;
+  let wheelHandler = null;
   let initialized = false;
 
   function createCard(exp, index) {
@@ -165,34 +165,23 @@ const ExperiencesModule = (() => {
       });
     }
 
-    const proxy = document.querySelector('.exp-scroll-proxy');
-    if (proxy) {
-      proxy.style.height = `${loopSize * 0.6}px`;
-    }
   }
 
-  function initLenis() {
+  function initWheelScroll() {
     const scrollContainer = document.querySelector('.exp-window-body');
     if (!scrollContainer) return;
 
-    lenis = new Lenis({
-      wrapper: scrollContainer,
-      content: scrollContainer,
-      smooth: true,
-      lerp: 0.08,
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smoothTouch: true
-    });
+    wheelHandler = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      state.scroll += e.deltaY * 0.5;
+      state.targetSpeed = e.deltaY * 0.3;
+    };
 
-    lenis.on('scroll', ({ scroll, velocity }) => {
-      state.scroll = scroll;
-      state.targetSpeed = velocity;
-    });
+    scrollContainer.addEventListener('wheel', wheelHandler, { passive: false });
   }
 
   function renderLoop(time) {
-    if (lenis) lenis.raf(time);
 
     const delta = time - lastTime;
     lastTime = time;
@@ -203,6 +192,7 @@ const ExperiencesModule = (() => {
     }
 
     state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+    state.targetSpeed *= 0.92;
 
     const velEl = document.getElementById('exp-vel');
     if (velEl) velEl.innerText = Math.abs(state.velocity).toFixed(2);
@@ -286,7 +276,7 @@ const ExperiencesModule = (() => {
     initialized = true;
 
     buildScene();
-    initLenis();
+    initWheelScroll();
 
     const body = document.querySelector('.exp-window-body');
     if (body) {
@@ -302,14 +292,14 @@ const ExperiencesModule = (() => {
       cancelAnimationFrame(rafId);
       rafId = null;
     }
-    if (lenis) {
-      lenis.destroy();
-      lenis = null;
-    }
 
     const body = document.querySelector('.exp-window-body');
     if (body) {
       body.removeEventListener('mousemove', handleMouse);
+      if (wheelHandler) {
+        body.removeEventListener('wheel', wheelHandler);
+        wheelHandler = null;
+      }
     }
 
     items = [];
