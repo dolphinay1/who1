@@ -63,20 +63,12 @@ window.addEventListener("DOMContentLoaded", () => {
       expFolder.style.display = "none";
 
       expWindow.classList.remove("hidden-window");
-
-      if (window.ExperiencesModule && typeof window.ExperiencesModule.init === "function") {
-        window.ExperiencesModule.init();
-      }
     });
   }
 
   if (expCloseBtn && expWindow) {
     expCloseBtn.addEventListener("click", () => {
       expWindow.classList.add("hidden-window");
-
-      if (window.ExperiencesModule && typeof window.ExperiencesModule.destroy === "function") {
-        window.ExperiencesModule.destroy();
-      }
 
       if (desktopFolder) desktopFolder.style.display = "";
       if (expFolder) expFolder.style.display = "";
