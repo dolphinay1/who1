@@ -146,13 +146,13 @@
                 <article class="feat-card">
                   <div class="feat-icon ic-1"></div>
                   <h3 data-translate="card1-title">Ben Kimim?</h3>
-                  <p data-translate="card1-desc">25 yaşındayım, İstanbul'da yaşıyorum. İtalyan bir anne ve Erzincanlı bir babanın oğluyum. Dürüst, yardımsever biriyim; girdiğim ekiplere hızla uyum sağlar, insanları koordine edebilirim. İstanbul Üniversitesi-Cerrahpaşa Turizm İşletmeciliği okuyorum.</p>
+                  <p data-translate="card1-desc">25 yaşındayım, İstanbul'da yaşıyorum. İtalyan bir anne ve Erzincanlı bir babanın oğlu olarak, zıtlıkların uyumunu ve farklılıkları kucaklamayı erken yaşta öğrendim. İ.Ü. Cerrahpaşa'daki Turizm İşletmeciliği eğitimimle de derinleşen bu kültürel altyapı, bana insanları anlama ve koordine etme yeteneği kazandırdı. Karakterimi 'yardımsever' veya 'uyumlu' gibi ezberlenmiş sıfatlarla övmek yerine; ekiplere taşıdığım şeffaflık, netlik ve samimiyetle göstermeyi daha doğru buluyorum.</p>
                   <a href="#" class="feat-link" data-translate="card1-link">Keşfet →</a>
                 </article>
                 <article class="feat-card">
                   <div class="feat-icon ic-2"></div>
                   <h3 data-translate="card2-title">Girişim & Tecrübe</h3>
-                  <p data-translate="card2-desc">Daha önce birkaç kez kendi işimi kurdum, bu bana eşsiz tecrübeler kattı. Satış, pazarlama ve hizmet sektöründe 4 yılı aşkın deneyime sahibim. Diksiyon, iş sağlığı, zaman/stres yönetimi, ikna teknikleri, moda illüstrasyonu ve gastronomi sertifikalarım var.</p>
+                  <p data-translate="card2-desc">Hayatı sadece masa başında değil, kendi girişimlerimi kurup sahanın zorluklarıyla yüzleşerek öğrendim. Satış, pazarlama ve hizmet sektöründeki 7 yılı aşkın serüvenim bana kriz anlarındaki sükunetle çözüm üretmeyi öğretti. Diksiyondan gastronomiye, stres yönetiminden moda illüstrasyonuna uzanan eğitimlerim rastgele bir liste değil; insana, estetiğe ve hayata duyduğum çok yönlü merakın birer kanıtı.</p>
                   <a href="#" class="feat-link" data-translate="card2-link">Sertifikalar →</a>
                 </article>
                 <article class="feat-card">
@@ -184,31 +184,37 @@
               <div class="exp-window-dot exp-dot-green" title="Ekranı Kapla"></div>
             </div>
             <div class="exp-window-title">What are Experiences?</div>
+            <div class="exp-lang-switch">
+              <span class="exp-lang-btn active" id="expLangTR">TR</span>
+              <span class="exp-lang-btn" id="expLangEN">EN</span>
+            </div>
           </div>
           <div class="exp-window-body">
-            <div class="exp-scanlines"></div>
-            <div class="exp-vignette"></div>
-            <div class="exp-noise"></div>
+            <div class="scanlines"></div>
+            <div class="vignette"></div>
+            <div class="noise"></div>
 
-            <div class="exp-hud">
-              <div class="exp-hud-top">
+            <div class="hud">
+              <div class="hud-top">
                 <span>SYS.READY</span>
-                <div class="exp-hud-line"></div>
-                <span>FPS: <strong id="exp-fps">60</strong></span>
+                <div class="hud-line"></div>
+                <span>FPS: <strong id="fps">60</strong></span>
               </div>
-              <div class="exp-center-nav">
-                SCROLL VELOCITY // <strong id="exp-vel">0.00</strong>
+              <div class="center-nav">
+                SCROLL VELOCITY // <strong id="vel-readout">0.00</strong>
               </div>
-              <div class="exp-hud-bottom">
-                <span>COORD: <strong id="exp-coord">000</strong></span>
-                <div class="exp-hud-line"></div>
+              <div class="hud-bottom">
+                <span>COORD: <strong id="coord">000</strong></span>
+                <div class="hud-line"></div>
                 <span>VER 2.0.4 [BETA]</span>
               </div>
             </div>
 
-            <div class="exp-3d-viewport" id="exp-3d-viewport">
-              <div class="exp-world" id="exp-world"></div>
+            <div class="viewport" id="viewport">
+              <div class="world" id="world"></div>
             </div>
+
+            <div class="scroll-proxy"></div>
           </div>
         </div>
       </div>
@@ -217,6 +223,7 @@
     <!-- Import GSAP libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <!-- Import modular logic scripts -->
     <script src="./intro/intro.js"></script>
     <script src="./space/space.js"></script>
