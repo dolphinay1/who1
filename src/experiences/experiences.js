@@ -120,9 +120,10 @@ const ExperiencesModule = (() => {
     }
 
     // Initialize Lenis within macOS Window Body wrapper to prevent page scrolling
+    const scrollContent = body.querySelector('.exp-scroll-content');
     lenis = new Lenis({
       wrapper: body,
-      content: body,
+      content: scrollContent || body,
       smooth: true,
       lerp: 0.08,
       direction: 'vertical',
