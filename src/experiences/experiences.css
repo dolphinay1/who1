@@ -94,9 +94,7 @@
 .exp-window-body {
   flex: 1;
   position: relative;
-  overflow-y: scroll;
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+  overflow: hidden; /* Prevent native scroll shifting */
   background: #030303;
   color: #e0e0e0;
   font-family: 'Syncopate', sans-serif;
@@ -105,14 +103,18 @@
   cursor: crosshair;
 }
 
-.exp-window-body::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome/Safari */
+.exp-scroll-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+  pointer-events: none; /* Let pointer events pass to cards below */
+  z-index: 15;
 }
 
-.exp-scroll-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.exp-scroll-wrapper::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari */
 }
 
 /* Scoped variables and original scroll styles */
@@ -348,7 +350,7 @@
   transform: translate(-50%, -50%);
 }
 
-.exp-window-body .scroll-proxy {
+.exp-scroll-wrapper .scroll-proxy {
   height: 10000vh;
   position: absolute;
   width: 100%;

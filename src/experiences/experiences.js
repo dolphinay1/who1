@@ -120,10 +120,12 @@ const ExperiencesModule = (() => {
     }
 
     // Initialize Lenis within macOS Window Body wrapper to prevent page scrolling
-    const scrollContent = body.querySelector('.exp-scroll-content');
+    const scrollWrapper = body.querySelector('.exp-scroll-wrapper');
+    const scrollProxy = body.querySelector('.scroll-proxy');
     lenis = new Lenis({
-      wrapper: body,
-      content: scrollContent || body,
+      wrapper: scrollWrapper,
+      content: scrollProxy || scrollWrapper,
+      eventsTarget: body,
       smooth: true,
       lerp: 0.08,
       direction: 'vertical',
@@ -135,11 +137,6 @@ const ExperiencesModule = (() => {
       state.scroll = scroll;
       state.targetSpeed = velocity;
     });
-
-    // Prevent wheel events from propagating to the main page
-    body.addEventListener('wheel', (e) => {
-      e.stopPropagation();
-    }, { passive: true });
 
     lastTime = performance.now();
     rafId = requestAnimationFrame(raf);
