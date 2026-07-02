@@ -1,239 +1,204 @@
 /**
- * Experiences Module — Lenis Smooth Scroll + 3D Card Timeline + HUD
- * Manages the "What are Experiences?" interactive scroll experience.
+ * Experiences Module — Scoped version of original yunus/scroll/script.js
  */
 
 const ExperiencesModule = (() => {
+  let lenis = null;
+  let rafId = null;
+  let items = [];
+  let initialized = false;
+
   const CONFIG = {
-    starCount: 120,
-    zGap: 900,
+    itemCount: 20,
+    starCount: 150,
+    zGap: 800,
+    loopSize: 0,
     camSpeed: 2.5,
     colors: ['#ff003c', '#00f3ff', '#ccff00', '#ffffff']
   };
+  CONFIG.loopSize = CONFIG.itemCount * CONFIG.zGap;
 
-  const TEXTS = [
-    "EXPERIENCE", "GROWTH", "JOURNEY",
-    "CAREER", "SKILLS", "IMPACT"
-  ];
+  const TEXTS = ["IMPACT", "VELOCITY", "BRUTAL", "SYSTEM", "FUTURE", "DESIGN", "PIXEL", "HYPER", "NEON", "VOID"];
 
-  const EXPERIENCES = [
-    {
-      id: "EXP-001",
-      company: "Placeholder",
-      position: "Pozisyon",
-      description: "Deneyim açıklaması buraya gelecek.",
-      duration: "20XX — 20XX",
-      field: "ALAN"
-    },
-    {
-      id: "EXP-002",
-      company: "Placeholder",
-      position: "Pozisyon",
-      description: "Deneyim açıklaması buraya gelecek.",
-      duration: "20XX — 20XX",
-      field: "ALAN"
-    },
-    {
-      id: "EXP-003",
-      company: "Placeholder",
-      position: "Pozisyon",
-      description: "Deneyim açıklaması buraya gelecek.",
-      duration: "20XX — 20XX",
-      field: "ALAN"
-    },
-    {
-      id: "EXP-004",
-      company: "Placeholder",
-      position: "Pozisyon",
-      description: "Deneyim açıklaması buraya gelecek.",
-      duration: "20XX — 20XX",
-      field: "ALAN"
-    },
-    {
-      id: "EXP-005",
-      company: "Placeholder",
-      position: "Pozisyon",
-      description: "Deneyim açıklaması buraya gelecek.",
-      duration: "20XX — 20XX",
-      field: "ALAN"
-    }
-  ];
+  const state = {
+    scroll: 0,
+    velocity: 0,
+    targetSpeed: 0,
+    mouseX: 0,
+    mouseY: 0
+  };
 
-  let rafId = null;
-  let items = [];
-  let state = { scroll: 0, velocity: 0, targetSpeed: 0, mouseX: 0, mouseY: 0 };
-  let loopSize = 0;
-  let lastTime = 0;
-  let wheelHandler = null;
-  let initialized = false;
+  let world, viewport, feedbackVel, feedbackFPS;
+  let mouseMoveHandler = null;
 
-  function createCard(exp, index) {
-    const card = document.createElement('div');
-    card.className = 'exp-card';
-    card.innerHTML = `
-      <div class="exp-card-header">
-        <span class="exp-card-id">${exp.id}</span>
-        <div style="width: 10px; height: 10px; background: var(--exp-accent);"></div>
-      </div>
-      <h2>${exp.company}</h2>
-      <div class="exp-position">${exp.position}</div>
-      <div class="exp-description">${exp.description}</div>
-      <div class="exp-card-footer">
-        <span>SÜRE: ${exp.duration}</span>
-        <span>ALAN: ${exp.field}</span>
-      </div>
-      <div class="exp-big-index">0${index + 1}</div>
-    `;
-    return card;
-  }
+  function init() {
+    if (initialized) return;
+    initialized = true;
 
-  function buildScene() {
-    const world = document.getElementById('exp-world');
+    world = document.getElementById('world');
+    viewport = document.getElementById('viewport');
+    feedbackVel = document.getElementById('vel-readout');
+    feedbackFPS = document.getElementById('fps');
+
     if (!world) return;
 
     world.innerHTML = '';
     items = [];
 
-    const totalItems = EXPERIENCES.length * 2 + EXPERIENCES.length;
-    loopSize = totalItems * CONFIG.zGap;
-    CONFIG.loopSize = loopSize;
+    // Create Items exactly as in yunus/scroll
+    for (let i = 0; i < CONFIG.itemCount; i++) {
+      const el = document.createElement('div');
+      el.className = 'item';
 
-    let zIndex = 0;
+      const isHeading = i % 4 === 0;
 
-    EXPERIENCES.forEach((exp, i) => {
-      if (i % 2 === 0) {
-        const textEl = document.createElement('div');
-        textEl.className = 'exp-item';
+      if (isHeading) {
         const txt = document.createElement('div');
-        txt.className = 'exp-big-text';
+        txt.className = 'big-text';
         txt.innerText = TEXTS[i % TEXTS.length];
-        textEl.appendChild(txt);
-        world.appendChild(textEl);
+        el.appendChild(txt);
         items.push({
-          el: textEl, type: 'text',
+          el, type: 'text',
           x: 0, y: 0, rot: 0,
-          baseZ: -zIndex * CONFIG.zGap
+          baseZ: -i * CONFIG.zGap
         });
-        zIndex++;
+      } else {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const randId = Math.floor(Math.random() * 9999);
+        card.innerHTML = `
+          <div class="card-header">
+              <span class="card-id">ID-${randId}</span>
+              <div style="width: 10px; height: 10px; background: var(--accent);"></div>
+          </div>
+          <h2>${TEXTS[i % TEXTS.length]}</h2>
+          <div class="card-footer">
+              <span>GRID: ${Math.floor(Math.random() * 10)}x${Math.floor(Math.random() * 10)}</span>
+              <span>DATA_SIZE: ${(Math.random() * 100).toFixed(1)}MB</span>
+          </div>
+          <div style="position:absolute; bottom:2rem; right:2rem; font-size:4rem; opacity:0.1; font-weight:900; font-family: var(--font-display); color: #fff;">0${i}</div>
+        `;
+        el.appendChild(card);
+
+        // Spiral / Chaos positioning
+        const angle = (i / CONFIG.itemCount) * Math.PI * 6;
+        const x = Math.cos(angle) * (viewport.clientWidth * 0.3);
+        const y = Math.sin(angle) * (viewport.clientHeight * 0.3);
+        const rot = (Math.random() - 0.5) * 30;
+
+        items.push({
+          el, type: 'card',
+          x, y, rot,
+          baseZ: -i * CONFIG.zGap
+        });
       }
+      world.appendChild(el);
+    }
 
-      const cardEl = document.createElement('div');
-      cardEl.className = 'exp-item';
-      const card = createCard(exp, i);
-      cardEl.appendChild(card);
-      world.appendChild(cardEl);
-
-      const angle = (i / EXPERIENCES.length) * Math.PI * 4;
-      const viewport3d = document.getElementById('exp-3d-viewport');
-      const vw = viewport3d ? viewport3d.clientWidth : window.innerWidth;
-      const vh = viewport3d ? viewport3d.clientHeight : window.innerHeight;
-      const x = Math.cos(angle) * (vw * 0.2);
-      const y = Math.sin(angle) * (vh * 0.15);
-      const rot = (Math.random() - 0.5) * 15;
-
-      items.push({
-        el: cardEl, type: 'card',
-        x, y, rot,
-        baseZ: -zIndex * CONFIG.zGap
-      });
-      zIndex++;
-    });
-
-    const textEl = document.createElement('div');
-    textEl.className = 'exp-item';
-    const txt = document.createElement('div');
-    txt.className = 'exp-big-text';
-    txt.innerText = TEXTS[TEXTS.length - 1];
-    textEl.appendChild(txt);
-    world.appendChild(textEl);
-    items.push({
-      el: textEl, type: 'text',
-      x: 0, y: 0, rot: 0,
-      baseZ: -zIndex * CONFIG.zGap
-    });
-    zIndex++;
-
+    // Create Stars
     for (let i = 0; i < CONFIG.starCount; i++) {
       const el = document.createElement('div');
-      el.className = 'exp-star';
+      el.className = 'star';
       world.appendChild(el);
       items.push({
         el, type: 'star',
-        x: (Math.random() - 0.5) * 2500,
-        y: (Math.random() - 0.5) * 2500,
-        baseZ: -Math.random() * loopSize
+        x: (Math.random() - 0.5) * 3000,
+        y: (Math.random() - 0.5) * 3000,
+        baseZ: -Math.random() * CONFIG.loopSize
       });
     }
 
-  }
-
-  function initWheelScroll() {
-    const scrollContainer = document.querySelector('.exp-window-body');
-    if (!scrollContainer) return;
-
-    wheelHandler = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      state.scroll += e.deltaY * 0.5;
-      state.targetSpeed = e.deltaY * 0.3;
+    // Mouse Move event contained inside window body
+    const body = document.querySelector('.exp-window-body');
+    mouseMoveHandler = (e) => {
+      const rect = body.getBoundingClientRect();
+      state.mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      state.mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
     };
-
-    scrollContainer.addEventListener('wheel', wheelHandler, { passive: false });
-  }
-
-  function renderLoop(time) {
-
-    const delta = time - lastTime;
-    lastTime = time;
-
-    const fpsEl = document.getElementById('exp-fps');
-    if (fpsEl && time % 10 < 1) {
-      fpsEl.innerText = Math.round(1000 / delta);
+    if (body) {
+      body.addEventListener('mousemove', mouseMoveHandler);
     }
 
+    // Initialize Lenis within macOS Window Body wrapper to prevent page scrolling
+    lenis = new Lenis({
+      wrapper: body,
+      content: body,
+      smooth: true,
+      lerp: 0.08,
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smoothTouch: true
+    });
+
+    lenis.on('scroll', ({ scroll, velocity }) => {
+      state.scroll = scroll;
+      state.targetSpeed = velocity;
+    });
+
+    // Prevent wheel events from propagating to the main page
+    body.addEventListener('wheel', (e) => {
+      e.stopPropagation();
+    }, { passive: true });
+
+    lastTime = performance.now();
+    rafId = requestAnimationFrame(raf);
+  }
+
+  let lastTime = 0;
+
+  function raf(time) {
+    if (lenis) lenis.raf(time);
+
+    // FPS
+    const delta = time - lastTime;
+    lastTime = time;
+    if (feedbackFPS && time % 10 < 1) feedbackFPS.innerText = Math.round(1000 / delta);
+
+    // Smooth Velocity
     state.velocity += (state.targetSpeed - state.velocity) * 0.1;
-    state.targetSpeed *= 0.92;
 
-    const velEl = document.getElementById('exp-vel');
-    if (velEl) velEl.innerText = Math.abs(state.velocity).toFixed(2);
-
-    const coordEl = document.getElementById('exp-coord');
+    // HUD Updates
+    if (feedbackVel) feedbackVel.innerText = Math.abs(state.velocity).toFixed(2);
+    const coordEl = document.getElementById('coord');
     if (coordEl) coordEl.innerText = `${state.scroll.toFixed(0)}`;
 
-    const world = document.getElementById('exp-world');
-    const viewport3d = document.getElementById('exp-3d-viewport');
-    if (!world || !viewport3d) {
-      rafId = requestAnimationFrame(renderLoop);
+    if (!world || !viewport) {
+      rafId = requestAnimationFrame(raf);
       return;
     }
 
-    const shake = state.velocity * 0.15;
-    const tiltX = state.mouseY * 3 - state.velocity * 0.3;
-    const tiltY = state.mouseX * 3;
+    // 1. Camera Tilt & Shake
+    const shake = state.velocity * 0.2;
+    const tiltX = state.mouseY * 5 - state.velocity * 0.5;
+    const tiltY = state.mouseX * 5;
 
     world.style.transform = `
-      rotateX(${tiltX}deg)
-      rotateY(${tiltY}deg)
+        rotateX(${tiltX}deg) 
+        rotateY(${tiltY}deg)
     `;
 
+    // 2. Dynamic Perspective (Warp)
     const baseFov = 1000;
-    const fov = baseFov - Math.min(Math.abs(state.velocity) * 8, 500);
-    viewport3d.style.perspective = `${fov}px`;
+    const fov = baseFov - Math.min(Math.abs(state.velocity) * 10, 600);
+    viewport.style.perspective = `${fov}px`;
 
+    // 4. Item Loop
     const cameraZ = state.scroll * CONFIG.camSpeed;
-    const modC = loopSize;
 
     items.forEach(item => {
       let relZ = item.baseZ + cameraZ;
+      const modC = CONFIG.loopSize;
+
       let vizZ = ((relZ % modC) + modC) % modC;
       if (vizZ > 500) vizZ -= modC;
 
       let alpha = 1;
       if (vizZ < -3000) alpha = 0;
       else if (vizZ < -2000) alpha = (vizZ + 3000) / 1000;
-      if (vizZ > 100 && item.type !== 'star') alpha = 1 - ((vizZ - 100) / 400);
-      if (alpha < 0) alpha = 0;
 
+      if (vizZ > 100 && item.type !== 'star') alpha = 1 - ((vizZ - 100) / 400);
+
+      if (alpha < 0) alpha = 0;
       item.el.style.opacity = alpha;
 
       if (alpha > 0) {
@@ -252,7 +217,7 @@ const ExperiencesModule = (() => {
           }
         } else {
           const t = time * 0.001;
-          const float = Math.sin(t + item.x) * 8;
+          const float = Math.sin(t + item.x) * 10;
           trans += ` rotateZ(${item.rot}deg) rotateY(${float}deg)`;
         }
 
@@ -260,31 +225,7 @@ const ExperiencesModule = (() => {
       }
     });
 
-    rafId = requestAnimationFrame(renderLoop);
-  }
-
-  function handleMouse(e) {
-    const body = document.querySelector('.exp-window-body');
-    if (!body) return;
-    const rect = body.getBoundingClientRect();
-    state.mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    state.mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-  }
-
-  function init() {
-    if (initialized) return;
-    initialized = true;
-
-    buildScene();
-    initWheelScroll();
-
-    const body = document.querySelector('.exp-window-body');
-    if (body) {
-      body.addEventListener('mousemove', handleMouse);
-    }
-
-    lastTime = performance.now();
-    rafId = requestAnimationFrame(renderLoop);
+    rafId = requestAnimationFrame(raf);
   }
 
   function destroy() {
@@ -292,18 +233,18 @@ const ExperiencesModule = (() => {
       cancelAnimationFrame(rafId);
       rafId = null;
     }
+    if (lenis) {
+      lenis.destroy();
+      lenis = null;
+    }
 
     const body = document.querySelector('.exp-window-body');
-    if (body) {
-      body.removeEventListener('mousemove', handleMouse);
-      if (wheelHandler) {
-        body.removeEventListener('wheel', wheelHandler);
-        wheelHandler = null;
-      }
+    if (body && mouseMoveHandler) {
+      body.removeEventListener('mousemove', mouseMoveHandler);
+      mouseMoveHandler = null;
     }
 
     items = [];
-    state = { scroll: 0, velocity: 0, targetSpeed: 0, mouseX: 0, mouseY: 0 };
     initialized = false;
   }
 
