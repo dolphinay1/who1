@@ -8,10 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
     <!-- Link modular styles -->
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./intro/intro.css">
     <link rel="stylesheet" href="./space/space.css">
+    <link rel="stylesheet" href="./experiences/experiences.css">
   </head>
   <body>
     <!-- ============ INTRO MODULE VIEWPORT ============ -->
@@ -77,6 +79,19 @@
             </div>
           </div>
           <span class="icon-label">Who is Yunus?</span>
+        </div>
+
+        <div id="exp-desktop-folder" class="desktop-folder-right">
+          <div class="folder">
+            <div class="folder__back">
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="folder__front"></div>
+              <div class="folder__front right"></div>
+            </div>
+          </div>
+          <span class="icon-label">What are Experiences?</span>
         </div>
         
         <!-- macOS Window Container -->
@@ -159,15 +174,56 @@
             </section>
           </div>
         </div>
+
+        <!-- Experiences macOS Window -->
+        <div id="exp-macos-window" class="hidden-window">
+          <div class="exp-window-header">
+            <div class="exp-window-controls">
+              <div class="exp-window-dot exp-dot-red" id="expCloseBtn" title="Kapat"></div>
+              <div class="exp-window-dot exp-dot-orange" title="Simge Durumuna Getir"></div>
+              <div class="exp-window-dot exp-dot-green" title="Ekranı Kapla"></div>
+            </div>
+            <div class="exp-window-title">What are Experiences?</div>
+          </div>
+          <div class="exp-window-body">
+            <div class="exp-scanlines"></div>
+            <div class="exp-vignette"></div>
+            <div class="exp-noise"></div>
+
+            <div class="exp-hud">
+              <div class="exp-hud-top">
+                <span>SYS.READY</span>
+                <div class="exp-hud-line"></div>
+                <span>FPS: <strong id="exp-fps">60</strong></span>
+              </div>
+              <div class="exp-center-nav">
+                SCROLL VELOCITY // <strong id="exp-vel">0.00</strong>
+              </div>
+              <div class="exp-hud-bottom">
+                <span>COORD: <strong id="exp-coord">000</strong></span>
+                <div class="exp-hud-line"></div>
+                <span>VER 2.0.4 [BETA]</span>
+              </div>
+            </div>
+
+            <div class="exp-3d-viewport" id="exp-3d-viewport">
+              <div class="exp-world" id="exp-world"></div>
+            </div>
+
+            <div class="exp-scroll-proxy"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Import GSAP libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <!-- Import modular logic scripts -->
     <script src="./intro/intro.js"></script>
     <script src="./space/space.js"></script>
+    <script src="./experiences/experiences.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

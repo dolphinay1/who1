@@ -1,9 +1,4 @@
-/**
- * Core Router managing modular views transitions.
- */
-
 window.addEventListener("DOMContentLoaded", () => {
-  // Initialize the entry intro module
   if (window.IntroModule && typeof window.IntroModule.init === "function") {
     window.IntroModule.init();
   }
@@ -20,31 +15,24 @@ window.addEventListener("DOMContentLoaded", () => {
       if (radio.checked && !isTransitionTriggered) {
         isTransitionTriggered = true;
 
-        // Play rain entry audio
         if (rainAudio) {
           rainAudio.volume = 1.0;
           rainAudio.play().catch(() => {});
         }
 
-        // Fade transition between modular viewports
         if (introViewport && spaceViewport) {
-          // Fade out intro view
           introViewport.classList.remove("active");
 
-          // Clean up WebGL Rain assets
           if (window.IntroModule && typeof window.IntroModule.destroy === "function") {
             window.IntroModule.destroy();
           }
 
-          // Fade in space view
           spaceViewport.classList.add("active");
 
-          // Initialize WebGL Space Anomaly rendering
           if (window.SpaceModule && typeof window.SpaceModule.init === "function") {
             window.SpaceModule.init();
           }
 
-          // Smoothly fade out rain audio over 1.5s
           if (rainAudio) {
             let vol = 1.0;
             const fadeInterval = setInterval(() => {
@@ -61,4 +49,38 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  const expFolder = document.getElementById("exp-desktop-folder");
+  const expWindow = document.getElementById("exp-macos-window");
+  const expCloseBtn = document.getElementById("expCloseBtn");
+  const macosWindow = document.getElementById("macos-window");
+  const desktopFolder = document.getElementById("desktop-folder");
+
+  if (expFolder && expWindow) {
+    expFolder.addEventListener("click", () => {
+      if (macosWindow) macosWindow.classList.add("hidden-window");
+      if (desktopFolder) desktopFolder.style.display = "none";
+      expFolder.style.display = "none";
+
+      expWindow.classList.remove("hidden-window");
+
+      if (window.ExperiencesModule && typeof window.ExperiencesModule.init === "function") {
+        window.ExperiencesModule.init();
+      }
+    });
+  }
+
+  if (expCloseBtn && expWindow) {
+    expCloseBtn.addEventListener("click", () => {
+      expWindow.classList.add("hidden-window");
+
+      if (window.ExperiencesModule && typeof window.ExperiencesModule.destroy === "function") {
+        window.ExperiencesModule.destroy();
+      }
+
+      if (desktopFolder) desktopFolder.style.display = "";
+      if (expFolder) expFolder.style.display = "";
+    });
+  }
 });
+
