@@ -184,9 +184,41 @@
               <div class="exp-window-dot exp-dot-green" title="Ekranı Kapla"></div>
             </div>
             <div class="exp-window-title">What are Experiences?</div>
+            <div class="exp-lang-switch">
+              <span class="exp-lang-btn active" id="expLangTR">TR</span>
+              <span class="exp-lang-btn" id="expLangEN">EN</span>
+            </div>
           </div>
           <div class="exp-window-body">
-            <!-- Experiences content will be added here -->
+            <!-- Pinned overlays, HUD and viewport -->
+            <div class="scanlines"></div>
+            <div class="vignette"></div>
+            <div class="noise"></div>
+
+            <div class="hud">
+              <div class="hud-top">
+                <span>SYS.READY</span>
+                <div class="hud-line"></div>
+                <span>FPS: <strong id="fps">60</strong></span>
+              </div>
+              <div class="center-nav">
+                SCROLL VELOCITY // <strong id="vel-readout">0.00</strong>
+              </div>
+              <div class="hud-bottom">
+                <span>COORD: <strong id="coord">000</strong></span>
+                <div class="hud-line"></div>
+                <span>VER 2.0.4 [BETA]</span>
+              </div>
+            </div>
+
+            <div class="viewport" id="viewport">
+              <div class="world" id="world"></div>
+            </div>
+
+            <!-- Virtual scroll wrapper holding scroll proxy -->
+            <div class="exp-scroll-wrapper">
+              <div class="scroll-proxy"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -195,9 +227,11 @@
     <!-- Import GSAP libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <!-- Import modular logic scripts -->
     <script src="./intro/intro.js"></script>
     <script src="./space/space.js"></script>
+    <script src="./experiences/experiences.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
