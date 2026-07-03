@@ -247,9 +247,9 @@ const ExperiencesModule = (() => {
     CONFIG.itemCount = sceneItems.length;
     CONFIG.loopSize = CONFIG.itemCount * CONFIG.zGap;
 
-    // Use window dimensions to guarantee calculations are non-zero even before layout reflow
-    const referenceWidth = window.innerWidth;
-    const referenceHeight = window.innerHeight;
+    // Use viewport dimensions with a fallback to guarantee non-zero centering calculations
+    const referenceWidth = (viewport && viewport.offsetWidth > 0) ? viewport.offsetWidth : 1200;
+    const referenceHeight = (viewport && viewport.offsetHeight > 0) ? viewport.offsetHeight : 800;
 
     sceneItems.forEach((itemData, i) => {
       const el = document.createElement('div');
