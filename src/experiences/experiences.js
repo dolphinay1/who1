@@ -407,6 +407,14 @@ const ExperiencesModule = (() => {
     const coordEl = document.getElementById('coord');
     if (coordEl) coordEl.innerText = `${state.scroll.toFixed(0)}`;
 
+    const debugEl = document.getElementById('exp-debug-log');
+    if (debugEl) {
+      const firstItem = items[0];
+      const details = firstItem ? `Opacity: ${firstItem.el.style.opacity} | Transform: ${firstItem.el.style.transform}` : 'No items';
+      const vSize = viewport ? `${viewport.offsetWidth}x${viewport.offsetHeight}` : 'Null';
+      debugEl.innerText = `World: ${world ? 'Exists' : 'Null'} | Viewport: ${vSize} | Items Array: ${items.length} | World Children: ${world ? world.children.length : 'null'} | ${details}`;
+    }
+
     if (!world || !viewport) {
       rafId = requestAnimationFrame(raf);
       return;
