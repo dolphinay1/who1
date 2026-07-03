@@ -10,31 +10,31 @@
 
   var I18N = {
     en: {
-      'site.title': 'Competence Lab',
-      'nav.brand': 'Competencies',
-      'nav.lang': 'TR',
-      'hero.eyebrow': 'Interactive Skills & Layouts',
-      'hero.title': 'Dimensional Interface Cards',
-      'hero.sub': 'Glass, neon depth, and tactile motion — hover over the cards below to preview 3D parallax effects, or explore the Spotlight deck.',
-      'hero.cta1': 'Explore Grid',
-      'hero.cta2': 'Spotlight Deck',
+      'site.title': 'CARD LAB Neon glass · 3D cards · UI lab',
+      'nav.brand': 'CARD LAB',
+      'nav.lang': 'العربية',
+      'hero.eyebrow': 'Interactive shape lab',
+      'hero.title': 'Dimensional interface cards',
+      'hero.sub': 'Glass, neon depth, and tactile motion — hover cards for parallax, then open the spotlight deck. Built to scale from prototype to production.',
+      'hero.cta1': 'Explore the grid',
+      'hero.cta2': 'Spotlight deck',
       'sec.skills': 'Core Competencies',
       'sec.skills.sub': 'Hover over a skill to reveal its deep focus areas',
-      'sec.grid': 'Shape System',
-      'sec.grid.sub': 'Six structural variations: orb glass, chamfer cut, neo surface, cinema wide, crystal facet, layered stack.',
-      'sec.orbit': 'Spotlight Deck',
+      'sec.grid': 'Shape system',
+      'sec.grid.sub': 'Six structural variants: orb glass, chamfer cut, neo surface, cinema wide, crystal facet, layered stack.',
+      'sec.orbit': 'Spotlight deck',
       'sec.orbit.sub': 'Four panels in a stable horizontal stage — arrows, dots, keyboard, and swipe.',
-      'card.orb.title': 'Orb Glass',
+      'card.orb.title': 'Orb glass',
       'card.orb.text': 'Soft pill body with stacked glass and concentric depth cues.',
-      'card.chamfer.title': 'Chamfer Cut',
+      'card.chamfer.title': 'Chamfer cut',
       'card.chamfer.text': 'Precision corners via clip-path — reads sharp on dark UI.',
-      'card.brutal.title': 'Neo Surface',
+      'card.brutal.title': 'Neo surface',
       'card.brutal.text': 'High-contrast rim, hard shadow, and electric accent rail.',
-      'card.cinema.title': 'Cinema Wide',
+      'card.cinema.title': 'Cinema wide',
       'card.cinema.text': 'Landscape canvas for metrics, trailers, or dashboard hero tiles.',
-      'card.facet.title': 'Crystal Facet',
+      'card.facet.title': 'Crystal facet',
       'card.facet.text': 'Angular gradient break with prismatic highlight pass.',
-      'card.stack.title': 'Layered Stack',
+      'card.stack.title': 'Layered stack',
       'card.stack.text': 'Three floating sheets with parallax on hover.',
       'cta.more': 'Open',
       'carousel.1t': 'Signal',
@@ -47,52 +47,52 @@
       'carousel.4d': 'Realtime fan-out to edge regions.',
       'footer.note': 'Built with semantic HTML & CSS 3D transforms.',
     },
-    tr: {
-      'site.title': 'Yetkinlik Laboratuvarı',
-      'nav.brand': 'Yetkinlikler',
-      'nav.lang': 'EN',
-      'hero.eyebrow': 'İnteraktif Yetenekler & Tasarımlar',
-      'hero.title': 'Boyutsal Arayüz Kartları',
-      'hero.sub': 'Cam, neon derinliği ve dokunsal hareket — 3D paralaks etkilerini önizlemek için aşağıdaki kartların üzerine gelin veya Spot Işığı Güvertesini keşfedin.',
-      'hero.cta1': 'Izgarayı Keşfet',
-      'hero.cta2': 'Spot Işığı Güvertesi',
-      'sec.skills': 'Temel Uzmanlıklar',
-      'sec.skills.sub': 'Derin odak alanlarını ortaya çıkarmak için bir yeteneğin üzerine gelin',
-      'sec.grid': 'Şekil Sistemi',
-      'sec.grid.sub': 'Altı yapısal varyant: küre cam, oluklu kesim, neo yüzey, geniş sinema, kristal faset, katmanlı yığın.',
-      'sec.orbit': 'Spot Işığı Güvertesi',
-      'sec.orbit.sub': 'Stabil yatay düzlemde dört panel — oklar, noktalar, klavye ve kaydırma.',
-      'card.orb.title': 'Küre Cam',
-      'card.orb.text': 'Yumuşak hap gövdesi, üst üste yığılmış cam ve konsantrik derinlik ipuçları.',
-      'card.chamfer.title': 'Oluklu Kesim',
-      'card.chamfer.text': 'clip-path ile hassas köşeler — karanlık arayüzde keskin görünür.',
-      'card.brutal.title': 'Neo Yüzey',
-      'card.brutal.text': 'Yüksek kontrastlı kenar, sert gölge ve elektrikli vurgu hattı.',
-      'card.cinema.title': 'Geniş Sinema',
-      'card.cinema.text': 'Metrikler, fragmanlar veya pano kahraman karoları için yatay tuval.',
-      'card.facet.title': 'Kristal Faset',
-      'card.facet.text': 'Prizmatik vurgu geçişi ile açısal gradyan kırılımı.',
-      'card.stack.title': 'Katmanlı Yığın',
-      'card.stack.text': 'Üzerine gelindiğinde paralaks etkisi gösteren üç yüzen yaprak.',
-      'cta.more': 'Aç',
-      'carousel.1t': 'Sinyal',
-      'carousel.1d': 'Gecikme bütçeleri ve canlı izler.',
-      'carousel.2t': 'Ağ',
-      'carousel.2d': 'Sağlık halkalarına sahip dağıtık düğümler.',
-      'carousel.3t': 'Kasa',
-      'carousel.3d': 'Beklemedeki şifreli yükler.',
-      'carousel.4t': 'Nabız',
-      'carousel.4d': 'Uç bölgelere gerçek zamanlı yayılım.',
-      'footer.note': 'Semantik HTML ve CSS 3D dönüşümleri ile oluşturulmuştur.',
+    ar: {
+      'site.title': 'مختبر البطاقات ثلاثية الأبعاد',
+      'nav.brand': 'CARD LAB',
+      'nav.lang': 'English',
+      'hero.eyebrow': 'مختبر أشكال تفاعلي',
+      'hero.title': 'بطاقات واجهة بعمق بصري',
+      'hero.sub': 'زجاج، نيون، وحركة لمسية — مرّر على البطاقات للعمق، ثم افتح العرض المميز. جاهز من النموذج إلى الإنتاج.',
+      'hero.cta1': 'استكشف الشبكة',
+      'hero.cta2': 'عرض مميز',
+      'sec.skills': 'المهارات الأساسية',
+      'sec.skills.sub': 'مرر فوق المهارة للكشف عن مجالات التركيز العميقة',
+      'sec.grid': 'نظام الأشكال',
+      'sec.grid.sub': 'ستة أنماt: زجاج دائري، قص مائل، سطح صلب، عريض سينمائي، وجه بلوري، طبقات مكدسة.',
+      'sec.orbit': 'عرض مميز',
+      'sec.orbit.sub': 'أربع لوحات في مسرح أفقي ثابت — أسهم، نقاط، لوحة مفاتيح، وسحب.',
+      'card.orb.title': 'زجاج دائري',
+      'card.orb.text': 'جسم ناعم مع زجاج مكدس وحلقات عمق.',
+      'card.chamfer.title': 'قص مائل',
+      'card.chamfer.text': 'زوايا دقيقة عبر clip-path — واضح على الواجهات الداكنة.',
+      'card.brutal.title': 'سطح صلب',
+      'card.brutal.text': 'إطار عالي التباين وظل حاد وشريط لوني.',
+      'card.cinema.title': 'عريض سينمائي',
+      'card.cinema.text': 'لوحة أفقية للمقاييس أو بطاقات لوحة التحكم.',
+      'card.facet.title': 'وجه بلوري',
+      'card.facet.text': 'تدرج زاوي مع لمعان منشوري.',
+      'card.stack.title': 'طبقات',
+      'card.stack.text': 'ثلاث طبقات عائمة مع انzياح بسيط عند المرور.',
+      'cta.more': 'فتح',
+      'carousel.1t': 'إشارة',
+      'carousel.1d': 'ميزانيات التأخير والتتبع المباشر.',
+      'carousel.2t': 'شبكة',
+      'carousel.2d': 'عقد موزعة مع حلقات صحة.',
+      'carousel.3t': 'خزنة',
+      'carousel.3d': 'حمولة مشفرة في السكون.',
+      'carousel.4t': 'نبض',
+      'carousel.4d': 'بث لحظي إلى الحافة.',
+      'footer.note': 'بُني بـ HTML دلالي وتحويلات CSS ثلاثية الأبعاد.',
     }
   };
 
   function getLang() {
-    return localStorage.getItem(LANG_KEY) || 'tr';
+    return localStorage.getItem(LANG_KEY) || 'en';
   }
 
   function applyLang(lang) {
-    var pack = I18N[lang] || I18N.tr;
+    var pack = I18N[lang] || I18N.en;
     var win = document.getElementById('comp-macos-window');
     if (!win) return;
 
@@ -105,7 +105,7 @@
 
     var langBtn = win.querySelector('[data-lang-toggle]');
     if (langBtn) {
-      langBtn.textContent = lang === 'en' ? I18N.en['nav.lang'] : I18N.tr['nav.lang'];
+      langBtn.textContent = lang === 'en' ? I18N.en['nav.lang'] : I18N.ar['nav.lang'];
     }
   }
 
@@ -115,7 +115,7 @@
     var btn = win.querySelector('[data-lang-toggle]');
     if (!btn) return;
     btn.addEventListener('click', function () {
-      applyLang(getLang() === 'en' ? 'tr' : 'en');
+      applyLang(getLang() === 'en' ? 'ar' : 'en');
     });
     applyLang(getLang());
   }
