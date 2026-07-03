@@ -4,16 +4,24 @@
  */
 
 const ExperiencesModule = (() => {
+  // Define all state variables at the top to prevent temporal dead zone (TDZ) errors
   let lenis = null;
   let rafId = null;
   let items = [];
   let currentLang = 'tr';
   let initialized = false;
+  let lastTime = 0;
+
+  let world = null;
+  let viewport = null;
+  let feedbackVel = null;
+  let feedbackFPS = null;
+  let mouseMoveHandler = null;
+  let fallbackWheelHandler = null;
 
   const CONFIG = {
     starCount: 150,
     zGap: 800,
-    loopSize: 0,
     camSpeed: 2.5,
     colors: ['#ff003c', '#00f3ff', '#ccff00', '#ffffff']
   };
@@ -198,9 +206,6 @@ const ExperiencesModule = (() => {
     mouseY: 0
   };
 
-  let world, viewport, feedbackVel, feedbackFPS;
-  let mouseMoveHandler = null;
-
   function buildScene() {
     if (!world) return;
 
@@ -242,6 +247,10 @@ const ExperiencesModule = (() => {
     CONFIG.itemCount = sceneItems.length;
     CONFIG.loopSize = CONFIG.itemCount * CONFIG.zGap;
 
+    // Use window dimensions to guarantee calculations are non-zero even before layout reflow
+    const referenceWidth = window.innerWidth;
+    const referenceHeight = window.innerHeight;
+
     sceneItems.forEach((itemData, i) => {
       const el = document.createElement('div');
       el.className = 'item';
@@ -277,10 +286,10 @@ const ExperiencesModule = (() => {
         `;
         el.appendChild(card);
 
-        // Spiral positioning based on index
+        // Spiral positioning based on index relative to window dimensions
         const angle = (i / sceneItems.length) * Math.PI * 6;
-        const x = Math.cos(angle) * (viewport.clientWidth * 0.3);
-        const y = Math.sin(angle) * (viewport.clientHeight * 0.3);
+        const x = Math.cos(angle) * (referenceWidth * 0.28);
+        const y = Math.sin(angle) * (referenceHeight * 0.25);
         const rot = (Math.random() - 0.5) * 30;
 
         items.push({
@@ -340,21 +349,35 @@ const ExperiencesModule = (() => {
     // Initialize Lenis within scrollable wrapper to prevent page scrolling
     const scrollWrapper = body.querySelector('.exp-scroll-wrapper');
     const scrollProxy = body.querySelector('.scroll-proxy');
-    lenis = new Lenis({
-      wrapper: scrollWrapper,
-      content: scrollProxy || scrollWrapper,
-      eventsTarget: body,
-      smooth: true,
-      lerp: 0.08,
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smoothTouch: true
-    });
+    
+    try {
+      if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          wrapper: scrollWrapper,
+          content: scrollProxy || scrollWrapper,
+          eventsTarget: body,
+          smooth: true,
+          lerp: 0.08,
+          direction: 'vertical',
+          gestureDirection: 'vertical',
+          smoothTouch: true
+        });
 
-    lenis.on('scroll', ({ scroll, velocity }) => {
-      state.scroll = scroll;
-      state.targetSpeed = velocity;
-    });
+        lenis.on('scroll', ({ scroll, velocity }) => {
+          state.scroll = scroll;
+          state.targetSpeed = velocity;
+        });
+      } else {
+        throw new Error("Lenis library not loaded");
+      }
+    } catch (err) {
+      console.warn("Lenis failed, using fallback scroll:", err);
+      fallbackWheelHandler = (e) => {
+        state.scroll += e.deltaY * 0.6;
+        state.targetSpeed = e.deltaY * 0.35;
+      };
+      body.addEventListener('wheel', fallbackWheelHandler, { passive: true });
+    }
 
     if (trBtn) {
       trBtn.onclick = () => switchLanguage('tr');
@@ -367,8 +390,6 @@ const ExperiencesModule = (() => {
     rafId = requestAnimationFrame(raf);
   }
 
-  let lastTime = 0;
-
   function raf(time) {
     if (lenis) lenis.raf(time);
 
@@ -377,8 +398,9 @@ const ExperiencesModule = (() => {
     lastTime = time;
     if (feedbackFPS && time % 10 < 1) feedbackFPS.innerText = Math.round(1000 / delta);
 
-    // Smooth Velocity
+    // Smooth Velocity & Friction Decay
     state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+    state.targetSpeed *= 0.92;
 
     // HUD Updates
     if (feedbackVel) feedbackVel.innerText = Math.abs(state.velocity).toFixed(2);
@@ -391,7 +413,6 @@ const ExperiencesModule = (() => {
     }
 
     // 1. Camera Tilt & Shake
-    const shake = state.velocity * 0.2;
     const tiltX = state.mouseY * 5 - state.velocity * 0.5;
     const tiltY = state.mouseX * 5;
 
@@ -475,9 +496,15 @@ const ExperiencesModule = (() => {
     }
 
     const body = document.querySelector('.exp-window-body');
-    if (body && mouseMoveHandler) {
-      body.removeEventListener('mousemove', mouseMoveHandler);
-      mouseMoveHandler = null;
+    if (body) {
+      if (mouseMoveHandler) {
+        body.removeEventListener('mousemove', mouseMoveHandler);
+        mouseMoveHandler = null;
+      }
+      if (fallbackWheelHandler) {
+        body.removeEventListener('wheel', fallbackWheelHandler);
+        fallbackWheelHandler = null;
+      }
     }
 
     items = [];
