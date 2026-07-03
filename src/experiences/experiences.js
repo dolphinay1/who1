@@ -412,7 +412,9 @@ const ExperiencesModule = (() => {
       const firstItem = items[0];
       const details = firstItem ? `Opacity: ${firstItem.el.style.opacity} | Transform: ${firstItem.el.style.transform}` : 'No items';
       const vSize = viewport ? `${viewport.offsetWidth}x${viewport.offsetHeight}` : 'Null';
-      debugEl.innerText = `World: ${world ? 'Exists' : 'Null'} | Viewport: ${vSize} | Items Array: ${items.length} | World Children: ${world ? world.children.length : 'null'} | ${details}`;
+      const bodyEl = document.querySelector('.exp-window-body');
+      const bSize = bodyEl ? `${bodyEl.offsetWidth}x${bodyEl.offsetHeight}` : 'Null';
+      debugEl.innerText = `Body: ${bSize} | Viewport: ${vSize} | Items Array: ${items.length} | World Children: ${world ? world.children.length : 'null'} | ${details}`;
     }
 
     if (!world || !viewport) {
