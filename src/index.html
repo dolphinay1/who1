@@ -68,7 +68,7 @@
 
       <!-- macOS Desktop Workspace -->
       <div id="desktop-workspace">
-        <div id="desktop-folder" class="desktop-folder-center">
+        <div id="desktop-folder" class="desktop-folder-item">
           <div class="folder">
             <div class="folder__back">
               <div class="paper"></div>
@@ -81,7 +81,7 @@
           <span class="icon-label">Who is Yunus?</span>
         </div>
 
-        <div id="exp-desktop-folder" class="desktop-folder-right">
+        <div id="exp-desktop-folder" class="desktop-folder-item">
           <div class="folder">
             <div class="folder__back">
               <div class="paper"></div>
@@ -91,7 +91,33 @@
               <div class="folder__front right"></div>
             </div>
           </div>
-          <span class="icon-label">What are Experiences?</span>
+          <span class="icon-label">Experience's</span>
+        </div>
+
+        <div id="comp-desktop-folder" class="desktop-folder-item">
+          <div class="folder">
+            <div class="folder__back">
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="folder__front"></div>
+              <div class="folder__front right"></div>
+            </div>
+          </div>
+          <span class="icon-label">Competence's</span>
+        </div>
+
+        <div id="proj-desktop-folder" class="desktop-folder-item">
+          <div class="folder">
+            <div class="folder__back">
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="folder__front"></div>
+              <div class="folder__front right"></div>
+            </div>
+          </div>
+          <span class="icon-label">Project's</span>
         </div>
         
         <!-- macOS Window Container -->
@@ -219,6 +245,38 @@
             <div class="exp-scroll-wrapper">
               <div class="scroll-proxy"></div>
             </div>
+          </div>
+        </div>
+
+        <!-- Competences macOS Window -->
+        <div id="comp-macos-window" class="macos-window">
+          <div class="window-header">
+            <div class="window-controls">
+              <div class="window-dot dot-red" id="compCloseBtn" title="Kapat"></div>
+              <div class="window-dot dot-orange" title="Simge Durumuna Getir"></div>
+              <div class="window-dot dot-green" title="Ekranı Kapla"></div>
+            </div>
+            <div class="window-title">Competence's</div>
+          </div>
+          <div class="window-content" style="background:#030303; display:flex; align-items:center; justify-content:center; color:#555; font-family: monospace; height: 100%;">
+            <!-- Content will be added here -->
+            [COMPETENCE CONTENT PENDING]
+          </div>
+        </div>
+
+        <!-- Projects macOS Window -->
+        <div id="proj-macos-window" class="macos-window">
+          <div class="window-header">
+            <div class="window-controls">
+              <div class="window-dot dot-red" id="projCloseBtn" title="Kapat"></div>
+              <div class="window-dot dot-orange" title="Simge Durumuna Getir"></div>
+              <div class="window-dot dot-green" title="Ekranı Kapla"></div>
+            </div>
+            <div class="window-title">Project's</div>
+          </div>
+          <div class="window-content" style="background:#030303; display:flex; align-items:center; justify-content:center; color:#555; font-family: monospace; height: 100%;">
+            <!-- Content will be added here -->
+            [PROJECT CONTENT PENDING]
           </div>
         </div>
       </div>
