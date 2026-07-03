@@ -6,82 +6,116 @@
 
   var I18N = {
     tr: {
-      'meta.title': '3D Kart Laboratuvarı',
-      'nav.brand': 'Kart Laboratuvarı',
+      'meta.title': 'Yetkinlikler — Uzmanlık Alanları ve Beceriler',
+      'nav.brand': 'Yetkinlikler',
+      'nav.tag': 'Uzmanlık Alanları & Teknik Beceriler',
       'nav.lang': 'EN',
-      'hero.eyebrow': 'Etkileşimli şekil laboratuvarı',
-      'hero.title': 'Boyutsal arayüz kartları',
+      'hero.eyebrow': 'Etkileşimli Yetkinlik Laboratuvarı',
+      'hero.title': 'Uzmanlık Alanlarım',
       'hero.sub':
-        'Cam, neon derinlik ve dokunsal hareket — paralaks için kartların üzerine gelin, ardından spot ışığı destesini açın. Prototipten üretime ölçeklenebilir.',
+        'İşletmelerin operasyonel verimliliğini artırmak ve dijital dönüşüm süreçlerini yönetmek adına, uçtan uca dijital ürün geliştirmeden yapay zeka entegrasyonlarına, pazarlama otomasyonlarından finansal analiz ve ekip liderliğine uzanan geniş bir yelpazede stratejik çözümler üretiyorum. Aşağıdaki kategorileri seçerek uzmanlık alanlarımı filtreleyebilir ve detaylarını inceleyebilirsiniz.',
       'hero.cta1': 'Izgarayı keşfet',
-      'hero.cta2': 'Spot ışığı destesi',
-      'sec.grid': 'Şekil sistemi',
-      'sec.grid.sub': 'Altı yapısal varyant: küre cam, oluklu kesim, neo yüzey, geniş sinematik, kristal faset, katmanlı yığın.',
-      'sec.orbit': 'Spot ışığı destesi',
-      'sec.orbit.sub': 'Sabit bir yatay sahnede dört panel — oklar, noktalar, klavye ve kaydırma.',
-      'sec.skills': 'Temel Yetkinlikler',
+      'hero.cta2': 'Kategoriler',
+      'sec.skills': 'Teknolojik Beceriler & Araçlar',
       'sec.skills.sub': 'Derin odak alanlarını görmek için bir yeteneğin üzerine gelin',
-      'card.orb.title': 'Küre cam',
-      'card.orb.text': 'Katmanlı cam ve eş merkezli derinlik çizgilerine sahip yumuşak hap gövde.',
-      'card.chamfer.title': 'Oluklu kesim',
-      'card.chamfer.text': 'Clip-path ile keskin köşeler — koyu arayüzlerde net okunur.',
-      'card.brutal.title': 'Neo yüzey',
-      'card.brutal.text': 'Yüksek kontrastlı kenar, sert gölge ve elektrikli vurgu çizgisi.',
-      'card.cinema.title': 'Sinematik geniş',
-      'card.cinema.text': 'Metrikler, tanıtımlar veya pano ana panelleri için yatay tuval.',
-      'card.facet.title': 'Kristal faset',
-      'card.facet.text': 'Prizmatik vurgulu açısal gradyan geçişi.',
-      'card.stack.title': 'Katmanlı yığın',
-      'card.stack.text': 'Üzerine gelindiğinde paralaks efekti sunan üç yüzen sayfa.',
-      'cta.more': 'Aç',
-      'carousel.1t': 'Sinyal',
-      'carousel.1d': 'Gecikme bütçeleri ve canlı izler.',
-      'carousel.2t': 'Ağ',
-      'carousel.2d': 'Sağlık halkalarına sahip dağıtık düğümler.',
-      'carousel.3t': 'Kasa',
-      'carousel.3d': 'Depolanan şifreli veriler.',
-      'carousel.4t': 'Nabız',
-      'carousel.4d': 'Uç bölgelere gerçek zamanlı dağıtım.',
+      'sec.grid': 'Tüm Yetkinlikler',
+      'sec.grid.sub': 'Seçtiğiniz kategoriye göre filtrelenmiş detaylı uzmanlık maddeleri',
+      'filter.showAll': 'Tümünü Göster',
+      'sec.orbit': 'Kategoriler',
+      'sec.orbit.sub': 'Filtrelemek ve ilgili yetkinliklere gitmek için bir kategori seçin',
       'footer.note': 'Semantik HTML ve CSS 3D dönüşümleriyle inşa edildi.',
+      'carousel.1t': 'Teknoloji & Dijital',
+      'carousel.1d': 'Web/mobil mimari, otomasyonlar ve AI entegrasyonu.',
+      'carousel.2t': 'Pazarlama & Büyüme',
+      'carousel.2d': 'Growth, CRM, e-ticaret ve AI destekli satış stratejileri.',
+      'carousel.3t': 'Finans & Veri Analizi',
+      'carousel.3d': 'Bütçe yönetimi, OPEX kontrolü ve performans raporlama.',
+      'carousel.4t': 'Operasyon & Lojistik',
+      'carousel.4d': 'Proje yönetimi, ekip liderliği ve saha koordinasyonu.',
+      'card.1.title': 'Web & Mobil Mimari',
+      'card.1.text': 'Back-office entegrasyonlu, ölçeklenebilir kurumsal web siteleri ve mobil uygulamaların geliştirilmesi.',
+      'card.2.title': 'Dijital Ürün Geliştirme',
+      'card.2.text': 'Operasyonel süreçlerin dijitalleşmesi için interaktif dijital menü, temassız sipariş ve otomasyonlar.',
+      'card.3.title': 'Yapay Zeka (AI)',
+      'card.3.text': 'Ürün geliştirme ve iş akışlarını hızlandırmak için AI araçlarının ve LLM teknolojilerinin entegre edilmesi.',
+      'card.4.title': 'IT Altyapı & Sistem',
+      'card.4.text': 'Kurumsal ağların kurgulanması, yazılım/donanım entegrasyonu, veri güvenliği ve optimizasyon.',
+      'card.5.title': 'AI Pazarlama & Satış',
+      'card.5.text': 'Hedef kitle analizi, lead oluşturma ve satış otomasyonlarında yapay zeka ile dönüşüm oranlarının artırılması.',
+      'card.6.title': 'Dijital Marka & Büyüme',
+      'card.6.text': 'Marka bilinirliğini maksimize etmeye yönelik veri odaklı, çok kanallı pazarlama stratejileri.',
+      'card.7.title': 'E-Ticaret & CRM',
+      'card.7.text': 'Online satış kanallarının, pazar yeri fiyatlandırmalarının ve CRM süreçlerinin ticari büyüme hedefli yönetimi.',
+      'card.8.title': 'Finansal Planlama',
+      'card.8.text': 'Bilanço ve gelir-gider analizi, nakit akışı takibi ve operasyonel finansal sürdürülebilirlik.',
+      'card.9.title': 'Maliyet Kontrolü',
+      'card.9.text': 'Tedarik zinciri, donanım ve envanter analizleriyle operasyonel giderlerin (OPEX) minimize edilmesi.',
+      'card.10.title': 'Veri Odaklı Raporlama',
+      'card.10.text': 'Satış, POS ve e-ticaret metriklerinin ölçümlenerek, ROI odaklı yönetim raporlarının sunulması.',
+      'card.11.title': 'İşe Alım & Koordinasyon',
+      'card.11.text': 'Norm kadro analizi, sourcing, mülakat, yerleştirme ve saha performans denetim süreçleri.',
+      'card.12.title': 'Proje Yönetimi (PLM)',
+      'card.12.text': 'Fikir aşamasından pazara sunma (go-to-market) aşamasına kadar teknik ve fiziksel projelerin planlanması.',
+      'card.13.title': 'Ekip Liderliği',
+      'card.13.text': 'Uluslararası düzeyde IT, pazarlama, mutfak ve saha ekiplerinin kurumsal hedefler doğrultusunda koordinasyonu.',
+      'card.14.title': 'Saha & Lojistik',
+      'card.14.text': 'Hızlı ticaret ve hizmet sektörlerinde rota, zaman planlaması ve kriz anlarında sıfır hata toleranslı darboğaz çözümü.'
     },
     en: {
-      'meta.title': '3D Card Lab',
-      'nav.brand': 'Card Lab',
+      'meta.title': 'Competencies — Areas of Expertise & Skills',
+      'nav.brand': 'Competencies',
+      'nav.tag': 'Areas of Expertise & Technical Skills',
       'nav.lang': 'TR',
-      'hero.eyebrow': 'Interactive shape lab',
-      'hero.title': 'Dimensional interface cards',
+      'hero.eyebrow': 'Interactive Competence Lab',
+      'hero.title': 'Areas of Expertise',
       'hero.sub':
-        'Glass, neon depth, and tactile motion — hover cards for parallax, then open the spotlight deck. Built to scale from prototype to production.',
+        'To increase operational efficiency and lead digital transformation processes, I develop strategic solutions ranging from end-to-end digital product development to AI integrations, marketing automation, financial analysis, and team leadership. Select the categories below to filter my areas of expertise and explore their details.',
       'hero.cta1': 'Explore the grid',
-      'hero.cta2': 'Spotlight deck',
-      'sec.grid': 'Shape system',
-      'sec.grid.sub': 'Six structural variants: orb glass, chamfer cut, neo surface, cinema wide, crystal facet, layered stack.',
-      'sec.orbit': 'Spotlight deck',
-      'sec.orbit.sub': 'Four panels in a stable horizontal stage — arrows, dots, keyboard, and swipe.',
-      'sec.skills': 'Core Competencies',
+      'hero.cta2': 'Categories',
+      'sec.skills': 'Tech Stack & Tools',
       'sec.skills.sub': 'Hover over a skill to reveal its deep focus areas',
-      'card.orb.title': 'Orb glass',
-      'card.orb.text': 'Soft pill body with stacked glass and concentric depth cues.',
-      'card.chamfer.title': 'Chamfer cut',
-      'card.chamfer.text': 'Precision corners via clip-path — reads sharp on dark UI.',
-      'card.brutal.title': 'Neo surface',
-      'card.brutal.text': 'High-contrast rim, hard shadow, and electric accent rail.',
-      'card.cinema.title': 'Cinema wide',
-      'card.cinema.text': 'Landscape canvas for metrics, trailers, or dashboard hero tiles.',
-      'card.facet.title': 'Crystal facet',
-      'card.facet.text': 'Angular gradient break with prismatic highlight pass.',
-      'card.stack.title': 'Layered stack',
-      'card.stack.text': 'Three floating sheets with parallax on hover.',
-      'cta.more': 'Open',
-      'carousel.1t': 'Signal',
-      'carousel.1d': 'Latency budgets and live traces.',
-      'carousel.2t': 'Mesh',
-      'carousel.2d': 'Distributed nodes with health rings.',
-      'carousel.3t': 'Vault',
-      'carousel.3d': 'Encrypted payloads at rest.',
-      'carousel.4t': 'Pulse',
-      'carousel.4d': 'Realtime fan-out to edge regions.',
+      'sec.grid': 'All Competencies',
+      'sec.grid.sub': 'Detailed competency items filtered by your selected category',
+      'filter.showAll': 'Show All',
+      'sec.orbit': 'Categories',
+      'sec.orbit.sub': 'Select a category to filter and navigate to corresponding competencies',
       'footer.note': 'Built with semantic HTML & CSS 3D transforms.',
+      'carousel.1t': 'Technology & Digital',
+      'carousel.1d': 'Web/mobile architecture, automations, and AI integration.',
+      'carousel.2t': 'Marketing & Growth',
+      'carousel.2d': 'Growth, CRM, e-commerce, and AI-powered sales strategies.',
+      'carousel.3t': 'Finance & Data Analytics',
+      'carousel.3d': 'Budget management, OPEX control, and performance reporting.',
+      'carousel.4t': 'Operations & Logistics',
+      'carousel.4d': 'Project management, team leadership, and staffing coordination.',
+      'card.1.title': 'Web & Mobile Architecture',
+      'card.1.text': 'Development of end-to-end scalable enterprise websites and mobile apps with back-office integrations.',
+      'card.2.title': 'Digital Product Development',
+      'card.2.text': 'Development of interactive digital menus, contactless ordering, and workflow automations to digitize processes.',
+      'card.3.title': 'Artificial Intelligence (AI)',
+      'card.3.text': 'Integration of AI tools and LLM technology into product development and workflows to accelerate operations.',
+      'card.4.title': 'IT Infrastructure & Systems',
+      'card.4.text': 'Design of corporate IT networks, software/hardware integration, data security, and service optimization.',
+      'card.5.title': 'AI Marketing & Sales',
+      'card.5.text': 'Using AI tools in target audience analysis, lead generation, and sales automation to maximize conversions.',
+      'card.6.title': 'Digital Brand & Growth',
+      'card.6.text': 'Planning data-driven, multi-channel marketing strategies to maximize brand awareness locally and globally.',
+      'card.7.title': 'E-Commerce & CRM',
+      'card.7.text': 'Management of online sales channels, marketplace pricing, and CRM workflows aligned with commercial growth.',
+      'card.8.title': 'Financial Planning',
+      'card.8.text': 'Balance sheet analysis, cash flow tracking, and ensuring financial sustainability in business operations.',
+      'card.9.title': 'Cost Control',
+      'card.9.text': 'Analyzing supply chain, IT hardware, and inventory to minimize operational expenditures (OPEX).',
+      'card.10.title': 'Data-Driven Reporting',
+      'card.10.text': 'Measuring sales, POS, and e-commerce data to present performance (ROI) reports supporting strategic decisions.',
+      'card.11.title': 'Recruitment & Staffing',
+      'card.11.text': 'Manpower planning, sourcing, interviewing, placement, and field performance auditing for projects.',
+      'card.12.title': 'Project Management (PLM)',
+      'card.12.text': 'Planning and delivery of technical and physical projects from ideation to go-to-market.',
+      'card.13.title': 'Team Leadership',
+      'card.13.text': 'Management, leadership, and coordination of international IT, marketing, culinary, and field teams.',
+      'card.14.title': 'Field & Logistics',
+      'card.14.text': 'Advanced route/time planning and zero-tolerance bottleneck resolution in quick commerce and services.'
     }
   };
 
@@ -315,6 +349,42 @@
     });
   }
 
+  /* ——— Category Filtering + Smooth Scrolling ——— */
+  function initCategoryFilters() {
+    var categoryCards = document.querySelectorAll('[data-filter-category]');
+    var showAllBtn = document.querySelector('[data-filter-all]');
+    var competencyCards = document.querySelectorAll('#competency-grid .ux-parent');
+    var gridSection = document.getElementById('competency-grid-section');
+
+    categoryCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var category = card.getAttribute('data-filter-category');
+        if (!category) return;
+
+        competencyCards.forEach(function (c) {
+          var cCat = c.getAttribute('data-category');
+          if (cCat === category) {
+            c.classList.remove('filtered-out');
+          } else {
+            c.classList.add('filtered-out');
+          }
+        });
+
+        if (gridSection) {
+          gridSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    if (showAllBtn) {
+      showAllBtn.addEventListener('click', function () {
+        competencyCards.forEach(function (c) {
+          c.classList.remove('filtered-out');
+        });
+      });
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       initLang();
@@ -322,6 +392,7 @@
       initHeroMotion();
       initCarousel();
       initSkillsHover();
+      initCategoryFilters();
     });
   } else {
     initLang();
@@ -329,5 +400,6 @@
     initHeroMotion();
     initCarousel();
     initSkillsHover();
+    initCategoryFilters();
   }
 })();
