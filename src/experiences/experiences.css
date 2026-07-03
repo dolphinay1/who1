@@ -227,11 +227,13 @@
 
 /* --- 3D SCENE --- */
 .exp-window-body .viewport {
-  position: absolute;
-  inset: 0;
-  perspective: 1000px;
-  overflow: hidden;
-  z-index: 1;
+  display: block !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  inset: 0 !important;
+  perspective: 1000px !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
 }
 
 .exp-window-body .world {
