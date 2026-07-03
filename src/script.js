@@ -88,6 +88,9 @@ window.addEventListener("DOMContentLoaded", () => {
   if (compFolder && compWindow) {
     compFolder.addEventListener("click", () => {
       compWindow.classList.add("open");
+      if (window.CompetencesModule && typeof window.CompetencesModule.init === "function") {
+        window.CompetencesModule.init();
+      }
     });
   }
 
@@ -111,6 +114,9 @@ window.addEventListener("DOMContentLoaded", () => {
   if (compCloseBtn && compWindow) {
     compCloseBtn.addEventListener("click", () => {
       compWindow.classList.remove("open");
+      if (window.CompetencesModule && typeof window.CompetencesModule.destroy === "function") {
+        window.CompetencesModule.destroy();
+      }
     });
   }
 
