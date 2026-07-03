@@ -8,13 +8,13 @@
     tr: {
       'meta.title': 'Yetkinlikler — Uzmanlık Alanları ve Beceriler',
       'nav.brand': 'Yetkinlikler',
-      'nav.tag': 'Uzmanlık Alanları & Teknik Beceriler',
+      'nav.tag': '',
       'nav.lang': 'EN',
-      'hero.eyebrow': 'Etkileşimli Yetkinlik Laboratuvarı',
+      'hero.eyebrow': '',
       'hero.title': 'Uzmanlık Alanlarım',
       'hero.sub':
-        'İşletmelerin operasyonel verimliliğini artırmak ve dijital dönüşüm süreçlerini yönetmek adına, uçtan uca dijital ürün geliştirmeden yapay zeka entegrasyonlarına, pazarlama otomasyonlarından finansal analiz ve ekip liderliğine uzanan geniş bir yelpazede stratejik çözümler üretiyorum. Aşağıdaki kategorileri seçerek uzmanlık alanlarımı filtreleyebilir ve detaylarını inceleyebilirsiniz.',
-      'hero.cta1': 'Izgarayı keşfet',
+        'İşletmelerin operasyonel verimliliğini artırmak ve dijital dönüşüm süreçlerini yönetmek adına, uçtan uca dijital ürün geliştirmeden yapay zeka entegrasyonlarına, pazarlama otomasyonlarından finansal analiz ve ekip liderliğine uzanan geniş bir yelpazede stratejik çözümler üretiyorum.',
+      'hero.cta1': 'Yetkinlikleri Keşfet',
       'hero.cta2': 'Kategoriler',
       'sec.skills': 'Teknolojik Beceriler & Araçlar',
       'sec.skills.sub': 'Derin odak alanlarını görmek için bir yeteneğin üzerine gelin',
@@ -23,7 +23,7 @@
       'filter.showAll': 'Tümünü Göster',
       'sec.orbit': 'Kategoriler',
       'sec.orbit.sub': 'Filtrelemek ve ilgili yetkinliklere gitmek için bir kategori seçin',
-      'footer.note': 'Semantik HTML ve CSS 3D dönüşümleriyle inşa edildi.',
+      'footer.note': '',
       'carousel.1t': 'Teknoloji & Dijital',
       'carousel.1d': 'Web/mobil mimari, otomasyonlar ve AI entegrasyonu.',
       'carousel.2t': 'Pazarlama & Büyüme',
@@ -34,8 +34,8 @@
       'carousel.4d': 'Proje yönetimi, ekip liderliği ve saha koordinasyonu.',
       'card.1.title': 'Web & Mobil Mimari',
       'card.1.text': 'Back-office entegrasyonlu, ölçeklenebilir kurumsal web siteleri ve mobil uygulamaların geliştirilmesi.',
-      'card.2.title': 'Dijital Ürün Geliştirme',
-      'card.2.text': 'Operasyonel süreçlerin dijitalleşmesi için interaktif dijital menü, temassız sipariş ve otomasyonlar.',
+      'card.2.title': 'Hizmet Sektörü Dijitalleşmesi',
+      'card.2.text': 'Restoran ve oteller için interaktif dijital menü, temassız sipariş ve operasyonel otomasyon entegrasyonu.',
       'card.3.title': 'Yapay Zeka (AI)',
       'card.3.text': 'Ürün geliştirme ve iş akışlarını hızlandırmak için AI araçlarının ve LLM teknolojilerinin entegre edilmesi.',
       'card.4.title': 'IT Altyapı & Sistem',
@@ -52,25 +52,25 @@
       'card.9.text': 'Tedarik zinciri, donanım ve envanter analizleriyle operasyonel giderlerin (OPEX) minimize edilmesi.',
       'card.10.title': 'Veri Odaklı Raporlama',
       'card.10.text': 'Satış, POS ve e-ticaret metriklerinin ölçümlenerek, ROI odaklı yönetim raporlarının sunulması.',
-      'card.11.title': 'İşe Alım & Koordinasyon',
-      'card.11.text': 'Norm kadro analizi, sourcing, mülakat, yerleştirme ve saha performans denetim süreçleri.',
+      'card.11.title': 'Saha & Turizm Personel Seçimi',
+      'card.11.text': 'Turizm, organizasyon ve büyük etkinlik projeleri için norm kadro analizi, seçme-yerleştirme ve saha yönetimi.',
       'card.12.title': 'Proje Yönetimi (PLM)',
       'card.12.text': 'Fikir aşamasından pazara sunma (go-to-market) aşamasına kadar teknik ve fiziksel projelerin planlanması.',
-      'card.13.title': 'Ekip Liderliği',
-      'card.13.text': 'Uluslararası düzeyde IT, pazarlama, mutfak ve saha ekiplerinin kurumsal hedefler doğrultusunda koordinasyonu.',
-      'card.14.title': 'Saha & Lojistik',
-      'card.14.text': 'Hızlı ticaret ve hizmet sektörlerinde rota, zaman planlaması ve kriz anlarında sıfır hata toleranslı darboğaz çözümü.'
+      'card.13.title': 'Çok Kültürlü Ekip Liderliği',
+      'card.13.text': 'Hizmet ve turizm sektöründe, uluslararası düzeyde IT, pazarlama, mutfak (gastronomi) ve saha ekiplerinin yönetimi.',
+      'card.14.title': 'Hizmet Sektörü Darboğaz Çözümü',
+      'card.14.text': 'Yiyecek-içecek, otelcilik ve hızlı hizmet sektörlerinde zaman planlaması, operasyonel rota ve kriz yönetimi.'
     },
     en: {
       'meta.title': 'Competencies — Areas of Expertise & Skills',
       'nav.brand': 'Competencies',
-      'nav.tag': 'Areas of Expertise & Technical Skills',
+      'nav.tag': '',
       'nav.lang': 'TR',
-      'hero.eyebrow': 'Interactive Competence Lab',
+      'hero.eyebrow': '',
       'hero.title': 'Areas of Expertise',
       'hero.sub':
-        'To increase operational efficiency and lead digital transformation processes, I develop strategic solutions ranging from end-to-end digital product development to AI integrations, marketing automation, financial analysis, and team leadership. Select the categories below to filter my areas of expertise and explore their details.',
-      'hero.cta1': 'Explore the grid',
+        'To increase operational efficiency and lead digital transformation processes, I develop strategic solutions ranging from end-to-end digital product development to AI integrations, marketing automation, financial analysis, and team leadership.',
+      'hero.cta1': 'Explore Competencies',
       'hero.cta2': 'Categories',
       'sec.skills': 'Tech Stack & Tools',
       'sec.skills.sub': 'Hover over a skill to reveal its deep focus areas',
@@ -79,7 +79,7 @@
       'filter.showAll': 'Show All',
       'sec.orbit': 'Categories',
       'sec.orbit.sub': 'Select a category to filter and navigate to corresponding competencies',
-      'footer.note': 'Built with semantic HTML & CSS 3D transforms.',
+      'footer.note': '',
       'carousel.1t': 'Technology & Digital',
       'carousel.1d': 'Web/mobile architecture, automations, and AI integration.',
       'carousel.2t': 'Marketing & Growth',
@@ -90,8 +90,8 @@
       'carousel.4d': 'Project management, team leadership, and staffing coordination.',
       'card.1.title': 'Web & Mobile Architecture',
       'card.1.text': 'Development of end-to-end scalable enterprise websites and mobile apps with back-office integrations.',
-      'card.2.title': 'Digital Product Development',
-      'card.2.text': 'Development of interactive digital menus, contactless ordering, and workflow automations to digitize processes.',
+      'card.2.title': 'Hospitality Digitization',
+      'card.2.text': 'Interactive digital menus, contactless ordering, and operational automation for restaurants and hotels.',
       'card.3.title': 'Artificial Intelligence (AI)',
       'card.3.text': 'Integration of AI tools and LLM technology into product development and workflows to accelerate operations.',
       'card.4.title': 'IT Infrastructure & Systems',
@@ -108,14 +108,14 @@
       'card.9.text': 'Analyzing supply chain, IT hardware, and inventory to minimize operational expenditures (OPEX).',
       'card.10.title': 'Data-Driven Reporting',
       'card.10.text': 'Measuring sales, POS, and e-commerce data to present performance (ROI) reports supporting strategic decisions.',
-      'card.11.title': 'Recruitment & Staffing',
-      'card.11.text': 'Manpower planning, sourcing, interviewing, placement, and field performance auditing for projects.',
+      'card.11.title': 'Field & Tourism Recruitment',
+      'card.11.text': 'Manpower planning, sourcing, placement, and field management for tourism, hospitality, and large-scale event projects.',
       'card.12.title': 'Project Management (PLM)',
       'card.12.text': 'Planning and delivery of technical and physical projects from ideation to go-to-market.',
-      'card.13.title': 'Team Leadership',
-      'card.13.text': 'Management, leadership, and coordination of international IT, marketing, culinary, and field teams.',
-      'card.14.title': 'Field & Logistics',
-      'card.14.text': 'Advanced route/time planning and zero-tolerance bottleneck resolution in quick commerce and services.'
+      'card.13.title': 'Multicultural Team Leadership',
+      'card.13.text': 'Leadership and coordination of international IT, marketing, culinary (gastronomy), and field teams in service and hospitality sectors.',
+      'card.14.title': 'Service Bottleneck Resolution',
+      'card.14.text': 'Advanced timing, operational routing, and crisis management in food & beverage, hospitality, and quick services.'
     }
   };
 
@@ -131,7 +131,7 @@
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
-      if (key && pack[key]) el.textContent = pack[key];
+      if (key && pack.hasOwnProperty(key)) el.textContent = pack[key];
     });
 
     var langBtn = document.querySelector('[data-lang-toggle]');
@@ -206,7 +206,7 @@
 
     var idx = 0;
     var w = 0;
-    var swipe = { active: false, startX: 0, pid: null };
+    var swipe = { active: false, startX: 0, hasMoved: false, pid: null };
 
     function measure() {
       w = viewport.clientWidth || 0;
@@ -306,24 +306,38 @@
       }
     });
 
+    // POINTER EVENT DRAG LOGIC WITH SENSITIVITY THRESHOLD TO ALLOW CLICKS
     viewport.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       swipe.active = true;
       swipe.startX = e.clientX;
+      swipe.hasMoved = false;
       swipe.pid = e.pointerId;
-      try {
-        viewport.setPointerCapture(e.pointerId);
-      } catch (err) {}
+    });
+
+    viewport.addEventListener('pointermove', function (e) {
+      if (!swipe.active || e.pointerId !== swipe.pid) return;
+      var dx = e.clientX - swipe.startX;
+      if (Math.abs(dx) > 10) {
+        swipe.hasMoved = true;
+        try {
+          viewport.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      }
     });
 
     viewport.addEventListener('pointerup', function (e) {
       if (!swipe.active || e.pointerId !== swipe.pid) return;
       swipe.active = false;
       swipe.pid = null;
-      var dx = e.clientX - swipe.startX;
-      if (Math.abs(dx) < 40) return;
-      if (dx < 0) go(1);
-      else go(-1);
+
+      if (swipe.hasMoved) {
+        var dx = e.clientX - swipe.startX;
+        if (Math.abs(dx) >= 40) {
+          if (dx < 0) go(1);
+          else go(-1);
+        }
+      }
     });
 
     viewport.addEventListener('pointercancel', function () {
