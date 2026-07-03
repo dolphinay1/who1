@@ -35,7 +35,7 @@ const ExperiencesModule = (() => {
     tr: [
       {
         id: "EXP-001",
-        company: "X Kurumu (Yurtdışı)",
+        company: "QİH (Yurtdışı)",
         position: "IT Müdürü & Marketing Ekip Kaptanı",
         description: "Bilgi teknolojileri altyapısını yönetirken çok kültürlü marketing ekibine liderlik ettim. IT sistemleri entegrasyonu ve veri güvenliğini sağlayarak operasyonları dijitalleştirdim. Marka bilinirliğini artıracak global marketing stratejileri kurguladım.",
         duration: "Ağustos 2025 – Haziran 2026",
@@ -91,6 +91,14 @@ const ExperiencesModule = (() => {
       },
       {
         id: "EXP-008",
+        company: "Mattepost Post Production",
+        position: "Barmen / Barista",
+        description: "Post prodüksiyon stüdyosu bünyesinde baristalık ve barmenlik yaparak yoğun ve dinamik çalışma ortamında kaliteli hizmet sundum. Sipariş takibi, stok yönetimi ve müşteri ilişkilerini yönettim.",
+        duration: "4 Ay",
+        field: "Hizmet Sektörü"
+      },
+      {
+        id: "EXP-009",
         company: "Kat Sorumlusu",
         position: "Avlu Bomonti, Şişli",
         description: "Rezervasyon karşılama, masa koordinasyonu ve müşteri taleplerine yanıt verdim. Günlük personel planlaması ve servis içi kontrol süreçlerinde operasyonel sorumluluk üstlendim.",
@@ -98,7 +106,7 @@ const ExperiencesModule = (() => {
         field: "Hizmet & Rezervasyon"
       },
       {
-        id: "EXP-009",
+        id: "EXP-010",
         company: "Point Hotel Taksim",
         position: "Stajyer",
         description: "Garsonluk, meydancılık, spa ve kat görevlisi olarak çeşitli birimlerde görev alarak lüks otel operasyonları hakkında kapsamlı saha tecrübesi kazandım.",
@@ -106,7 +114,7 @@ const ExperiencesModule = (() => {
         field: "Turizm & Otelcilik"
       },
       {
-        id: "EXP-010",
+        id: "EXP-011",
         company: "Siente Tekstil",
         position: "Sosyal Medya Yönetimi (Freelancer)",
         description: "Kurumun dijital kanallarını yöneterek sosyal medya etkileşim oranlarını %45 oranında artırdım. Özgün içerik planlaması ve hedef kitle analiziyle marka bilinirliğini güçlendirdim.",
@@ -117,7 +125,7 @@ const ExperiencesModule = (() => {
     en: [
       {
         id: "EXP-001",
-        company: "X Institution (Abroad)",
+        company: "QİH (Abroad)",
         position: "IT Manager & Marketing Team Leader",
         description: "Led a multicultural marketing team while managing the IT infrastructure. Digitalized operational processes by ensuring system integration and data security. Developed global digital marketing strategies to boost brand awareness.",
         duration: "August 2025 – June 2026",
@@ -173,6 +181,14 @@ const ExperiencesModule = (() => {
       },
       {
         id: "EXP-008",
+        company: "Mattepost Post Production",
+        position: "Bartender / Barista",
+        description: "Provided high-quality barista and bartending services within a dynamic post-production studio environment. Managed order fulfillment, stock inventory, and client relations.",
+        duration: "4 Months",
+        field: "Hospitality"
+      },
+      {
+        id: "EXP-009",
         company: "Floor Supervisor",
         position: "Avlu Bomonti, Sisli",
         description: "Handled reservation hosting, table coordination, and customer relations. Took charge of daily staff shift planning and in-service quality control audits.",
@@ -180,7 +196,7 @@ const ExperiencesModule = (() => {
         field: "Hospitality & Hosting"
       },
       {
-        id: "EXP-009",
+        id: "EXP-010",
         company: "Point Hotel Taksim",
         position: "Intern",
         description: "Worked across multiple departments including service, housekeeping, spa, and front-desk. Gained comprehensive operational experience and knowledge in luxury hotel management.",
@@ -188,7 +204,7 @@ const ExperiencesModule = (() => {
         field: "Tourism & Hotel Mgmt"
       },
       {
-        id: "EXP-010",
+        id: "EXP-011",
         company: "Siente Tekstil",
         position: "Social Media Specialist (Freelancer)",
         description: "Managed social media platforms and successfully grew engagement rates by 45%. Strengthened follower interactions and brand image through original content planning and audience analysis.",
@@ -223,9 +239,9 @@ const ExperiencesModule = (() => {
     // 5: heading ("ORGANIZASYON" / "ORGANIZATION")
     // 6-8: cards (Saha Ekip, Ayvalık Yerel, Yemeksepeti)
     // 9: heading ("HIZMET" / "HOSPITALITY")
-    // 10-12: cards (Ayvalık Fly Beach, Kat Sorumlusu, Point Hotel)
-    // 13: heading ("MEDYA" / "MEDIA")
-    // 14: card (Siente Tekstil)
+    // 10-13: cards (Ayvalık Fly Beach, Mattepost Barmen, Kat Sorumlusu, Point Hotel)
+    // 14: heading ("MEDYA" / "MEDIA")
+    // 15: card (Siente Tekstil)
     const sceneItems = [
       { type: 'heading', value: headings[0] }, // Index 0
       { type: 'card', value: exps[0], index: 0 },
@@ -240,8 +256,9 @@ const ExperiencesModule = (() => {
       { type: 'card', value: exps[6], index: 6 },
       { type: 'card', value: exps[7], index: 7 },
       { type: 'card', value: exps[8], index: 8 },
-      { type: 'heading', value: headings[4] }, // Index 13
-      { type: 'card', value: exps[9], index: 9 }
+      { type: 'card', value: exps[9], index: 9 },
+      { type: 'heading', value: headings[4] }, // Index 14
+      { type: 'card', value: exps[10], index: 10 }
     ];
 
     CONFIG.itemCount = sceneItems.length;
@@ -272,14 +289,14 @@ const ExperiencesModule = (() => {
         const randId = Math.floor(1000 + Math.random() * 9000);
         card.innerHTML = `
           <div class="card-header">
-              <span class="card-id">ID-${randId}</span>
+              <span class="card-id">${exp.duration}</span>
               <div style="width: 10px; height: 10px; background: var(--accent);"></div>
           </div>
           <h2>${exp.company}</h2>
           <div class="exp-position">${exp.position}</div>
           <div class="exp-desc">${exp.description}</div>
           <div class="card-footer">
-              <span>DURATION: ${exp.duration}</span>
+              <span>ID: #${randId}</span>
               <span>FIELD: ${exp.field}</span>
           </div>
           <div style="position:absolute; bottom:2rem; right:2rem; font-size:4rem; opacity:0.1; font-weight:900; font-family: var(--font-display); color: #fff;">0${itemData.index + 1}</div>
@@ -406,16 +423,6 @@ const ExperiencesModule = (() => {
     if (feedbackVel) feedbackVel.innerText = Math.abs(state.velocity).toFixed(2);
     const coordEl = document.getElementById('coord');
     if (coordEl) coordEl.innerText = `${state.scroll.toFixed(0)}`;
-
-    const debugEl = document.getElementById('exp-debug-log');
-    if (debugEl) {
-      const firstItem = items[0];
-      const details = firstItem ? `Opacity: ${firstItem.el.style.opacity} | Transform: ${firstItem.el.style.transform}` : 'No items';
-      const vSize = viewport ? `${viewport.offsetWidth}x${viewport.offsetHeight}` : 'Null';
-      const bodyEl = document.querySelector('.exp-window-body');
-      const bSize = bodyEl ? `${bodyEl.offsetWidth}x${bodyEl.offsetHeight}` : 'Null';
-      debugEl.innerText = `Body: ${bSize} | Viewport: ${vSize} | Items Array: ${items.length} | World Children: ${world ? world.children.length : 'null'} | ${details}`;
-    }
 
     if (!world || !viewport) {
       rafId = requestAnimationFrame(raf);
