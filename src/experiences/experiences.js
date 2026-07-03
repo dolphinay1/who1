@@ -35,7 +35,7 @@ const ExperiencesModule = (() => {
     tr: [
       {
         id: "EXP-001",
-        company: "QİH (Yurtdışı)",
+        company: "QIH GROUP",
         position: "IT Müdürü & Marketing Ekip Kaptanı",
         description: "Bilgi teknolojileri altyapısını yönetirken çok kültürlü marketing ekibine liderlik ettim. IT sistemleri entegrasyonu ve veri güvenliğini sağlayarak operasyonları dijitalleştirdim. Marka bilinirliğini artıracak global marketing stratejileri kurguladım.",
         duration: "Ağustos 2025 – Haziran 2026",
@@ -125,7 +125,7 @@ const ExperiencesModule = (() => {
     en: [
       {
         id: "EXP-001",
-        company: "QİH (Abroad)",
+        company: "QIH GROUP",
         position: "IT Manager & Marketing Team Leader",
         description: "Led a multicultural marketing team while managing the IT infrastructure. Digitalized operational processes by ensuring system integration and data security. Developed global digital marketing strategies to boost brand awareness.",
         duration: "August 2025 – June 2026",
