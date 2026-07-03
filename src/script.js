@@ -70,14 +70,13 @@ window.addEventListener("DOMContentLoaded", () => {
   // Who is Yunus? folder click
   if (desktopFolder) {
     desktopFolder.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "none";
+      // workspace stays visible in background
     });
   }
 
   // Experience's folder click
   if (expFolder && expWindow) {
     expFolder.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "none";
       expWindow.classList.remove("hidden-window");
       if (window.ExperiencesModule && typeof window.ExperiencesModule.init === "function") {
         window.ExperiencesModule.init();
@@ -88,7 +87,6 @@ window.addEventListener("DOMContentLoaded", () => {
   // Competence's folder click
   if (compFolder && compWindow) {
     compFolder.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "none";
       compWindow.classList.add("open");
     });
   }
@@ -96,44 +94,29 @@ window.addEventListener("DOMContentLoaded", () => {
   // Project's folder click
   if (projFolder && projWindow) {
     projFolder.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "none";
       projWindow.classList.add("open");
     });
   }
 
   // Close buttons and window restore triggers
-  if (closeWindowBtn) {
-    closeWindowBtn.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "";
-    });
-  }
-  if (minimizeWindowBtn) {
-    minimizeWindowBtn.addEventListener("click", () => {
-      if (workspace) workspace.style.display = "";
-    });
-  }
-
   if (expCloseBtn && expWindow) {
     expCloseBtn.addEventListener("click", () => {
       expWindow.classList.add("hidden-window");
       if (window.ExperiencesModule && typeof window.ExperiencesModule.destroy === "function") {
         window.ExperiencesModule.destroy();
       }
-      if (workspace) workspace.style.display = "";
     });
   }
 
   if (compCloseBtn && compWindow) {
     compCloseBtn.addEventListener("click", () => {
       compWindow.classList.remove("open");
-      if (workspace) workspace.style.display = "";
     });
   }
 
   if (projCloseBtn && projWindow) {
     projCloseBtn.addEventListener("click", () => {
       projWindow.classList.remove("open");
-      if (workspace) workspace.style.display = "";
     });
   }
 
