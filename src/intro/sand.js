@@ -23,7 +23,7 @@ const settings = {
   hiddenFadeInSeconds: 0.45,
   reformDurationSeconds: 2,
   reformStaggerSeconds: 0.65,
-  revealHoldSeconds: 2.2,
+  revealHoldSeconds: 2.5,
   revealFadeSeconds: 0.6,
 
   reformArrivalDistance: 1.5
@@ -46,7 +46,7 @@ let buttonAlpha = 0;
 let phase = "codepen";
 let phaseTime = 0;
 let lastTime = performance.now();
-let cycleCount = 1;
+let fallCount = 1;
 
 let mouseX = -1000;
 let mouseY = -1000;
@@ -78,7 +78,7 @@ function resize() {
   buttonAlpha = 0;
   phase = "codepen";
   phaseTime = 0;
-  cycleCount = 1;
+  fallCount = 1;
 
   buildCodepenText();
 }
@@ -92,10 +92,10 @@ canvas.addEventListener("mousemove", (e) => {
   mouseY = e.clientY - rect.top;
 
   if (phase === "entranceReady") {
-    const btnWidth = 140;
-    const btnHeight = 44;
+    const btnWidth = Math.max(w * 0.18, 160);
+    const btnHeight = Math.max(h * 0.08, 54);
     const btnX = w / 2 - btnWidth / 2;
-    const btnY = h - 80; // center of pill y coords is h - 60, height is 40. Top is h - 80.
+    const btnY = h * 0.48 - btnHeight / 2;
 
     if (
       mouseX >= btnX &&
@@ -170,7 +170,7 @@ function buildCodepenText() {
   maskCanvas.width = w;
   maskCanvas.height = h;
 
-  // Responsive font size calculation for 13 chars
+  // Responsive font size calculation for 13 chars (yunus aydogdu)
   const fontSize = Math.min(w / 6.8, h * 0.18, 120);
 
   maskCtx.clearRect(0, 0, w, h);
@@ -204,7 +204,53 @@ function buildCodepenText() {
   shuffle(looseCells);
 }
 
-function triggerSecondFall() {
+function buildGirisText() {
+  fixedCodepen.fill(0);
+  codepenCells = [];
+  looseCells = [];
+
+  const maskCanvas = document.createElement("canvas");
+  const maskCtx = maskCanvas.getContext("2d");
+
+  maskCanvas.width = w;
+  maskCanvas.height = h;
+
+  // Responsive font size calculation for 5 chars (giriş)
+  const fontSize = Math.min(w / 4.8, h * 0.22, 140);
+
+  maskCtx.clearRect(0, 0, w, h);
+  maskCtx.fillStyle = "#fff";
+  maskCtx.textAlign = "center";
+  maskCtx.textBaseline = "middle";
+  maskCtx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
+
+  // Draw in the center of the screen
+  maskCtx.fillText("giriş", w / 2, h * 0.48);
+
+  const image = maskCtx.getImageData(0, 0, w, h).data;
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = Math.floor(col * settings.cellSize + settings.cellSize / 2);
+      const y = Math.floor(row * settings.cellSize + settings.cellSize / 2);
+
+      const pixelIndex = (y * w + x) * 4;
+      const alpha = image[pixelIndex + 3];
+
+      if (alpha > 35) {
+        const i = index(col, row);
+
+        fixedCodepen[i] = 1;
+        codepenCells.push(i);
+        looseCells.push(i);
+      }
+    }
+  }
+
+  shuffle(looseCells);
+}
+
+function triggerSecondFallReset() {
   fixedCodepen.fill(0);
   pile.fill(0);
 
@@ -218,12 +264,11 @@ function triggerSecondFall() {
     fixedCodepen[cell] = 1;
   }
 
-  // Keep hiddenAlpha at 1 so subtext remains fully visible
-  hiddenAlpha = 1;
   phase = "codepen";
   phaseTime = 0;
 }
 
+// Particle physics release
 function releaseOneGrain(cellIndex) {
   const col = colFromIndex(cellIndex);
   const row = rowFromIndex(cellIndex);
@@ -296,7 +341,6 @@ function setPile(col, row) {
   pile[index(col, row)] = 1;
 }
 
-// Particle physics settle calculation
 function settleFallingParticle(p) {
   let col = Math.floor(p.x / settings.cellSize);
   let row = Math.floor(p.y / settings.cellSize);
@@ -362,12 +406,12 @@ function updateFalling(dt) {
   }
 
   if (phase === "falling" && falling.length === 0) {
-    if (cycleCount === 2) {
-      phase = "entranceReady";
-      phaseTime = 0;
-    } else {
-      phase = "pile";
-      phaseTime = 0;
+    if (fallCount === 1) {
+      startReform();
+    } else if (fallCount === 2) {
+      // Build Giriş text mask and reform into it
+      buildGirisText();
+      startReform();
     }
   }
 }
@@ -485,13 +529,16 @@ function startReform() {
     });
   }
 
+  // Keep remaining pile cells static at the bottom
+  for (let i = count; i < pileCells.length; i++) {
+    pile[pileCells[i]] = 1;
+  }
+
   phase = "reform";
   phaseTime = 0;
 }
 
 function updateReform(dt) {
-  hiddenAlpha = 1;
-
   let allArrived = true;
 
   for (const p of reforming) {
@@ -524,9 +571,12 @@ function updateReform(dt) {
     }
 
     reforming = [];
-    phase = "hiddenHold";
+    if (fallCount === 1) {
+      phase = "hiddenHold";
+    } else if (fallCount === 2) {
+      phase = "entranceReady";
+    }
     phaseTime = 0;
-    hiddenAlpha = 1;
   }
 }
 
@@ -537,38 +587,32 @@ function updatePhase(dt) {
     releaseCodepen();
   }
 
-  if (phase === "pile" && phaseTime >= settings.pileHoldSeconds) {
-    phase = "hiddenFadeIn";
-    phaseTime = 0;
-    hiddenAlpha = 0;
-  }
-
-  if (phase === "hiddenFadeIn") {
-    hiddenAlpha = Math.min(1, phaseTime / settings.hiddenFadeInSeconds);
-
-    if (hiddenAlpha >= 1) {
-      hiddenAlpha = 1;
-      startReform();
-    }
-  }
-
   if (phase === "reform") {
     updateReform(dt);
   }
 
   if (phase === "hiddenHold") {
-    hiddenAlpha = 1;
+    // Fade in subtext AFTER reform
+    hiddenAlpha = Math.min(1, phaseTime / settings.hiddenFadeInSeconds);
 
     if (phaseTime >= settings.revealHoldSeconds) {
-      if (cycleCount === 1) {
-        cycleCount = 2;
-        triggerSecondFall();
-      }
+      phase = "secondFallFadeOut";
+      phaseTime = 0;
+    }
+  }
+
+  if (phase === "secondFallFadeOut") {
+    // Fade out subtext during second fall
+    hiddenAlpha = Math.max(0, 1 - phaseTime / 0.45);
+
+    if (hiddenAlpha <= 0) {
+      hiddenAlpha = 0;
+      fallCount = 2;
+      triggerSecondFallReset();
     }
   }
 
   if (phase === "entranceReady") {
-    hiddenAlpha = 1;
     buttonAlpha = Math.min(1, phaseTime / settings.revealFadeSeconds);
   }
 }
@@ -601,31 +645,26 @@ function drawEntranceButton() {
   if (phase !== "entranceReady") return;
 
   ctx.save();
-
-  const fontSize = 18;
   ctx.globalAlpha = buttonAlpha;
 
-  // Draw pill border with interactive hover state
+  const btnWidth = Math.max(w * 0.18, 160);
+  const btnHeight = Math.max(h * 0.08, 54);
+
+  // Draw rounded pill container around the sand-spelled Giriş
   ctx.beginPath();
-  ctx.roundRect(w / 2 - 70, h - 80, 140, 44, 22);
-  ctx.strokeStyle = isHovered ? "rgba(255, 232, 168, 1)" : "rgba(255, 232, 168, 0.4)";
-  ctx.lineWidth = 1.5;
-  ctx.fillStyle = isHovered ? "rgba(255, 232, 168, 0.15)" : "rgba(255, 232, 168, 0.03)";
+  ctx.roundRect(w / 2 - btnWidth / 2, h * 0.48 - btnHeight / 2, btnWidth, btnHeight, btnHeight / 2);
+  ctx.strokeStyle = isHovered ? "rgba(255, 232, 168, 1)" : "rgba(255, 232, 168, 0.35)";
+  ctx.lineWidth = 1.8;
+  ctx.fillStyle = isHovered ? "rgba(255, 232, 168, 0.12)" : "rgba(255, 232, 168, 0.02)";
   ctx.fill();
   ctx.stroke();
-
-  // Draw text
-  ctx.fillStyle = "rgb(255, 232, 168)";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
-  ctx.fillText("giriş", w / 2, h - 58);
 
   ctx.restore();
 }
 
 function drawFixedCodepen() {
-  ctx.fillStyle = "rgb(236, 204, 116)";
+  // Glow sand particles spelling Giriş when hovered
+  ctx.fillStyle = (phase === "entranceReady" && isHovered) ? "rgb(255, 232, 168)" : "rgb(236, 204, 116)";
 
   const size = settings.cellSize;
 
@@ -673,7 +712,8 @@ function drawPile() {
 }
 
 function drawReforming() {
-  ctx.fillStyle = "rgb(236, 204, 116)";
+  // Glow sand particles reforming Giriş when hovered
+  ctx.fillStyle = (phase === "entranceReady" && isHovered) ? "rgb(255, 232, 168)" : "rgb(236, 204, 116)";
 
   const size = settings.cellSize;
 
