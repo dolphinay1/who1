@@ -1,44 +1,50 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-let scene, camera, renderer;
-let avatarGroup;
+let scene, camera, renderer, model;
 let neck, head, spine, leftEye, rightEye;
 let rightShoulder, rightArm, rightForeArm, rightHand;
 let animationFrameId = null;
 let isInitialized = false;
+let isPlaceholder = false;
 
-// Target and active poses for interpolation
+// Pose presets tailored for standard Ready Player Me (RPM) skeletal structure
 const idlePose = {
-  shoulderZ: 0.1,
-  armX: 0.3,
+  shoulderZ: 0,
+  armX: 0.1,
   armY: 0.1,
-  forearmX: 0.4
+  armZ: -1.3, // Arm pointing down at side
+  forearmY: 0.15
 };
 
 const pointingPoses = {
   'desktop-folder': { // Top-Left ("Who is Yunus?")
-    shoulderZ: -0.6,
-    armX: -1.2,
-    armY: -0.6,
-    forearmX: 0.3
+    shoulderZ: 0.1,
+    armX: 0.3,
+    armY: -0.8, // Brought forward
+    armZ: -0.3, // Raised up
+    forearmY: -0.2
   },
   'exp-desktop-folder': { // Top-Right ("Experience's")
-    shoulderZ: 0.6,
-    armX: -1.2,
-    armY: 0.6,
-    forearmX: 0.3
+    shoulderZ: 0.1,
+    armX: -0.3,
+    armY: -0.8, // Brought forward
+    armZ: -0.3, // Raised up
+    forearmY: -0.2
   },
   'comp-desktop-folder': { // Bottom-Left ("Competencie's")
-    shoulderZ: -0.4,
-    armX: -0.8,
-    armY: -0.5,
-    forearmX: 0.25
+    shoulderZ: 0.05,
+    armX: 0.2,
+    armY: -0.6,
+    armZ: -0.6,
+    forearmY: -0.15
   },
   'proj-desktop-folder': { // Bottom-Right ("Project's")
-    shoulderZ: 0.4,
-    armX: -0.8,
-    armY: 0.5,
-    forearmX: 0.25
+    shoulderZ: 0.05,
+    armX: -0.2,
+    armY: -0.6,
+    armZ: -0.6,
+    forearmY: -0.15
   }
 };
 
@@ -46,7 +52,6 @@ let currentTargetPose = { ...idlePose };
 const mouse = { x: 0, y: 0 };
 
 function onMouseMove(event) {
-  // Normalize cursor position from -1 to 1
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
@@ -69,113 +74,86 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function buildProceduralAvatar() {
-  avatarGroup = new THREE.Group();
+function createPlaceholderAvatar() {
+  isPlaceholder = true;
+  model = new THREE.Group();
 
-  // Materials
-  const chromeMaterial = new THREE.MeshStandardMaterial({
-    color: 0x1c1e30,
-    roughness: 0.15,
-    metalness: 0.85
+  // Futuristic wireframe holographic materials
+  const wireframeMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00ffd6,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.4
   });
-  const neonPurpleMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7 });
-  const neonCyanMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffd6 });
+  const jointMaterial = new THREE.MeshBasicMaterial({
+    color: 0xa855f7,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6
+  });
 
-  // 1. Spine / Torso
-  const spineGeometry = new THREE.CylinderGeometry(0.12, 0.16, 0.7, 16);
-  const spineMesh = new THREE.Mesh(spineGeometry, chromeMaterial);
-  spineMesh.position.set(0, 0, 0);
-  avatarGroup.add(spineMesh);
+  // Torso / Spine
+  const spineGeo = new THREE.CylinderGeometry(0.15, 0.2, 0.7, 8);
+  const spineMesh = new THREE.Mesh(spineGeo, wireframeMaterial);
+  model.add(spineMesh);
   spine = spineMesh;
 
-  // Chest Plate / Shoulder Connector
-  const chestGeometry = new THREE.BoxGeometry(0.48, 0.12, 0.16);
-  const chestMesh = new THREE.Mesh(chestGeometry, chromeMaterial);
-  chestMesh.position.set(0, 0.32, 0);
-  avatarGroup.add(chestMesh);
-
-  // 2. Right Arm Group (rotates from the right shoulder joint)
-  const armPivot = new THREE.Group();
-  armPivot.position.set(0.26, 0.32, 0);
-  avatarGroup.add(armPivot);
-  rightArm = armPivot; // Bind rightArm reference
-
-  // Right Upper Arm Mesh
-  const upperArmGeometry = new THREE.CylinderGeometry(0.045, 0.045, 0.38, 16);
-  const upperArmMesh = new THREE.Mesh(upperArmGeometry, chromeMaterial);
-  upperArmMesh.position.set(0, -0.19, 0);
-  armPivot.add(upperArmMesh);
-
-  // Right Elbow Joint
-  const elbowGeometry = new THREE.SphereGeometry(0.05, 16, 16);
-  const elbowMesh = new THREE.Mesh(elbowGeometry, neonPurpleMaterial);
-  elbowMesh.position.set(0, -0.38, 0);
-  armPivot.add(elbowMesh);
-
-  // Right Forearm Group (rotates relative to upper arm)
-  const forearmPivot = new THREE.Group();
-  forearmPivot.position.set(0, -0.38, 0);
-  armPivot.add(forearmPivot);
-  rightForeArm = forearmPivot; // Bind rightForeArm reference
-
-  // Right Forearm Mesh
-  const forearmGeometry = new THREE.CylinderGeometry(0.038, 0.038, 0.34, 16);
-  const forearmMesh = new THREE.Mesh(forearmGeometry, chromeMaterial);
-  forearmMesh.position.set(0, -0.17, 0);
-  forearmPivot.add(forearmMesh);
-
-  // Hand Mesh
-  const handGeometry = new THREE.SphereGeometry(0.04, 16, 16);
-  const handMesh = new THREE.Mesh(handGeometry, chromeMaterial);
-  handMesh.position.set(0, -0.34, 0);
-  forearmPivot.add(handMesh);
-
-  // Pointing Finger Cone (Glows neon cyan)
-  const fingerGeometry = new THREE.ConeGeometry(0.015, 0.1, 16);
-  const fingerMesh = new THREE.Mesh(fingerGeometry, neonCyanMaterial);
-  fingerMesh.position.set(0, -0.4, 0.02);
-  fingerMesh.rotation.x = -Math.PI / 4; // Point forward/downwards
-  forearmPivot.add(fingerMesh);
-
-  // 3. Neck
-  const neckGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.16, 16);
-  const neckMesh = new THREE.Mesh(neckGeometry, chromeMaterial);
-  neckMesh.position.set(0, 0.44, 0);
-  avatarGroup.add(neckMesh);
+  // Neck
+  const neckGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.15, 8);
+  const neckMesh = new THREE.Mesh(neckGeo, wireframeMaterial);
+  neckMesh.position.set(0, 0.42, 0);
+  model.add(neckMesh);
   neck = neckMesh;
 
-  // 4. Head Group (rotates from neck top)
-  const headPivot = new THREE.Group();
-  headPivot.position.set(0, 0.52, 0);
-  avatarGroup.add(headPivot);
-  head = headPivot;
+  // Head
+  const headGeo = new THREE.SphereGeometry(0.16, 12, 12);
+  const headMesh = new THREE.Mesh(headGeo, wireframeMaterial);
+  headMesh.position.set(0, 0.56, 0);
+  model.add(headMesh);
+  head = headMesh;
 
-  // Head Sphere
-  const headGeometry = new THREE.SphereGeometry(0.15, 32, 32);
-  const headMesh = new THREE.Mesh(headGeometry, chromeMaterial);
-  headPivot.add(headMesh);
-
-  // Cyber Helmet Visor (Glows neon cyan)
-  const visorGeometry = new THREE.SphereGeometry(0.152, 32, 16, 0, Math.PI * 2, Math.PI / 3, Math.PI / 3);
-  const visorMesh = new THREE.Mesh(visorGeometry, neonCyanMaterial);
-  visorMesh.position.set(0, 0, 0.01);
-  headPivot.add(visorMesh);
-
-  // Left & Right Eyes (Neon Purple)
-  const eyeGeometry = new THREE.SphereGeometry(0.02, 16, 16);
-  const leftEyeMesh = new THREE.Mesh(eyeGeometry, neonPurpleMaterial);
-  leftEyeMesh.position.set(-0.05, 0.03, 0.13);
-  headPivot.add(leftEyeMesh);
+  // Eyes (Holographic glowing spheres)
+  const eyeGeo = new THREE.SphereGeometry(0.025, 8, 8);
+  const leftEyeMesh = new THREE.Mesh(eyeGeo, jointMaterial);
+  leftEyeMesh.position.set(-0.06, 0.58, 0.12);
+  model.add(leftEyeMesh);
   leftEye = leftEyeMesh;
 
-  const rightEyeMesh = new THREE.Mesh(eyeGeometry, neonPurpleMaterial);
-  rightEyeMesh.position.set(0.05, 0.03, 0.13);
-  headPivot.add(rightEyeMesh);
+  const rightEyeMesh = new THREE.Mesh(eyeGeo, jointMaterial);
+  rightEyeMesh.position.set(0.06, 0.58, 0.12);
+  model.add(rightEyeMesh);
   rightEye = rightEyeMesh;
 
-  // Lower model down slightly
-  avatarGroup.position.set(0, -0.65, 0);
-  scene.add(avatarGroup);
+  // Right Arm Pivot
+  const armPivot = new THREE.Group();
+  armPivot.position.set(0.25, 0.3, 0);
+  model.add(armPivot);
+  rightArm = armPivot;
+
+  const upperArmGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.35, 8);
+  const upperArmMesh = new THREE.Mesh(upperArmGeo, wireframeMaterial);
+  upperArmMesh.position.set(0, -0.17, 0);
+  armPivot.add(upperArmMesh);
+
+  // Forearm Pivot
+  const forearmPivot = new THREE.Group();
+  forearmPivot.position.set(0, -0.35, 0);
+  armPivot.add(forearmPivot);
+  rightForeArm = forearmPivot;
+
+  const forearmGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.32, 8);
+  const forearmMesh = new THREE.Mesh(forearmGeo, wireframeMaterial);
+  forearmMesh.position.set(0, -0.16, 0);
+  forearmPivot.add(forearmMesh);
+
+  const handGeo = new THREE.SphereGeometry(0.035, 8, 8);
+  const handMesh = new THREE.Mesh(handGeo, jointMaterial);
+  handMesh.position.set(0, -0.32, 0);
+  forearmPivot.add(handMesh);
+
+  // Lower model down
+  model.position.set(0, -0.65, 0);
+  scene.add(model);
 }
 
 function initAvatar() {
@@ -187,7 +165,7 @@ function initAvatar() {
 
   // Camera setup
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 0.25, 2.3); // Focused on chest and head
+  camera.position.set(0, 0.25, 2.3);
 
   // Renderer setup
   renderer = new THREE.WebGLRenderer({
@@ -199,23 +177,58 @@ function initAvatar() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   // Lights setup
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
   scene.add(ambientLight);
 
   const dirLight = new THREE.DirectionalLight(0xffffff, 2.0);
   dirLight.position.set(2, 4, 5);
   scene.add(dirLight);
 
-  const rimLight = new THREE.DirectionalLight(0xa855f7, 2.0); // Neon purple back light
+  const rimLight = new THREE.DirectionalLight(0xa855f7, 2.0); // purple rim
   rimLight.position.set(-2, 2, -3);
   scene.add(rimLight);
 
-  const fillLight = new THREE.DirectionalLight(0x00ffd6, 1.5); // Neon cyan fill light
+  const fillLight = new THREE.DirectionalLight(0x00ffd6, 1.5); // cyan fill
   fillLight.position.set(-3, 0, 3);
   scene.add(fillLight);
 
-  // Build the procedural 3D cyber-avatar
-  buildProceduralAvatar();
+  // Try loading local avatar.glb
+  const loader = new GLTFLoader();
+  loader.load(
+    './space/avatar.glb',
+    (gltf) => {
+      isPlaceholder = false;
+      model = gltf.scene;
+      model.position.set(0, -1.6, 0);
+      model.scale.set(1.05, 1.05, 1.05);
+      scene.add(model);
+
+      // Locate RPM bones
+      model.traverse((child) => {
+        if (child.isBone) {
+          const name = child.name.toLowerCase();
+          if (name.includes('neck')) neck = child;
+          if (name.includes('head') && !name.includes('forehead')) head = child;
+          if (name.includes('spine')) spine = child;
+          if (name.includes('lefteye')) leftEye = child;
+          if (name.includes('righteye')) rightEye = child;
+          if (name.includes('rightshoulder')) rightShoulder = child;
+          if (name.includes('rightarm')) rightArm = child;
+          if (name.includes('rightforearm')) rightForeArm = child;
+          if (name.includes('righthand')) rightHand = child;
+        }
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+    },
+    undefined,
+    (error) => {
+      console.warn('avatar.glb not found at src/space/avatar.glb. Loading holographic 3D wireframe placeholder...', error);
+      createPlaceholderAvatar();
+    }
+  );
 
   // Bind folder hover listeners
   const folders = document.querySelectorAll('.desktop-folder-item');
@@ -236,34 +249,43 @@ function animate() {
 
   const time = Date.now() * 0.0015;
 
-  // 1. Idle Breathing Animation (Subtle rotation adjustments on spine/shoulder)
+  // 1. Breathing animation
   if (spine) {
-    spine.rotation.z = Math.sin(time) * 0.015;
-    spine.rotation.y = Math.cos(time * 0.5) * 0.01;
+    spine.rotation.z = Math.sin(time) * 0.012;
+    spine.rotation.y = Math.cos(time * 0.5) * 0.008;
   }
 
-  // 2. Mouse Tracking (Neck, Head, and Eyes follow cursor)
+  // 2. Mouse gaze tracking (Neck & Head and Eyes look at cursor)
   if (neck) {
-    const targetNeckY = mouse.x * 0.42; // Up to ~24 degrees left/right
-    const targetNeckX = -mouse.y * 0.32; // Up to ~18 degrees up/down
+    const targetNeckY = mouse.x * (isPlaceholder ? 0.42 : 0.55); // Rotates neck
+    const targetNeckX = -mouse.y * (isPlaceholder ? 0.32 : 0.4);
     neck.rotation.y = THREE.MathUtils.lerp(neck.rotation.y, targetNeckY, 0.08);
     neck.rotation.x = THREE.MathUtils.lerp(neck.rotation.x, targetNeckX, 0.08);
   }
   if (leftEye && rightEye) {
-    const targetEyeY = mouse.x * 0.22;
-    const targetEyeX = -mouse.y * 0.18;
+    const targetEyeY = mouse.x * 0.28;
+    const targetEyeX = -mouse.y * 0.22;
     leftEye.rotation.y = THREE.MathUtils.lerp(leftEye.rotation.y, targetEyeY, 0.12);
     leftEye.rotation.x = THREE.MathUtils.lerp(leftEye.rotation.x, targetEyeX, 0.12);
     rightEye.rotation.y = THREE.MathUtils.lerp(rightEye.rotation.y, targetEyeY, 0.12);
     rightEye.rotation.x = THREE.MathUtils.lerp(rightEye.rotation.x, targetEyeX, 0.12);
   }
 
-  // 3. Folder Pointing arm interpolation
+  // 3. Right arm point rotation interpolation
   if (rightArm && rightForeArm) {
-    rightArm.rotation.z = THREE.MathUtils.lerp(rightArm.rotation.z, currentTargetPose.shoulderZ, 0.08);
-    rightArm.rotation.x = THREE.MathUtils.lerp(rightArm.rotation.x, currentTargetPose.armX, 0.08);
-    rightArm.rotation.y = THREE.MathUtils.lerp(rightArm.rotation.y, currentTargetPose.armY, 0.08);
-    rightForeArm.rotation.x = THREE.MathUtils.lerp(rightForeArm.rotation.x, currentTargetPose.forearmX, 0.08);
+    if (isPlaceholder) {
+      // Placeholder specific bone rotation mappings
+      rightArm.rotation.z = THREE.MathUtils.lerp(rightArm.rotation.z, currentTargetPose.shoulderZ, 0.08);
+      rightArm.rotation.x = THREE.MathUtils.lerp(rightArm.rotation.x, currentTargetPose.armX, 0.08);
+      rightArm.rotation.y = THREE.MathUtils.lerp(rightArm.rotation.y, currentTargetPose.armY, 0.08);
+      rightForeArm.rotation.x = THREE.MathUtils.lerp(rightForeArm.rotation.x, currentTargetPose.forearmX, 0.08);
+    } else {
+      // RPM anatomical skeleton bone rotation mappings
+      rightArm.rotation.x = THREE.MathUtils.lerp(rightArm.rotation.x, currentTargetPose.armX, 0.08);
+      rightArm.rotation.y = THREE.MathUtils.lerp(rightArm.rotation.y, currentTargetPose.armY, 0.08);
+      rightArm.rotation.z = THREE.MathUtils.lerp(rightArm.rotation.z, currentTargetPose.armZ, 0.08);
+      rightForeArm.rotation.y = THREE.MathUtils.lerp(rightForeArm.rotation.y, currentTargetPose.forearmY, 0.08);
+    }
   }
 
   renderer.render(scene, camera);
@@ -291,7 +313,7 @@ function destroyAvatar() {
 
   scene = null;
   camera = null;
-  avatarGroup = null;
+  model = null;
   isInitialized = false;
 }
 
