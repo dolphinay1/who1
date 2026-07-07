@@ -11,70 +11,70 @@ if (typeof window.CSS !== 'undefined' && typeof window.CSS.registerProperty === 
 const projectsData = {
   crypdolfin: {
     title: "WEB3 Portfolio",
-    desc: "Yazılımcı ya da bu tarz teknoloji işiyle uğraşanların kendilerini ve projelerini tanıtabileceği, modern bir HTML CV/Portfolyo web sitesi.",
+    desc: "Yazılım geliştiriciler ve teknoloji profesyonelleri için tasarlanmış; modern web standartlarına uygun, yüksek performanslı dijital özgeçmiş ve interaktif portfolyo sergileme platformu. Yetkinliklerin ve projelerin görsel olarak zengin bir arayüzle sunulmasını sağlar.",
     tags: ["Web3", "Next.js", "Tailwind CSS", "Ethers.js"],
     img: "./images/proj1.png",
     url: "https://github.com/dolphinay1/crypdolfin-portfolio"
   },
   excel_conversion: {
     title: "Excel Converter",
-    desc: "Karmaşık Excel ve CSV ham veri tabanlarını otomatik olarak temizleyen, B2B lead listelerini yapılandıran ve normalize eden gelişmiş veri dönüşüm aracı.",
+    desc: "Büyük ölçekli, karmaşık ve yapılandırılmamış Excel/CSV veri tabanlarını yüksek doğrulukla işleyen; veri analitiği, temizleme, normalizasyon ve B2B veri optimizasyonu gerçekleştiren kurumsal veri mühendisliği aracı.",
     tags: ["Python", "Pandas", "OpenPyXL", "Data Processing"],
     img: "./images/proj2.png",
     url: "https://github.com/dolphinay1/excel_conversion"
   },
   lead_bot: {
     title: "B2B Lead Bot",
-    desc: "Web altyapısını detaylıca tarayarak potansiyel müşterileri (Lead) tespit eden ve toplayan gelişmiş bir Lead kazıma aracı.",
+    desc: "Hedeflenen kurumsal ağları ve web altyapılarını tarayarak yüksek kaliteli satış fırsatlarını (Lead) otomatik olarak tespit eden, doğrulayan ve yapılandırılmış veri formatlarında raporlayan otonom veri toplama ve analiz sistemi.",
     tags: ["Node.js", "Playwright", "Web Scraping", "Automation"],
     img: "./images/proj3.png",
     url: "https://github.com/dolphinay1/lead_bot"
   },
   marketbot: {
     title: "MarketBot",
-    desc: "Marketing yapma serüvenini daha kolay hale getirmek için tasarlanmış yenilikçi bir web sitesi.",
+    desc: "Kampanya yönetim süreçlerini ve pazarlama operasyonlarını optimize ederek dijital reklamcılık serüvenini kolaylaştırmak, dönüşüm oranlarını artırmak ve veri analitiği sunmak amacıyla geliştirilmiş yenilikçi pazarlama platformu.",
     tags: ["Python", "WebSockets", "Binance API", "Algorithmic Trading"],
     img: "./images/proj4.png",
     url: "https://github.com/dolphinay1/marketbot"
   },
   webiotrader: {
     title: "WebioTrader",
-    desc: "Finansal işlemler, grafik analizleri ve pazar takipleri sunan, webiotrader.com üzerinde barındırılan interaktif portföy yönetim portalı.",
+    desc: "Gerçek zamanlı piyasa veri akışları, gelişmiş grafik analiz araçları ve interaktif portföy izleme modülleriyle donatılmış, yüksek performanslı kurumsal finansal işlem ve analiz portalı.",
     tags: ["HTML5", "CSS3", "Vanilla JS", "TradingView Widgets"],
     img: "./images/proj5.png",
     url: "http://webiotrader.com"
   },
   teandsugar: {
     title: "Tea & Sugar",
-    desc: "Spor istatistiklerini, bahis kasalarını ve cüzdan bakiyelerini yönetmek için tasarlanmış geniş kapsamlı backoffice yönetim paneli.",
+    desc: "Gelişmiş spor istatistikleri veri modellerini, risk yönetimimi algoritmalarını ve çoklu dijital cüzdan bakiyelerini güvenli bir altyapıyla koordine eden, yüksek hacimli operasyonlara özel backoffice yönetim paneli.",
     tags: ["React", "Express.js", "MongoDB", "Admin Panel"],
     img: "./images/proj6.png",
     url: "https://github.com/dolphinay1/teandsugar"
   },
   tostlama: {
     title: "Tostlama",
-    desc: "Restoran ve kafeler için tasarlanmış, tostlama.vercel.app adresinde yayınlanan, temassız karekod (QR) menü sipariş ve yönetim platformu.",
+    desc: "Yiyecek-içecek sektörü işletmeleri için geliştirilmiş; anlık sipariş takibi, dinamik bulut tabanlı menü yönetimi ve temassız QR ödeme entegrasyonu sunan yeni nesil SaaS sipariş ve restoran yönetim platformu.",
     tags: ["React.js", "Next.js", "Firebase Realtime DB", "QR System"],
     img: "./images/proj7.png",
     url: "https://tostlama.vercel.app"
   },
   vertex: {
     title: "VerteX Markets",
-    desc: "Modern finans pazarlarına yönelik premium açılış sayfası (landing page) ve Telegram sinyal entegrasyonu sunan pazarlama platformu.",
+    desc: "Küresel finansal piyasalar için özel olarak tasarlanmış, yüksek dönüşüm odaklı dijital açılış sayfası (landing page) ve anlık işlem sinyallerini güvenle ileten otonom Telegram bot entegrasyonlu pazarlama altyapısı.",
     tags: ["CSS Grid", "Animations", "Telegram Bot API", "UI/UX"],
     img: "./images/proj8.png",
     url: "https://github.com/dolphinay1/vertex-landing"
   },
   future_ai: {
     title: "AI Automation Hub",
-    desc: "Gelecek Proje: Yapay zeka ajanlarını (AI Agents) tek bir merkezden yöneten, otonom iş akışları ve API orkestrasyon paneli.",
+    desc: "Gelecek Proje: Yapay zeka ajanlarının (AI Agents) iş akışlarını, karar alma mekanizmalarını ve API entegrasyonlarını tek bir panelden yöneten, otonom iş süreçleri tasarlama ve orkestrasyon sistemi.",
     tags: ["AI Agents", "LangChain", "Node.js", "FastAPI"],
     img: "./images/proj9.png",
     url: "#"
   },
   future_web3: {
     title: "Web3 Decentra Dashboard",
-    desc: "Gelecek Proje: Kullanıcıların DeFi protokollerindeki tüm varlık ve yield farming metriklerini tek bir ekranda toplayan gösterge paneli.",
+    desc: "Gelecek Proje: Merkeziyetsiz finans (DeFi) ekosistemindeki likidite havuzları, yield farming gelirleri ve akıllı sözleşme cüzdan varlıklarını anlık veri akışlarıyla izleyen kapsamlı Web3 portföy takip ekranı.",
     tags: ["DeFi", "Web3.js", "Smart Contracts", "GraphQL"],
     img: "./images/proj10.png",
     url: "#"
