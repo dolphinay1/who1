@@ -18,35 +18,10 @@
   inherits: true;
   initial-value: 0;
 }
-@property --glow-translate-y {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
 @property --bg-size {
   syntax: "<number>";
   inherits: true;
   initial-value: 0;
-}
-@property --glow-opacity {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-blur {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-@property --glow-scale {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 2;
-}
-@property --glow-radius {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 2;
 }
 @property --white-shadow {
   syntax: "<number>";
@@ -318,10 +293,10 @@ body {
   transform: translate3d(0%, -28px, 60px);
 }
 
-/* 3D Character/Device Layer */
+/* 3D Character/Device Layer (Daha Belirgin: Varsayılan Opacity 0.80) */
 .character {
   width: 90%;
-  opacity: 0.15;
+  opacity: 0.80;
   transition: all var(--interaction-speed) cubic-bezier(0.22, 1, 0.36, 1);
   position: absolute;
   z-index: 1;
@@ -337,61 +312,160 @@ body {
   transform: translate3d(0%, -22%, 120px);
 }
 
-/* Arka plandaki Dönen Renkli Neon Gölge */
+/* Sabit Küçük Neon Alt Yansıma (Görsel 2'deki gibi) */
 .glow {
-  --glow-translate-y: 0;
   display: block;
   position: absolute;
-  width: calc(var(--card-width) / 2);
-  height: calc(var(--card-width) / 2);
-  left: 25%;
-  top: 25%;
-  animation: rotate var(--animation-speed) linear infinite;
-  transform: rotateZ(calc(var(--rotate) * var(--glow-rotate-unit)));
-  transform-origin: center;
-  border-radius: calc(var(--glow-radius) * 10vw);
+  width: 60%;
+  height: 6px;
+  left: 20%;
+  bottom: -3px;
+  background: hsl(calc(var(--hue) * 1deg), 100%, 60%);
+  filter: blur(12px);
+  opacity: 0.6;
+  border-radius: 50%;
   z-index: -3;
   pointer-events: none;
-}
-
-.glow::after {
-  content: "";
-  display: block;
-  filter: blur(calc(var(--glow-blur) * 10px));
-  width: 150%;
-  height: 150%;
-  left: -25%;
-  top: -25%;
-  background: hsl(
-    calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 60%
-  );
-  position: relative;
-  border-radius: calc(var(--glow-radius) * 10vw);
   animation: hue-animation var(--animation-speed) linear infinite;
-  transform: scaleY(calc(var(--glow-scale) * var(--scale-factor) / 1.1))
-    scaleX(calc(var(--glow-scale) * var(--scale-factor) * 1.2))
-    translateY(calc(var(--glow-translate-y) * 1%));
-  opacity: var(--glow-opacity);
+  transition: all var(--interaction-speed) ease;
 }
 
-/* Hover esnasında gölgenin yayılması */
 .chrome-card:hover .glow {
-  --glow-blur: 1.5;
-  --glow-opacity: 0.6;
-  --glow-scale: 2.5;
-  --glow-radius: 0;
-  --rotate: 900;
-  --glow-rotate-unit: 0;
-  --scale-factor: 1.25;
-  animation-play-state: paused;
+  opacity: 0.95;
+  filter: blur(8px);
+  width: 80%;
+  left: 10%;
+  height: 8px;
 }
 
-.chrome-card:hover .glow::after {
-  --glow-translate-y: 0;
-  animation-play-state: paused;
-  transition: --glow-translate-y 0s ease, --glow-blur 0.05s ease,
-    --glow-opacity 0.05s ease, --glow-scale 0.05s ease,
-    --glow-radius 0.05s ease;
+/* Glassmorphic Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 4, 10, 0.8);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 2.5rem 2rem 2rem;
+  width: min(440px, 90%);
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9) translateY(30px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(20px);
+}
+
+.modal-backdrop.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.1rem;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.modal-image {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 25px rgba(0, 255, 214, 0.45));
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 8px 0;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.modal-tags {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.modal-tag {
+  background: rgba(0, 255, 214, 0.08);
+  border: 1px solid rgba(0, 255, 214, 0.2);
+  color: #00ffd6;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modal-desc {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+
+.modal-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(135deg, #00ffd6 0%, #00b4d8 100%);
+  color: #060713;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0, 255, 214, 0.25);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 255, 214, 0.45);
 }
 
 /* Animasyon Tanımları */
@@ -430,29 +504,6 @@ body {
   100% {
     --bg-x: 0;
     --bg-y: 0;
-  }
-}
-
-@keyframes rotate {
-  from {
-    --rotate: -70;
-    --glow-translate-y: -65;
-  }
-  25% {
-    --glow-translate-y: -65;
-  }
-  50% {
-    --glow-translate-y: -65;
-  }
-  60%, 75% {
-    --glow-translate-y: -65;
-  }
-  85% {
-    --glow-translate-y: -65;
-  }
-  to {
-    --rotate: calc(360 - 70);
-    --glow-translate-y: -65;
   }
 }
 
