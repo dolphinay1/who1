@@ -134,5 +134,28 @@ window.addEventListener("DOMContentLoaded", () => {
   const projHeader = projWindow ? projWindow.querySelector(".window-header") : null;
   makeDraggable(compHeader, compWindow);
   makeDraggable(projHeader, projWindow);
+
+  // Projects language buttons logic
+  const projLangTR = document.getElementById("projLangTR");
+  const projLangEN = document.getElementById("projLangEN");
+  if (projLangTR && projLangEN) {
+    projLangTR.addEventListener("click", () => {
+      projLangTR.classList.add("active");
+      projLangEN.classList.remove("active");
+      const iframe = document.querySelector("#proj-macos-window iframe");
+      if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
+        iframe.contentWindow.setLanguage("tr");
+      }
+    });
+
+    projLangEN.addEventListener("click", () => {
+      projLangEN.classList.add("active");
+      projLangTR.classList.remove("active");
+      const iframe = document.querySelector("#proj-macos-window iframe");
+      if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
+        iframe.contentWindow.setLanguage("en");
+      }
+    });
+  }
 });
 

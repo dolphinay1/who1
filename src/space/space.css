@@ -952,6 +952,12 @@
   .window-content .idea-pill {
     width: 60px;
     height: 30px;
+    padding: 4px;
+    justify-content: center;
+  }
+  .window-content .idea-pill .leaf {
+    width: 22px;
+    height: 22px;
   }
 }
 

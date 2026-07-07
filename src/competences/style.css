@@ -70,8 +70,6 @@ body > * {
     background: linear-gradient(180deg, rgba(4, 12, 10, 0.92), rgba(4, 12, 10, 0.78));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid transparent;
-    border-image: linear-gradient(90deg, transparent, rgba(0, 255, 214, 0.35), rgba(192, 132, 252, 0.35), transparent) 1;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -1078,13 +1076,14 @@ body > * {
 }
 
 .skill-item {
+    display: inline-block;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #888888;
     cursor: pointer;
     user-select: none;
-    transition: color 0.25s ease, font-size 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s ease;
 }
 
 .skills-grid:hover .skill-item {
@@ -1093,7 +1092,7 @@ body > * {
 
 .skills-grid .skill-item:hover {
     color: var(--neon-mint, #00ffd6);
-    font-size: 24px;
+    transform: scale(1.3);
     text-shadow: 0 0 15px rgba(0, 255, 214, 0.5);
 }
 
