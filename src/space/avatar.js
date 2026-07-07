@@ -199,8 +199,20 @@ function initAvatar() {
     (gltf) => {
       isPlaceholder = false;
       model = gltf.scene;
-      model.position.set(0, -1.6, 0);
-      model.scale.set(1.05, 1.05, 1.05);
+      
+      // Auto-detect height to handle centimeter vs meter scaling from FBX converters
+      const boundingBox = new THREE.Box3().setFromObject(model);
+      const modelSize = boundingBox.getSize(new THREE.Vector3());
+      const height = modelSize.y;
+      
+      if (height > 10) {
+        // Centimeters (Mixamo FBX exports scaled down by 100)
+        model.scale.set(0.0105, 0.0105, 0.0105);
+      } else {
+        // Meters (RPM native scales)
+        model.scale.set(1.05, 1.05, 1.05);
+      }
+      model.position.set(0, -1.65, 0);
       scene.add(model);
 
       // Locate RPM bones
