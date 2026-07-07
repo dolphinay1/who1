@@ -642,24 +642,7 @@ function drawHiddenText() {
 }
 
 function drawEntranceButton() {
-  if (phase !== "entranceReady") return;
-
-  ctx.save();
-  ctx.globalAlpha = buttonAlpha;
-
-  const btnWidth = Math.max(w * 0.18, 160);
-  const btnHeight = Math.max(h * 0.08, 54);
-
-  // Draw rounded pill container around the sand-spelled Giriş
-  ctx.beginPath();
-  ctx.roundRect(w / 2 - btnWidth / 2, h * 0.48 - btnHeight / 2, btnWidth, btnHeight, btnHeight / 2);
-  ctx.strokeStyle = isHovered ? "rgba(255, 232, 168, 1)" : "rgba(255, 232, 168, 0.35)";
-  ctx.lineWidth = 1.8;
-  ctx.fillStyle = isHovered ? "rgba(255, 232, 168, 0.12)" : "rgba(255, 232, 168, 0.02)";
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.restore();
+  // Pill container removed, button is raw sand-spelled text
 }
 
 function drawFixedCodepen() {
