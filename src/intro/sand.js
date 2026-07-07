@@ -171,7 +171,7 @@ function buildCodepenText() {
   maskCanvas.height = h;
 
   // Responsive font size calculation for 13 chars (yunus aydogdu)
-  const fontSize = Math.min(w / 6.8, h * 0.18, 120);
+  const fontSize = Math.min(w / 8.5, h * 0.18, 120);
 
   maskCtx.clearRect(0, 0, w, h);
   maskCtx.fillStyle = "#fff";
