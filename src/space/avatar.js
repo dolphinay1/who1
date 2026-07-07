@@ -229,3 +229,6 @@ window.AvatarModule = {
   init: initAvatar,
   destroy: destroyAvatar
 };
+
+export { initAvatar, destroyAvatar };
+

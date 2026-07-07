@@ -1,3 +1,5 @@
+import { initAvatar } from './space/avatar.js';
+
 window.addEventListener("DOMContentLoaded", () => {
   if (window.IntroModule && typeof window.IntroModule.init === "function") {
     window.IntroModule.init();
@@ -32,6 +34,8 @@ window.addEventListener("DOMContentLoaded", () => {
           if (window.SpaceModule && typeof window.SpaceModule.init === "function") {
             window.SpaceModule.init();
           }
+
+          initAvatar();
 
           if (rainAudio) {
             let vol = 1.0;
