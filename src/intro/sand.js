@@ -240,7 +240,6 @@ function buildGirisText() {
       if (alpha > 35) {
         const i = index(col, row);
 
-        fixedCodepen[i] = 1;
         codepenCells.push(i);
         looseCells.push(i);
       }

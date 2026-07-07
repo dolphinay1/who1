@@ -1,18 +1,12 @@
 window.addEventListener("DOMContentLoaded", () => {
   const introViewport = document.getElementById("intro-viewport");
   const spaceViewport = document.getElementById("space-viewport");
-  const rainAudio = document.getElementById("rain-audio");
 
   let isTransitionTriggered = false;
 
   window.triggerDesktopTransition = () => {
     if (isTransitionTriggered) return;
     isTransitionTriggered = true;
-
-    if (rainAudio) {
-      rainAudio.volume = 1.0;
-      rainAudio.play().catch(() => {});
-    }
 
     if (introViewport && spaceViewport) {
       introViewport.classList.remove("active");
@@ -22,19 +16,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
       if (window.SpaceModule && typeof window.SpaceModule.init === "function") {
         window.SpaceModule.init();
-      }
-
-      if (rainAudio) {
-        let vol = 1.0;
-        const fadeInterval = setInterval(() => {
-          vol -= 0.05;
-          if (vol <= 0) {
-            vol = 0;
-            rainAudio.pause();
-            clearInterval(fadeInterval);
-          }
-          rainAudio.volume = vol;
-        }, 75);
       }
     }
   };
