@@ -10,8 +10,8 @@ if (typeof window.CSS !== 'undefined' && typeof window.CSS.registerProperty === 
 // Project database containing detailed information for each card
 const projectsData = {
   crypdolfin: {
-    title: "Crypdolfin",
-    desc: "Kripto para analizi, büyüme stüdyosu ve Web3 portfolyo platformu. Blockchain veri analitiği, modern cüzdan takipleri ve yatırımcı özetleri içerir.",
+    title: "WEB3 Portfolio",
+    desc: "Yazılımcı ya da bu tarz teknoloji işiyle uğraşanların kendilerini ve projelerini tanıtabileceği, modern bir HTML CV/Portfolyo web sitesi.",
     tags: ["Web3", "Next.js", "Tailwind CSS", "Ethers.js"],
     img: "./images/proj1.png",
     url: "https://github.com/dolphinay1/crypdolfin-portfolio"
@@ -25,14 +25,14 @@ const projectsData = {
   },
   lead_bot: {
     title: "B2B Lead Bot",
-    desc: "Google Haritalar ve LinkedIn gibi platformlardan B2B şirket e-postalarını, telefon numaralarını ve sosyal medya bağlantılarını toplayan Playwright tabanlı kazıma botu.",
+    desc: "Web altyapısını detaylıca tarayarak potansiyel müşterileri (Lead) tespit eden ve toplayan gelişmiş bir Lead kazıma aracı.",
     tags: ["Node.js", "Playwright", "Web Scraping", "Automation"],
     img: "./images/proj3.png",
     url: "https://github.com/dolphinay1/lead_bot"
   },
   marketbot: {
     title: "MarketBot",
-    desc: "Kripto para borsalarında likidite sağlamak ve fiyat farklarından yararlanmak amacıyla geliştirilmiş otomatik piyasa yapıcı ve arbitraj botu.",
+    desc: "Marketing yapma serüvenini daha kolay hale getirmek için tasarlanmış yenilikçi bir web sitesi.",
     tags: ["Python", "WebSockets", "Binance API", "Algorithmic Trading"],
     img: "./images/proj4.png",
     url: "https://github.com/dolphinay1/marketbot"

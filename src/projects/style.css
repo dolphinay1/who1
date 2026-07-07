@@ -262,25 +262,26 @@ body {
   opacity: 0.7;
 }
 
-/* Premium Gold Serif Title (Görsel 2 ve 3'teki "THE DARK RIDER" Stili) */
+/* Premium Modern Tech Title (White with neon cyan drop shadow) */
 .title {
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 1.1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.15rem;
   font-weight: 800;
-  color: #f1c40f; /* Gold style */
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 255, 214, 0.4), 0 2px 4px rgba(0, 0, 0, 0.85);
   z-index: 2;
   margin: 0 0 24px 0;
-  transition: transform var(--interaction-speed) cubic-bezier(0.22, 1, 0.36, 1), color var(--interaction-speed) ease;
+  transition: transform var(--interaction-speed) cubic-bezier(0.22, 1, 0.36, 1), color var(--interaction-speed) ease, text-shadow var(--interaction-speed) ease;
   text-align: center;
   width: 100%;
-  letter-spacing: 0.05em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
 }
 
 .chrome-card:hover .title {
   transform: translate3d(0%, -10px, 80px) scale(1.05);
-  color: #f39c12; /* Deep Gold */
+  color: #00ffd6; /* Cyber Cyan */
+  text-shadow: 0 0 15px rgba(0, 255, 214, 0.8), 0 2px 6px rgba(0, 0, 0, 0.85);
 }
 
 /* 3D Pop-out Character/Device (Orta Konumlanmış, Boşta Gizli: Opacity 0) */
