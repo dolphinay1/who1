@@ -8,43 +8,43 @@ let animationFrameId = null;
 let isInitialized = false;
 let isPlaceholder = false;
 
-// Pose presets tailored for standard Ready Player Me (RPM) skeletal structure
+// Pose presets tailored for standard Ready Player Me (RPM) and Mixamo skeletal structures
 const idlePose = {
   shoulderZ: 0,
-  armX: 0.1,
-  armY: 0.1,
-  armZ: -1.3, // Arm pointing down at side
+  armX: 0,
+  armY: -0.1,    // Resting position
+  armZ: -1.3,    // Pointing straight down at side
   forearmY: 0.15
 };
 
 const pointingPoses = {
   'desktop-folder': { // Top-Left ("Who is Yunus?")
     shoulderZ: 0.1,
-    armX: 0.3,
-    armY: -0.8, // Brought forward
-    armZ: -0.3, // Raised up
-    forearmY: -0.2
+    armX: 0.2,
+    armY: -1.2,    // Swing forward
+    armZ: 0.35,    // Raise up
+    forearmY: -0.3 // Bend elbow slightly
   },
   'exp-desktop-folder': { // Top-Right ("Experience's")
     shoulderZ: 0.1,
-    armX: -0.3,
-    armY: -0.8, // Brought forward
-    armZ: -0.3, // Raised up
-    forearmY: -0.2
+    armX: -0.2,
+    armY: -1.2,    // Swing forward
+    armZ: 0.35,    // Raise up
+    forearmY: -0.3 // Bend elbow slightly
   },
   'comp-desktop-folder': { // Bottom-Left ("Competencie's")
     shoulderZ: 0.05,
-    armX: 0.2,
-    armY: -0.6,
-    armZ: -0.6,
-    forearmY: -0.15
+    armX: 0.15,
+    armY: -1.0,
+    armZ: -0.15,
+    forearmY: -0.25
   },
   'proj-desktop-folder': { // Bottom-Right ("Project's")
     shoulderZ: 0.05,
-    armX: -0.2,
-    armY: -0.6,
-    armZ: -0.6,
-    forearmY: -0.15
+    armX: -0.15,
+    armY: -1.0,
+    armZ: -0.15,
+    forearmY: -0.25
   }
 };
 
@@ -165,7 +165,7 @@ function initAvatar() {
 
   // Camera setup
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 0.25, 2.3);
+  camera.position.set(0, 0.2, 2.1); // Camera adjusted to focus face/torso properly
 
   // Renderer setup
   renderer = new THREE.WebGLRenderer({
@@ -176,19 +176,19 @@ function initAvatar() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Lights setup
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+  // Lights setup - Toned down intensities to prevent overexposure (flat white color issue)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
   scene.add(ambientLight);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 2.0);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.25);
   dirLight.position.set(2, 4, 5);
   scene.add(dirLight);
 
-  const rimLight = new THREE.DirectionalLight(0xa855f7, 2.0); // purple rim
+  const rimLight = new THREE.DirectionalLight(0xa855f7, 1.4); // neon purple backlight
   rimLight.position.set(-2, 2, -3);
   scene.add(rimLight);
 
-  const fillLight = new THREE.DirectionalLight(0x00ffd6, 1.5); // cyan fill
+  const fillLight = new THREE.DirectionalLight(0x00ffd6, 1.15); // neon cyan fill light
   fillLight.position.set(-3, 0, 3);
   scene.add(fillLight);
 
@@ -215,7 +215,7 @@ function initAvatar() {
       model.position.set(0, -1.65, 0);
       scene.add(model);
 
-      // Locate RPM bones
+      // Apply premium cyber-skin dark chrome styling overrides to prevent untextured white issue
       model.traverse((child) => {
         if (child.isBone) {
           const name = child.name.toLowerCase();
@@ -225,13 +225,47 @@ function initAvatar() {
           if (name.includes('lefteye')) leftEye = child;
           if (name.includes('righteye')) rightEye = child;
           if (name.includes('rightshoulder')) rightShoulder = child;
-          if (name.includes('rightarm')) rightArm = child;
+          
+          // Match standard Ready Player Me ('rightarm') and Mixamo ('rightuparm') bones
+          if (name.includes('rightarm') || name.includes('rightuparm')) rightArm = child;
           if (name.includes('rightforearm')) rightForeArm = child;
           if (name.includes('righthand')) rightHand = child;
         }
+        
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
+
+          const meshName = child.name.toLowerCase();
+          
+          if (child.material) {
+            child.material = child.material.clone();
+            
+            // Neon accent detailing
+            if (meshName.includes('eye') || meshName.includes('glow') || meshName.includes('visor')) {
+              // Glowing neon cyan eyes
+              child.material.color.setHex(0x00ffd6);
+              if (child.material.emissive) {
+                child.material.emissive.setHex(0x00ffd6);
+                child.material.emissiveIntensity = 2.0;
+              }
+            } else if (meshName.includes('hair') || meshName.includes('headwear')) {
+              // Slick dark metal hair
+              child.material.color.setHex(0x0a0b12);
+              child.material.roughness = 0.7;
+              child.material.metalness = 0.3;
+            } else if (meshName.includes('body') || meshName.includes('outfit') || meshName.includes('tops') || meshName.includes('bottoms') || meshName.includes('footwear')) {
+              // Cybernetic dark suit
+              child.material.color.setHex(0x13141f); 
+              child.material.roughness = 0.3;
+              child.material.metalness = 0.8;
+            } else {
+              // Sleek dark grey/chrome body skin
+              child.material.color.setHex(0x1a1c29);
+              child.material.roughness = 0.2;
+              child.material.metalness = 0.75;
+            }
+          }
         }
       });
     },
@@ -292,7 +326,7 @@ function animate() {
       rightArm.rotation.y = THREE.MathUtils.lerp(rightArm.rotation.y, currentTargetPose.armY, 0.08);
       rightForeArm.rotation.x = THREE.MathUtils.lerp(rightForeArm.rotation.x, currentTargetPose.forearmX, 0.08);
     } else {
-      // RPM anatomical skeleton bone rotation mappings
+      // RPM/Mixamo anatomical skeleton bone rotation mappings
       rightArm.rotation.x = THREE.MathUtils.lerp(rightArm.rotation.x, currentTargetPose.armX, 0.08);
       rightArm.rotation.y = THREE.MathUtils.lerp(rightArm.rotation.y, currentTargetPose.armY, 0.08);
       rightArm.rotation.z = THREE.MathUtils.lerp(rightArm.rotation.z, currentTargetPose.armZ, 0.08);
