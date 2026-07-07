@@ -61,7 +61,7 @@
   /* Glowing chrome settings */
   --card-color: hsl(260deg 100% 3%);
   --text-color: hsl(260deg 10% 55%);
-  --border-width: 4px;
+  --border-width: 3px;
   --bg-size: 1;
   --hue: 0;
   --hue-speed: 1;
@@ -71,7 +71,7 @@
   --glow-scale: 1.5;
   --scale-factor: 1;
   --glow-blur: 6;
-  --glow-opacity: 0.4;
+  --glow-opacity: 1;
   --glow-radius: 100;
   --glow-rotate-unit: 1deg;
 }
@@ -138,7 +138,7 @@ body {
   padding-bottom: 4rem;
 }
 
-/* Hybrid Chrome 3D Card */
+/* Hybrid Chrome 3D Card Wrapper */
 .chrome-card {
   width: var(--card-width);
   height: var(--card-height);
@@ -147,7 +147,52 @@ body {
   perspective: 2500px;
 }
 
-/* 3D Card shell container */
+/* Glowing Chrome Body (overflow visible) */
+.chrome-body {
+  position: absolute;
+  inset: 0;
+  background: var(--card-color);
+  border-radius: 28px;
+  transition: all var(--interaction-speed) ease;
+}
+
+.chrome-card:hover .chrome-body {
+  mix-blend-mode: darken;
+  box-shadow: 0 0 calc(var(--white-shadow) * 1vw) calc(var(--white-shadow) * 0.15vw) rgba(255, 255, 255, 0.2);
+  animation: shadow-pulse calc(var(--animation-speed) * 2) linear infinite;
+}
+
+/* Dönen Metalik Sınır Çizgisi (Radial Gradient) */
+.chrome-body::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: calc(100% + var(--border-width));
+  height: calc(100% + var(--border-width));
+  top: calc(var(--border-width) * -0.5);
+  left: calc(var(--border-width) * -0.5);
+  border-radius: 28px;
+  box-shadow: 0 0 20px black;
+  mix-blend-mode: color-burn;
+  z-index: -1;
+  background: #292929 radial-gradient(
+    30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
+    hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 90%) calc(0% * var(--bg-size)),
+    hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 80%) calc(20% * var(--bg-size)),
+    hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 60%) calc(40% * var(--bg-size)),
+    transparent 100%
+  );
+  animation: hue-animation var(--animation-speed) linear infinite,
+    rotate-bg var(--animation-speed) linear infinite;
+  transition: --bg-size var(--interaction-speed) ease;
+}
+
+.chrome-card:hover .chrome-body::before {
+  --bg-size: 15;
+  animation-play-state: paused;
+}
+
+/* 3D Perspektif ve Yerleşim Katmanı (cardhover) */
 .card {
   width: 100%;
   height: 100%;
@@ -156,23 +201,17 @@ body {
   justify-content: center;
   align-items: flex-end;
   padding: 0 24px;
-  transform-style: preserve-3d;
-  transition: transform var(--interaction-speed) cubic-bezier(0.22, 1, 0.36, 1);
+  perspective: 2500px;
 }
 
-.chrome-card:hover .card {
-  transform: rotate3d(1, 1, 0, 20deg);
-}
-
-/* Card Body Wrapper */
+/* 3D Kapak Kutusu (overflow hidden - resmi kırpar) */
 .wrapper {
   transition: all var(--interaction-speed) cubic-bezier(0.22, 1, 0.36, 1);
   position: absolute;
   inset: 0;
-  border-radius: 28px;
+  border-radius: 26px; /* chrome-body'nin sınırlarının içinde durması için */
   z-index: -1;
   overflow: hidden;
-  background: var(--card-color);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -181,47 +220,32 @@ body {
   box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
 }
 
-/* Moving Chrome Border Gradient */
-.wrapper::before {
-  content: "";
-  display: block;
-  position: absolute;
-  inset: -3px;
-  border-radius: 28px;
-  z-index: -2;
-  box-shadow: 0 0 20px black;
-  mix-blend-mode: color-burn;
-  background: hsl(0deg 0% 16%)
-    radial-gradient(
-      30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg) 100% 90%)
-        calc(0% * var(--bg-size)),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg) 100% 80%)
-        calc(20% * var(--bg-size)),
-      hsl(calc(calc(var(--hue) * var(--hue-speed)) * 1deg) 100% 60%)
-        calc(40% * var(--bg-size)),
-      transparent 100%
-    );
-  animation: hue-animation var(--animation-speed) linear infinite,
-    rotate-bg var(--animation-speed) linear infinite;
-  transition: --bg-size var(--interaction-speed) ease;
-}
-
-.chrome-card:hover .wrapper::before {
-  --bg-size: 15;
-  animation-play-state: paused;
-}
-
-/* Bottom shadow reflection for wrapper */
+/* Cardhover içi karanlık degradeler */
+.wrapper::before,
 .wrapper::after {
   content: "";
-  opacity: 1;
+  opacity: 0;
   width: 100%;
   height: 80px;
   transition: all var(--interaction-speed) ease;
   position: absolute;
   left: 0;
+}
+
+.wrapper::before {
+  top: 0;
+  height: 100%;
+  background-image: linear-gradient(
+    to top,
+    transparent 46%,
+    rgba(12, 13, 19, 0.5) 68%,
+    rgba(12, 13, 19) 97%
+  );
+}
+
+.wrapper::after {
   bottom: 0;
+  opacity: 1;
   background-image: linear-gradient(
     to bottom,
     transparent 46%,
@@ -230,8 +254,13 @@ body {
   );
 }
 
+.chrome-card:hover .wrapper::before {
+  opacity: 1;
+}
+
 .chrome-card:hover .wrapper::after {
   height: 120px;
+  opacity: 1;
 }
 
 /* Cover Image */
@@ -239,7 +268,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 28px;
+  border-radius: 26px;
   display: block;
 }
 
@@ -272,7 +301,7 @@ body {
   transform: translate3d(0%, -20%, 120px);
 }
 
-/* Rotating Shadow Glow (behind the card) */
+/* Arka plandaki Dönen Renkli Neon Gölge */
 .glow {
   --glow-translate-y: 0;
   display: block;
@@ -298,7 +327,7 @@ body {
   left: -25%;
   top: -25%;
   background: hsl(
-    calc(calc(var(--hue) * var(--hue-speed)) * 1deg) 100% 60%
+    calc(calc(var(--hue) * var(--hue-speed)) * 1deg), 100%, 60%
   );
   position: relative;
   border-radius: calc(var(--glow-radius) * 10vw);
@@ -309,7 +338,7 @@ body {
   opacity: var(--glow-opacity);
 }
 
-/* Interactive Glow changes on hover */
+/* Hover esnasında gölgenin yayılması */
 .chrome-card:hover .glow {
   --glow-blur: 1.5;
   --glow-opacity: 0.6;
@@ -329,7 +358,22 @@ body {
     --glow-radius 0.05s ease;
 }
 
-/* Animations */
+/* Animasyon Tanımları */
+@keyframes shadow-pulse {
+  0%, 24%, 46%, 73%, 96% {
+    --white-shadow: 0.5;
+  }
+  12%, 28%, 41%, 63%, 75%, 82%, 98% {
+    --white-shadow: 2.5;
+  }
+  6%, 32%, 57% {
+    --white-shadow: 1.3;
+  }
+  18%, 52%, 88% {
+    --white-shadow: 3.5;
+  }
+}
+
 @keyframes rotate-bg {
   0% {
     --bg-x: 0;
@@ -364,8 +408,7 @@ body {
   50% {
     --glow-translate-y: -65;
   }
-  60%,
-  75% {
+  60%, 75% {
     --glow-translate-y: -65;
   }
   85% {
