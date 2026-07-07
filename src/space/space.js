@@ -478,6 +478,10 @@ function initSpaceModule() {
 
   window.addEventListener("resize", handleResize);
 
+  if (window.AvatarModule && typeof window.AvatarModule.init === "function") {
+    window.AvatarModule.init();
+  }
+
   // Folder click interaction
   const folder = document.getElementById("desktop-folder");
   const win = document.getElementById("macos-window");
@@ -572,6 +576,10 @@ function destroySpaceModule() {
   window.removeEventListener("resize", handleResize);
   spaceRenderer = null;
   spacePointers = null;
+
+  if (window.AvatarModule && typeof window.AvatarModule.destroy === "function") {
+    window.AvatarModule.destroy();
+  }
 }
 
 // Export module functions globally
