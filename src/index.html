@@ -18,48 +18,15 @@
   <body>
     <!-- ============ INTRO MODULE VIEWPORT ============ -->
     <div id="intro-viewport" class="viewport active">
-      <!-- Background Rain image and canvas (entry gate) -->
-      <img id="custom-bg" class="background-layer" src="./space_bg.png" alt="Nebula space background">
-      <canvas id="bg-canvas" class="background-layer"></canvas>
+      <!-- Sand Particle Animation Canvas -->
+      <div id="app">
+        <canvas id="sandCanvas"></canvas>
+      </div>
 
       <!-- Rain Sound -->
       <audio id="rain-audio" loop preload="auto">
         <source src="https://fyildiz1974.github.io/web/files/rain.mp3" type="audio/mpeg">
       </audio>
-
-      <!-- Loader & Switcher Overlay -->
-      <div id="loading-container">
-        <fieldset class="switcher">
-          <legend class="switcher__legend">Choose theme</legend>
-          <label class="switcher__option">
-            <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked />
-            <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-              <path fill="var(--c)" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd" />
-              <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-2.853-.927a1 1 0 1 1 .618-1.902l2.854.927ZM25.862 27.159a1 1 0 0 1-1.618 1.175l-1.763-2.427a1 1 0 1 1 1.618-1.175l1.763 2.427ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1-.618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z" />
-            </svg>
-          </label>
-          <label class="switcher__option">
-            <input class="switcher__input" type="radio" name="theme" value="dark" c-option="2" />
-            <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-              <path fill="var(--c)" d="M12.5 8.473a10.968 10.968 0 0 1 8.785-.97 7.435 7.435 0 0 0-3.737 4.672l-.09.373A7.454 7.454 0 0 0 28.732 20.4a10.97 10.97 0 0 1-5.232 7.125l-.497.27c-5.014 2.566-11.175.916-14.234-3.813l-.295-.483C5.53 18.403 7.13 11.93 12.017 8.77l.483-.297Zm4.234.616a8.946 8.946 0 0 0-2.805.883l-.429.234A9 9 0 0 0 10.206 22.5l.241.395A9 9 0 0 0 22.5 25.794l.416-.255a8.94 8.94 0 0 0 2.167-1.99 9.433 9.433 0 0 1-2.782-.313c-5.043-1.352-8.036-6.535-6.686-11.578l.147-.491c.242-.745.573-1.44.972-2.078Z" />
-            </svg>
-          </label>
-          <label class="switcher__option">
-            <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3" />
-            <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-              <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z" />
-            </svg>
-          </label>
-          <div class="switcher__filter">
-            <svg>
-              <filter id="switcher" primitiveUnits="objectBoundingBox">
-                <feImage result="map" width="100%" height="100%" x="0" y="0" href="data:image/webp;base64,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" />
-              </filter>
-            </svg>
-          </div>
-        </fieldset>
-      </div>
-    </div>
 
     <!-- ============ SPACE MODULE VIEWPORT ============ -->
     <div id="space-viewport" class="viewport">
@@ -285,9 +252,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <!-- Import modular logic scripts -->
-    <script src="./intro/intro.js"></script>
-    <script src="./space/space.js"></script>
-    <script src="./experiences/experiences.js"></script>
+    <script type="module" src="./intro/sand.js"></script>
+    <script type="module" src="./space/space.js"></script>
+    <script type="module" src="./experiences/experiences.js"></script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
