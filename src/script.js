@@ -135,6 +135,33 @@ window.addEventListener("DOMContentLoaded", () => {
   makeDraggable(compHeader, compWindow);
   makeDraggable(projHeader, projWindow);
 
+  // Video window draggable and click logic
+  const videoFolder = document.getElementById("video-desktop-folder");
+  const videoWindow = document.getElementById("video-macos-window");
+  const videoCloseBtn = document.getElementById("videoCloseBtn");
+  const videoElement = document.getElementById("intro-video-element");
+
+  if (videoFolder && videoWindow) {
+    videoFolder.addEventListener("click", () => {
+      videoWindow.classList.add("open");
+      if (videoElement) {
+        videoElement.play().catch(() => {});
+      }
+    });
+  }
+
+  if (videoCloseBtn && videoWindow) {
+    videoCloseBtn.addEventListener("click", () => {
+      videoWindow.classList.remove("open");
+      if (videoElement) {
+        videoElement.pause();
+      }
+    });
+  }
+
+  const videoHeader = videoWindow ? videoWindow.querySelector(".window-header") : null;
+  makeDraggable(videoHeader, videoWindow);
+
   // Projects language buttons logic
   const projLangTR = document.getElementById("projLangTR");
   const projLangEN = document.getElementById("projLangEN");

@@ -82,6 +82,19 @@
           </div>
           <span class="icon-label">Project's</span>
         </div>
+
+        <div id="video-desktop-folder" class="desktop-folder-item">
+          <div class="folder">
+            <div class="folder__back">
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="paper"></div>
+              <div class="folder__front"></div>
+              <div class="folder__front right"></div>
+            </div>
+          </div>
+          <span class="icon-label">Video.mp4</span>
+        </div>
         
         <!-- macOS Window Container -->
         <div id="macos-window" class="macos-window hidden-window">
@@ -244,6 +257,24 @@
           </div>
           <div class="window-content" style="background:#030303; height: 100%;">
             <iframe src="./projects/index.html" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+          </div>
+        </div>
+
+        <!-- Video macOS Window -->
+        <div id="video-macos-window" class="macos-window">
+          <div class="window-header">
+            <div class="window-controls">
+              <div class="window-dot dot-red" id="videoCloseBtn" title="Kapat"></div>
+              <div class="window-dot dot-orange" title="Simge Durumuna Getir"></div>
+              <div class="window-dot dot-green" title="Ekranı Kapla"></div>
+            </div>
+            <div class="window-title">Video Player</div>
+          </div>
+          <div class="window-content" style="background:#000; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+            <video id="intro-video-element" controls style="width: 100%; height: 100%; object-fit: contain; display: block;">
+              <source src="./video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
