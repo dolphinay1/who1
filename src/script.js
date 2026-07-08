@@ -14,6 +14,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
       spaceViewport.classList.add("active");
 
+      // Play background video on transition
+      const bgVideo = document.getElementById("space-bg-video");
+      if (bgVideo) {
+        bgVideo.play().catch(() => {});
+      }
+
       if (window.SpaceModule && typeof window.SpaceModule.init === "function") {
         window.SpaceModule.init();
       }
