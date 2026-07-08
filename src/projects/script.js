@@ -165,7 +165,6 @@ function openProject(projectId) {
 
   activeProjectId = projectId;
   
-  document.getElementById('modalImage').src = project.img;
   document.getElementById('modalTitle').textContent = project.title;
   document.getElementById('modalDesc').textContent = project.desc;
   

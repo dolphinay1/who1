@@ -5,8 +5,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        root: resolve(__dirname, 'index.html'),
-        main: resolve(__dirname, 'src/index.html'),
+        main: resolve(__dirname, 'index.html'),
         competences: resolve(__dirname, 'src/competences/index.html'),
         projects: resolve(__dirname, 'src/projects/index.html')
       }
