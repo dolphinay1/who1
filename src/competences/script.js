@@ -352,6 +352,7 @@
     if (!descBox) return;
     
     items.forEach(function (item) {
+      // Desktop Hover
       item.addEventListener("mouseenter", function () {
         var desc = item.getAttribute("data-desc");
         descBox.textContent = desc;
@@ -360,6 +361,20 @@
       item.addEventListener("mouseleave", function () {
         descBox.classList.remove("active");
       });
+
+      // Mobile Touch/Click Toggle
+      var showDesc = function (e) {
+        if (e.type === 'touchstart') e.preventDefault();
+        var desc = item.getAttribute("data-desc");
+        if (descBox.textContent === desc && descBox.classList.contains("active")) {
+          descBox.classList.remove("active");
+        } else {
+          descBox.textContent = desc;
+          descBox.classList.add("active");
+        }
+      };
+      item.addEventListener("click", showDesc);
+      item.addEventListener("touchstart", showDesc, { passive: false });
     });
   }
 

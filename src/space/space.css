@@ -219,11 +219,13 @@
 /* Window Content Scrollable Area */
 .window-content {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto !important;
   overflow-x: hidden;
   background: #efede8;
   color: #0d0d10;
   position: relative;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: auto !important;
 }
 
 /* ==========================================

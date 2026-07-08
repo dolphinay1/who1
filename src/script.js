@@ -168,28 +168,53 @@ window.addEventListener("DOMContentLoaded", () => {
   const videoHeader = videoWindow ? videoWindow.querySelector(".window-header") : null;
   makeDraggable(videoHeader, videoWindow);
 
-  // Projects language buttons logic
-  const projLangTR = document.getElementById("projLangTR");
-  const projLangEN = document.getElementById("projLangEN");
-  if (projLangTR && projLangEN) {
-    projLangTR.addEventListener("click", () => {
-      projLangTR.classList.add("active");
-      projLangEN.classList.remove("active");
-      const iframe = document.querySelector("#proj-macos-window iframe");
-      if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
-        iframe.contentWindow.setLanguage("tr");
-      }
-    });
+  // Helper for mobile responsive language buttons
+  function bindLangButtons(trBtnId, enBtnId, onSwitch) {
+    const trBtn = document.getElementById(trBtnId);
+    const enBtn = document.getElementById(enBtnId);
+    if (!trBtn || !enBtn) return;
 
-    projLangEN.addEventListener("click", () => {
-      projLangEN.classList.add("active");
-      projLangTR.classList.remove("active");
-      const iframe = document.querySelector("#proj-macos-window iframe");
-      if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
-        iframe.contentWindow.setLanguage("en");
+    const selectLanguage = (lang) => {
+      if (lang === 'tr') {
+        trBtn.classList.add("active");
+        enBtn.classList.remove("active");
+        onSwitch("tr");
+      } else {
+        enBtn.classList.add("active");
+        trBtn.classList.remove("active");
+        onSwitch("en");
       }
-    });
+    };
+
+    const setupEvents = (btn, lang) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        selectLanguage(lang);
+      });
+      btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        selectLanguage(lang);
+      }, { passive: false });
+    };
+
+    setupEvents(trBtn, 'tr');
+    setupEvents(enBtn, 'en');
   }
+
+  // Projects language buttons
+  bindLangButtons("projLangTR", "projLangEN", (lang) => {
+    const iframe = document.querySelector("#proj-macos-window iframe");
+    if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
+      iframe.contentWindow.setLanguage(lang);
+    }
+  });
+
+  // Experiences language buttons
+  bindLangButtons("expLangTR", "expLangEN", (lang) => {
+    if (window.ExperiencesModule && typeof window.ExperiencesModule.switchLanguage === "function") {
+      window.ExperiencesModule.switchLanguage(lang);
+    }
+  });
 
   // Liquid Glass Switcher Animation Helper
   const liquidSwitcher = document.querySelector(".switcher");

@@ -528,7 +528,7 @@ const ExperiencesModule = (() => {
     initialized = false;
   }
 
-  return { init, destroy };
+  return { init, destroy, switchLanguage };
 })();
 
 window.ExperiencesModule = ExperiencesModule;

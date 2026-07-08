@@ -208,18 +208,36 @@ function initSpaceModule() {
   const langBtnTR = document.getElementById("langBtnTR");
   const langBtnEN = document.getElementById("langBtnEN");
   if (langBtnTR && langBtnEN) {
-    langBtnTR.addEventListener("click", () => {
-      langBtnTR.classList.add("active");
-      langBtnEN.classList.remove("active");
-      applyTranslation("tr");
+    const handleSwitch = (lang) => {
+      if (lang === 'tr') {
+        langBtnTR.classList.add("active");
+        langBtnEN.classList.remove("active");
+        applyTranslation("tr");
+      } else {
+        langBtnEN.classList.add("active");
+        langBtnTR.classList.remove("active");
+        applyTranslation("en");
+      }
       ScrollTrigger.refresh();
+    };
+
+    langBtnTR.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleSwitch("tr");
     });
-    langBtnEN.addEventListener("click", () => {
-      langBtnEN.classList.add("active");
-      langBtnTR.classList.remove("active");
-      applyTranslation("en");
-      ScrollTrigger.refresh();
+    langBtnTR.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      handleSwitch("tr");
+    }, { passive: false });
+
+    langBtnEN.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleSwitch("en");
     });
+    langBtnEN.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      handleSwitch("en");
+    }, { passive: false });
   }
 
   // Window header draggable bindings
