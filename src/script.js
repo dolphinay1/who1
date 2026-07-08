@@ -190,5 +190,32 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Liquid Glass Switcher Animation Helper
+  const liquidSwitcher = document.querySelector(".switcher");
+  if (liquidSwitcher) {
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[name="theme"]');
+      let previousValue = null;
+
+      // init first select
+      const initiallyChecked = el.querySelector('input[name="theme"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute("c-previous", previousValue);
+      }
+
+      radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          if (radio.checked) {
+            el.setAttribute("c-previous", previousValue ?? "");
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    };
+
+    trackPrevious(liquidSwitcher);
+  }
 });
 
