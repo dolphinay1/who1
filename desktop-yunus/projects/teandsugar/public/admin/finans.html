@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Finans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+    <link rel="stylesheet" href="/admin/phase2-integration.css">
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanıcılar" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                </a>
+                <a href="/admin/kuponlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-wallet"></i> Finans Yönetimi</h1>
+                <p class="subtitle">Yatırım ve çekim taleplerini buradan yönetebilirsin.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="loadAll()">
+                    <i class="fas fa-sync-alt"></i>
+                    Yenile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card success stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bekleyen Yatırım</h4>
+                        <div class="value" id="pendingDeposits">₺ 0</div>
+                        <div class="change" style="background: var(--success-light); color: var(--success);">
+                            <i class="fas fa-clock"></i>
+                            <span id="pendingDepositCount">0 talep</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card danger stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bekleyen Çekim</h4>
+                        <div class="value" id="pendingWithdraws">₺ 0</div>
+                        <div class="change" style="background: var(--danger-light); color: var(--danger);">
+                            <i class="fas fa-clock"></i>
+                            <span id="pendingWithdrawCount">0 talep</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon danger">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card info stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bugün Onaylanan</h4>
+                        <div class="value" id="todayApproved">₺ 0</div>
+                        <div class="change" style="background: var(--info-light); color: var(--info);">
+                            <i class="fas fa-check"></i>
+                            <span>Tamamlandı</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon info">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card warning stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bugün Toplam İşlem</h4>
+                        <div class="value" id="todayTotal">0</div>
+                        <div class="change" style="background: var(--warning-light); color: var(--warning);">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>İşlem</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <select class="form-control form-select" id="filterStatus" style="max-width: 200px;"
+                onchange="loadTransactions()">
+                <option value="">Tüm Durumlar</option>
+                <option value="pending">Bekleyen</option>
+                <option value="approved">Onaylanan</option>
+                <option value="rejected">Reddedilen</option>
+            </select>
+            <select class="form-control form-select" id="filterType" style="max-width: 200px;"
+                onchange="loadTransactions()">
+                <option value="">Tüm İşlemler</option>
+                <option value="deposit">Yatırım</option>
+                <option value="withdraw">Çekim</option>
+            </select>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h3><i class="fas fa-exchange-alt"></i> Finansal Hareketler</h3>
+                <span class="badge badge-primary" id="transactionCount">0 işlem</span>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı</th>
+                                <th>İşlem Tipi</th>
+                                <th>Tutar</th>
+                                <th>Yöntem</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 60px;">
+                                    <div class="spinner" style="margin: 0 auto 16px;"></div>
+                                    <p style="color: var(--text-muted);">İşlemler yükleniyor...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Reject Modal -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+    <div class="modal" id="rejectModal">
+        <div class="modal-header">
+            <h3><i class="fas fa-times-circle text-danger"></i> İşlemi Reddet</h3>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="rejectTransactionId">
+            <div class="form-group">
+                <label class="form-label">Red Sebebi (Opsiyonel)</label>
+                <textarea class="form-control" id="rejectReason" rows="3"
+                    placeholder="Red sebebini yazın..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">İptal</button>
+            <button class="btn btn-danger" onclick="confirmReject()">
+                <i class="fas fa-times"></i> Reddet
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Load Stats
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/dashboard-stats', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                document.getElementById('pendingDeposits').textContent = '₺ ' + (data.pendingDeposits?.total || 0).toLocaleString('tr-TR');
+                document.getElementById('pendingDepositCount').textContent = (data.pendingDeposits?.count || 0) + ' talep';
+                document.getElementById('pendingWithdraws').textContent = '₺ ' + (data.pendingWithdraws?.total || 0).toLocaleString('tr-TR');
+                document.getElementById('pendingWithdrawCount').textContent = (data.pendingWithdraws?.count || 0) + ' talep';
+                document.getElementById('todayApproved').textContent = '₺ ' + ((data.todayDeposits || 0) + (data.todayWithdraws || 0)).toLocaleString('tr-TR');
+                document.getElementById('todayTotal').textContent = data.todayTransactionCount || 0;
+            } catch (e) {
+                console.error('Stats error:', e);
+            }
+        }
+
+        // Load Transactions
+        async function loadTransactions() {
+            const status = document.getElementById('filterStatus').value;
+            const type = document.getElementById('filterType').value;
+
+            let url = '/api/transactions?';
+            if (status) url += 'status=' + status + '&';
+            if (type) url += 'type=' + type;
+
+            try {
+                const res = await fetch(url, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const transactions = await res.json();
+
+                renderTransactions(transactions);
+            } catch (e) {
+                console.error('Transactions error:', e);
+                document.getElementById('transactionsTable').innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 60px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 16px;"></i>
+                            <p>İşlemler yüklenirken hata oluştu!</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render Transactions
+        function renderTransactions(transactions) {
+            const tbody = document.getElementById('transactionsTable');
+            document.getElementById('transactionCount').textContent = transactions.length + ' işlem';
+
+            if (!transactions || transactions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-inbox"></i>
+                                </div>
+                                <h3>İşlem Bulunamadı</h3>
+                                <p>Seçilen filtrelere uygun işlem yok.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = transactions.map(t => {
+                const isDeposit = t.type === 'deposit';
+                const typeIcon = isDeposit ? 'fa-arrow-down' : 'fa-arrow-up';
+                const typeClass = isDeposit ? 'success' : 'danger';
+                const typeText = isDeposit ? 'Yatırım' : 'Çekim';
+
+                let statusBadge = '';
+                let statusClass = '';
+                if (t.status === 'pending') {
+                    statusBadge = 'Bekliyor';
+                    statusClass = 'warning';
+                } else if (t.status === 'approved') {
+                    statusBadge = 'Onaylandı';
+                    statusClass = 'success';
+                } else {
+                    statusBadge = 'Reddedildi';
+                    statusClass = 'danger';
+                }
+
+                const date = new Date(t.created_at).toLocaleString('tr-TR');
+
+                let actionBtns = '';
+                if (t.status === 'pending') {
+                    actionBtns = `
+                        <div class="action-btns">
+                            <button class="action-btn success" onclick="approveTransaction(${t.id})" title="Onayla">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="openRejectModal(${t.id})" title="Reddet">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    actionBtns = '<span style="color: var(--text-muted);">-</span>';
+                }
+
+                return `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-muted);">#${t.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">${(t.username || 'U')[0].toUpperCase()}</div>
+                                <div class="user-info">
+                                    <div class="name">${t.username || 'Bilinmeyen'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-${typeClass}">
+                                <i class="fas ${typeIcon}"></i>
+                                ${typeText}
+                            </span>
+                        </td>
+                        <td style="font-weight: 700; color: var(--${typeClass});">₺ ${parseFloat(t.amount).toLocaleString('tr-TR')}</td>
+                        <td style="color: var(--text-secondary);">${t.method || 'Havale'}</td>
+                        <td style="color: var(--text-muted); font-size: 0.85rem;">${date}</td>
+                        <td>
+                            <span class="badge badge-${statusClass}">
+                                <span class="status-dot ${t.status === 'pending' ? 'pending' : t.status === 'approved' ? 'active' : 'banned'}"></span>
+                                ${statusBadge}
+                            </span>
+                        </td>
+                        <td>${actionBtns}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Approve Transaction
+        async function approveTransaction(id) {
+            if (!confirm('Bu işlemi onaylamak istediğinize emin misiniz?')) return;
+
+            try {
+                const res = await fetch('/api/transactions/' + id + '/approve', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('İşlem başarıyla onaylandı!', 'success');
+                    loadAll();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Open Reject Modal
+        function openRejectModal(id) {
+            document.getElementById('rejectTransactionId').value = id;
+            document.getElementById('rejectReason').value = '';
+            openModal();
+        }
+
+        // Confirm Reject
+        async function confirmReject() {
+            const id = document.getElementById('rejectTransactionId').value;
+            const reason = document.getElementById('rejectReason').value;
+
+            try {
+                const res = await fetch('/api/transactions/' + id + '/reject', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason: reason })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('İşlem reddedildi!', 'success');
+                    closeModal();
+                    loadAll();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Load All
+        function loadAll() {
+            loadStats();
+            loadTransactions();
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalBackdrop').classList.add('show');
+            document.getElementById('rejectModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('show');
+            document.getElementById('rejectModal').classList.remove('show');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadAll);
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('show');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            }
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+    <script src="/admin/phase2-finance.js"></script>
+</body>
+
+</html>

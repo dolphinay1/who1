@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Clash Bet Admin - Ayarlar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h3 class="text-center text-white mb-4">CLASH BET</h3>
+        <a href="/admin/dashboard"><i class="fas fa-home me-2"></i> Dashboard</a>
+        <a href="/admin/kullanicilar"><i class="fas fa-users me-2"></i> Kullanıcılar</a>
+        <a href="/admin/finans"><i class="fas fa-wallet me-2"></i> Finans</a>
+        <a href="/admin/kuponlar"><i class="fas fa-ticket-alt me-2"></i> Kuponlar</a>
+        <a href="/admin/loglar"><i class="fas fa-list me-2"></i> Loglar</a>
+        <a href="/admin/ayarlar" class="active"><i class="fas fa-cog me-2"></i> Ayarlar</a>
+    </div>
+
+    <div class="main-content">
+        <h2 class="mb-4">Genel Ayarlar</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="mb-3 border-bottom pb-2">Site Bilgileri</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Site Adı</label>
+                        <input type="text" id="siteName" class="form-control bg-dark text-white border-secondary" value="Clash Bet">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Hoşgeldin Bonusu (TL)</label>
+                        <input type="number" id="welcomeBonus" class="form-control bg-dark text-white border-secondary" value="2000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Minimum Yatırım (TL)</label>
+                        <input type="number" id="minDeposit" class="form-control bg-dark text-white border-secondary" value="50">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Minimum Çekim (TL)</label>
+                        <input type="number" id="minWithdraw" class="form-control bg-dark text-white border-secondary" value="100">
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="maintenanceMode">
+                        <label class="form-check-label text-white" for="maintenanceMode">Bakım Modu (Siteyi Kapat)</label>
+                    </div>
+                    <button onclick="saveSettings()" class="btn btn-primary"><i class="fas fa-save"></i> Ayarları Kaydet</button>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-custom border border-primary">
+                    <h5 class="mb-3 text-primary"><i class="fas fa-bullhorn"></i> Kayan Yazı (Duyuru)</h5>
+                    <p class="text-muted small">Ana sayfada üst kısımda geçen duyuru yazısıdır.</p>
+                    <div class="mb-3">
+                        <textarea id="duyuruKutusu" class="form-control bg-dark text-white border-secondary" rows="3">HOŞGELDİNİZ! İLK YATIRIMA ÖZEL %100 BONUS FIRSATI SİZLERLE...</textarea>
+                    </div>
+                    <button onclick="duyuruKaydet()" class="btn btn-success w-100" id="duyuruBtn">Duyuruyu Güncelle</button>
+                </div>
+
+                <div class="card-custom mt-4 border border-warning">
+                    <h5 class="mb-3 text-warning"><i class="fas fa-gift"></i> Promosyon Kodu Ekle</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Kod</label>
+                        <input type="text" id="promoCode" class="form-control bg-dark text-white border-secondary" placeholder="HOSGELDIN">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Tip</label>
+                            <select id="promoType" class="form-select bg-dark text-white border-secondary">
+                                <option value="money">Para (TL)</option>
+                                <option value="spin">Free Spin</option>
+                                <option value="bonus">Bonus</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Değer</label>
+                            <input type="number" id="promoValue" class="form-control bg-dark text-white border-secondary" placeholder="100">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Max Kullanım</label>
+                        <input type="number" id="promoMaxUses" class="form-control bg-dark text-white border-secondary" value="100">
+                    </div>
+                    <button onclick="addPromoCode()" class="btn btn-warning w-100">Promosyon Kodu Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Ayarları yükle
+        async function loadSettings() {
+            try {
+                const res = await fetch('/api/settings', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const settings = await res.json();
+
+                document.getElementById('siteName').value = settings.site_name || 'Clash Bet';
+                document.getElementById('duyuruKutusu').value = settings.announcement || '';
+                document.getElementById('welcomeBonus').value = settings.welcome_bonus || 2000;
+                document.getElementById('minDeposit').value = settings.min_deposit || 50;
+                document.getElementById('minWithdraw').value = settings.min_withdraw || 100;
+                document.getElementById('maintenanceMode').checked = settings.maintenance_mode === '1';
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Ayarları kaydet
+        async function saveSettings() {
+            const settings = {
+                site_name: document.getElementById('siteName').value,
+                welcome_bonus: document.getElementById('welcomeBonus').value,
+                min_deposit: document.getElementById('minDeposit').value,
+                min_withdraw: document.getElementById('minWithdraw').value,
+                maintenance_mode: document.getElementById('maintenanceMode').checked ? '1' : '0'
+            };
+
+            try {
+                const res = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(settings)
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert('Ayarlar kaydedildi!');
+                } else {
+                    alert('Hata: ' + data.message);
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Sunucu hatası!');
+            }
+        }
+
+        // Duyuru kaydet
+        async function duyuruKaydet() {
+            const metin = document.getElementById("duyuruKutusu").value;
+            const buton = document.getElementById("duyuruBtn");
+
+            buton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+            buton.disabled = true;
+
+            try {
+                const res = await fetch('/admin/api/duyuru-guncelle', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ announcement: metin })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    buton.innerHTML = '<i class="fas fa-check"></i> Başarılı!';
+                    setTimeout(() => {
+                        buton.innerHTML = 'Duyuruyu Güncelle';
+                        buton.disabled = false;
+                    }, 2000);
+                } else {
+                    buton.innerHTML = 'Hata!';
+                    buton.disabled = false;
+                }
+            } catch (e) {
+                console.error(e);
+                buton.innerHTML = 'Hata Oluştu!';
+                buton.disabled = false;
+            }
+        }
+
+        // Promosyon kodu ekle
+        async function addPromoCode() {
+            const code = document.getElementById('promoCode').value;
+            const type = document.getElementById('promoType').value;
+            const value = document.getElementById('promoValue').value;
+            const maxUses = document.getElementById('promoMaxUses').value;
+
+            if (!code || !value) {
+                alert('Lütfen kod ve değer giriniz!');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/promo-codes', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        type: type,
+                        value: parseInt(value),
+                        max_uses: parseInt(maxUses)
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert('Promosyon kodu eklendi!');
+                    document.getElementById('promoCode').value = '';
+                    document.getElementById('promoValue').value = '';
+                } else {
+                    alert('Hata: ' + data.message);
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Sunucu hatası!');
+            }
+        }
+
+        // Sayfa yüklenince
+        loadSettings();
+    </script>
+
+    <!-- Footer -->
+    <footer class="finance-footer">
+        <div class="payment-row">
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="pay-icon"></div>
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="pay-icon"></div>
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Binance-coin-bnb-logo.png" class="pay-icon"><span class="pay-text">BINANCE PAY</span></div>
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Binance-coin-bnb-logo.png" class="pay-icon"><span class="pay-text">BNB</span></div>
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" class="pay-icon"><span class="pay-text">Bitcoin</span></div>
+            <div class="pay-item"><img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="pay-icon"><span class="pay-text">tether</span></div>
+            <div class="pay-item"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg" class="pay-icon"><span class="pay-text">Ethereum</span></div>
+            <div class="pay-item"><img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="pay-icon"><span class="pay-text">TON</span></div>
+            <div class="pay-item"><img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" class="pay-icon"><span class="pay-text">DOGECOIN</span></div>
+        </div>
+
+        <!-- Oyun Sağlayıcılar - Kayan Logo Bölümü -->
+        <div class="providers-section">
+            <div class="providers-title">
+                <span>OYUN SAĞLAYICILAR</span>
+            </div>
+            <div class="providers-slider">
+                <div class="providers-track">
+                                        <!-- İlk Set -->
+                    <div class="provider-item"><img src="/images/providers/EGT_digital_d0944a3a71.svg" alt="EGT Digital"></div>
+                    <div class="provider-item"><img src="/images/providers/Playtech-Logo.wine.svg" alt="Playtech"></div>
+                    <div class="provider-item"><img src="/images/providers/amusnet.png" alt="Amusnet"></div>
+                    <div class="provider-item"><img src="/images/providers/big-time-gaming-logo-vector.svg" alt="Big Time Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/booming_games_New-lg.png" alt="Booming Games"></div>
+                    <div class="provider-item"><img src="/images/providers/evolution-gaming-logo-vector.svg" alt="Evolution Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/hacksaw.svg" alt="Hacksaw Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/isoftbet-logo-vector.svg" alt="iSoftBet"></div>
+                    <div class="provider-item"><img src="/images/providers/js-elk-provider.webp.bv.webp" alt="ELK Studios"></div>
+                    <div class="provider-item"><img src="/images/providers/logo-@2.webp.bv.webp" alt="Provider"></div>
+                    <div class="provider-item"><img src="/images/providers/microgaming-logo-vector.svg" alt="Microgaming"></div>
+                    <div class="provider-item"><img src="/images/providers/netent-logo-vector.svg" alt="NetEnt"></div>
+                    <div class="provider-item"><img src="/images/providers/nolimit-city-logo-e1663845295134-480x237.png" alt="NoLimit City"></div>
+                    <div class="provider-item"><img src="/images/providers/playn-go-logo-vector.svg" alt="Play'n GO"></div>
+                    <div class="provider-item"><img src="/images/providers/pngfind.com-optic-gaming-logo-png-2748360.png" alt="Optic Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/pngfind.com-sharknado-png-3519538.png" alt="Sharknado"></div>
+                    <div class="provider-item"><img src="/images/providers/pragmatic.png" alt="Pragmatic Play"></div>
+                    <div class="provider-item"><img src="/images/providers/pushgaming.png" alt="Push Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/red-tiger-slots-logo-vector.svg" alt="Red Tiger"></div>
+                    <div class="provider-item"><img src="/images/providers/reevo.png" alt="Reevo"></div>
+                    <div class="provider-item"><img src="/images/providers/wazdan.png" alt="Wazdan"></div>
+                    <div class="provider-item"><img src="/images/providers/yggdrasil-gaming-logo-vector.svg" alt="Yggdrasil"></div>
+                    <!-- Klon Set (Sonsuz Kaydırma İçin) -->
+                    <div class="provider-item"><img src="/images/providers/EGT_digital_d0944a3a71.svg" alt="EGT Digital"></div>
+                    <div class="provider-item"><img src="/images/providers/Playtech-Logo.wine.svg" alt="Playtech"></div>
+                    <div class="provider-item"><img src="/images/providers/amusnet.png" alt="Amusnet"></div>
+                    <div class="provider-item"><img src="/images/providers/big-time-gaming-logo-vector.svg" alt="Big Time Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/booming_games_New-lg.png" alt="Booming Games"></div>
+                    <div class="provider-item"><img src="/images/providers/evolution-gaming-logo-vector.svg" alt="Evolution Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/hacksaw.svg" alt="Hacksaw Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/isoftbet-logo-vector.svg" alt="iSoftBet"></div>
+                    <div class="provider-item"><img src="/images/providers/js-elk-provider.webp.bv.webp" alt="ELK Studios"></div>
+                    <div class="provider-item"><img src="/images/providers/logo-@2.webp.bv.webp" alt="Provider"></div>
+                    <div class="provider-item"><img src="/images/providers/microgaming-logo-vector.svg" alt="Microgaming"></div>
+                    <div class="provider-item"><img src="/images/providers/netent-logo-vector.svg" alt="NetEnt"></div>
+                    <div class="provider-item"><img src="/images/providers/nolimit-city-logo-e1663845295134-480x237.png" alt="NoLimit City"></div>
+                    <div class="provider-item"><img src="/images/providers/playn-go-logo-vector.svg" alt="Play'n GO"></div>
+                    <div class="provider-item"><img src="/images/providers/pngfind.com-optic-gaming-logo-png-2748360.png" alt="Optic Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/pngfind.com-sharknado-png-3519538.png" alt="Sharknado"></div>
+                    <div class="provider-item"><img src="/images/providers/pragmatic.png" alt="Pragmatic Play"></div>
+                    <div class="provider-item"><img src="/images/providers/pushgaming.png" alt="Push Gaming"></div>
+                    <div class="provider-item"><img src="/images/providers/red-tiger-slots-logo-vector.svg" alt="Red Tiger"></div>
+                    <div class="provider-item"><img src="/images/providers/reevo.png" alt="Reevo"></div>
+                    <div class="provider-item"><img src="/images/providers/wazdan.png" alt="Wazdan"></div>
+                    <div class="provider-item"><img src="/images/providers/yggdrasil-gaming-logo-vector.svg" alt="Yggdrasil"></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="clash-footer relative bg-gradient-to-b from-[#0f121a] via-[#0a0e15] to-[#050708] border-t-2 border-transparent py-12" style="border-image: linear-gradient(90deg, #f5c518, #d946ef, #3b82f6) 1;">
+            <div class="max-w-6xl mx-auto px-6">
+                <!-- Main Footer Content -->
+                <div class="flex flex-wrap gap-10 justify-center md:justify-between w-full" style="max-width: 1100px; margin: 0 auto; padding: 40px 24px 30px;">
+                
+                <!-- Left Column: Logo, Copyright, Contact, Social -->
+                <div class="w-full md:flex-1 flex flex-col items-center text-center md:items-start md:text-left" style="min-width: 260px; max-width: 380px;">
+                    <!-- Logo -->
+                    <div style="margin-bottom: 16px;">
+                        <img src="logo.png" alt="CLASH BET" class="h-20 xl:h-24 object-contain" style="filter: drop-shadow(0 0 8px rgba(245, 197, 24, 0.4));">
+                    </div>
+                    
+                    <!-- Copyright -->
+                    <p style="font-size: 12px; color: #6b7280; line-height: 1.6; margin-bottom: 20px;">
+                        Copyright © 2021-2025 Clashbet Company<br>
+                        S.L. All rights reserved.
+                    </p>
+                    
+                    <!-- Contact Info -->
+                    <div class="flex flex-col gap-10 mb-5 items-center md:items-start">
+                        <a href="mailto:destek@clashbet.com" style="display: flex; align-items: center; gap: 10px; color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#9ca3b8'">
+                            <span style="font-size: 16px; color: #22c55e;">📧</span>
+                            destek@clashbet.com
+                        </a>
+                        <a href="#" style="display: flex; align-items: center; gap: 10px; color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#9ca3b8'">
+                            <span style="font-size: 16px; color: #22c55e;">📞</span>
+                            Arama Talep Et
+                        </a>
+                    </div>
+                    
+                    <!-- Social Media Icons -->
+                    <div class="flex items-center gap-14 flex-wrap justify-center md:justify-start">
+                        <!-- Facebook -->
+                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #9ca3b8; text-decoration: none; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,197,24,0.15)';this.style.borderColor='#f5c518';this.style.color='#f5c518'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#9ca3b8'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <!-- Twitter -->
+                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #9ca3b8; text-decoration: none; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,197,24,0.15)';this.style.borderColor='#f5c518';this.style.color='#f5c518'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#9ca3b8'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #9ca3b8; text-decoration: none; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,197,24,0.15)';this.style.borderColor='#f5c518';this.style.color='#f5c518'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#9ca3b8'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <!-- YouTube -->
+                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #9ca3b8; text-decoration: none; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,197,24,0.15)';this.style.borderColor='#f5c518';this.style.color='#f5c518'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#9ca3b8'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                        <!-- Telegram -->
+                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #9ca3b8; text-decoration: none; font-size: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245,197,24,0.15)';this.style.borderColor='#f5c518';this.style.color='#f5c518'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#9ca3b8'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        </a>
+                        <!-- 18+ Badge -->
+                        <div style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #6b7280; display: flex; align-items: center; justify-content: center; cursor: default;">
+                            <span style="font-size: 11px; font-weight: 800; color: #6b7280;">18+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Link Boxes -->
+                <div class="w-full grid grid-cols-1 md:flex md:flex-wrap gap-5 justify-items-center md:justify-end">
+                    
+                    <!-- Box 1: Hukuki Dokümanlar -->
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; min-width: 240px; flex: 1; max-width: 320px; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                            <div style="width: 4px; height: 18px; border-radius: 4px; background: linear-gradient(to bottom, #f5c518, #ec4899);"></div>
+                            <h4 style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; text-transform: uppercase; margin: 0;">HUKUKİ DOKÜMANLAR</h4>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                            <li><a href="terms-and-conditions.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Şartlar ve Koşullar</a></li>
+                            <li><a href="privacy-policy.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Gizlilik Politikası</a></li>
+                            <li><a href="#" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Adil Oyun Politikası</a></li>
+                            <li><a href="#" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">KYC Politikası</a></li>
+                            <li><a href="responsible-game.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Sorumlu Oyun</a></li>
+                            <li><a href="#" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Çerez Politikası</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Box 2: Bilgi ve Destek -->
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; min-width: 240px; flex: 1; max-width: 320px; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                            <div style="width: 4px; height: 18px; border-radius: 4px; background: linear-gradient(to bottom, #a855f7, #3b82f6);"></div>
+                            <h4 style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; text-transform: uppercase; margin: 0;">BİLGİ VE DESTEK</h4>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                            <li><a href="contact-us.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">İletişim Sayfası</a></li>
+                            <li><a href="faq.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Sıkça Sorulan Sorular</a></li>
+                            <li><a href="#" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Oyun Kuralları</a></li>
+                            <li><a href="affiliates.html" style="color: #9ca3b8; font-size: 13px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#9ca3b8'">Affiliate Programı</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CGA License Bottom Bar -->
+            <div style="background: #060910; border-top: 1px solid rgba(255,255,255,0.06); padding: 18px 24px;">
+                <div style="max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <!-- CGA Badge -->
+                    <div style="background: #1a6b35; border-radius: 8px; padding: 8px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 80px; flex-shrink: 0;">
+                        <span style="font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 1.5px; line-height: 1;">CGA</span>
+                        <span style="font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.8); margin-top: 3px;">cert-gcb.cv</span>
+                    </div>
+                    <!-- License Text -->
+                    <p style="font-size: 11px; color: #6b7280; line-height: 1.7; flex: 1; min-width: 200px;">
+                        <span style="color: #f5c518; font-weight: 700;">Clashbet.com</span> sitesi 
+                        <span style="color: #d1d5db; font-weight: 600;">Socas International B.V.</span> altında Curaçao lisans numarası 
+                        <span style="color: #d1d5db; font-weight: 600;">GLH-OCCHKTW0708022022</span> ile 
+                        Dr. M.J. Hugenholtzweg 25, Curaçao adresinde, 
+                        <span style="color: #d1d5db; font-weight: 600;">Gaming Services Provider N.V.</span> lisansı ile 
+                        hizmet vermekte olup, <span style="color: #d1d5db; font-weight: 600;">Government of Curaçao</span> Lisans otoritesi tarafından kontrol edilmektedir.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script src="js/shared-footer.js" defer></script>
+</body>
+</html>
+

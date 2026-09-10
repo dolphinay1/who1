@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Kullanıcılar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanıcılar" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                </a>
+                <a href="/admin/kuponlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-users"></i> Kullanıcı Yönetimi</h1>
+                <p class="subtitle">Tüm kullanıcıları buradan yönetebilirsin.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="loadUsers()">
+                    <i class="fas fa-sync-alt"></i>
+                    Yenile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card primary stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Toplam Kullanıcı</h4>
+                        <div class="value" id="totalUsers">0</div>
+                    </div>
+                    <div class="stat-icon primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card success stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Aktif Kullanıcı</h4>
+                        <div class="value" id="activeUsers">0</div>
+                    </div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card danger stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Banlı Kullanıcı</h4>
+                        <div class="value" id="bannedUsers">0</div>
+                    </div>
+                    <div class="stat-icon danger">
+                        <i class="fas fa-user-slash"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card warning stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Toplam Bakiye</h4>
+                        <div class="value" id="totalBalance">₺ 0</div>
+                    </div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="input-group" style="flex: 1; max-width: 350px;">
+                <i class="fas fa-search input-icon"></i>
+                <input type="text" class="form-control" id="searchInput" placeholder="Kullanıcı ara..."
+                    onkeyup="filterUsers()">
+            </div>
+            <select class="form-control form-select" id="filterStatus" style="max-width: 200px;"
+                onchange="filterUsers()">
+                <option value="">Tüm Durumlar</option>
+                <option value="active">Aktif</option>
+                <option value="banned">Banlı</option>
+            </select>
+            <select class="form-control form-select" id="filterRole" style="max-width: 200px;" onchange="filterUsers()">
+                <option value="">Tüm Roller</option>
+                <option value="user">Kullanıcı</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <!-- Users Table -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h3><i class="fas fa-list"></i> Kullanıcı Listesi</h3>
+                <span class="badge badge-primary" id="userCount">0 kullanıcı</span>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı</th>
+                                <th>Bakiye</th>
+                                <th>Toplam Yatırım</th>
+                                <th>Toplam Çekim</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Durum</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 60px;">
+                                    <div class="spinner" style="margin: 0 auto 16px;"></div>
+                                    <p style="color: var(--text-muted);">Kullanıcılar yükleniyor...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit User Modal -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+    <div class="modal" id="editUserModal">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-edit"></i> Kullanıcı Düzenle</h3>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editUserId">
+
+            <div class="form-group">
+                <label class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="editUsername" readonly style="opacity: 0.7;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Bakiye (TL)</label>
+                <div class="input-group">
+                    <i class="fas fa-lira-sign input-icon"></i>
+                    <input type="number" class="form-control" id="editBalance" step="0.01">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Durum</label>
+                <select class="form-control form-select" id="editStatus">
+                    <option value="active">Aktif</option>
+                    <option value="banned">Banlı</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Rol</label>
+                <select class="form-control form-select" id="editRole">
+                    <option value="user">Kullanıcı</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">İptal</button>
+            <button class="btn btn-primary" onclick="saveUser()">
+                <i class="fas fa-save"></i> Kaydet
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        let allUsers = [];
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Load Users
+        async function loadUsers() {
+            try {
+                const res = await fetch('/api/users', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                allUsers = await res.json();
+
+                updateStats();
+                renderUsers(allUsers);
+            } catch (e) {
+                console.error('Load users error:', e);
+                document.getElementById('usersTable').innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 60px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 16px;"></i>
+                            <p>Kullanıcılar yüklenirken hata oluştu!</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Update Stats
+        function updateStats() {
+            const activeCount = allUsers.filter(u => u.status === 'active').length;
+            const bannedCount = allUsers.filter(u => u.status === 'banned').length;
+            const totalBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || 0), 0);
+
+            document.getElementById('totalUsers').textContent = allUsers.length;
+            document.getElementById('activeUsers').textContent = activeCount;
+            document.getElementById('bannedUsers').textContent = bannedCount;
+            document.getElementById('totalBalance').textContent = '₺ ' + totalBalance.toLocaleString('tr-TR');
+        }
+
+        // Filter Users
+        function filterUsers() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('filterStatus').value;
+            const role = document.getElementById('filterRole').value;
+
+            const filtered = allUsers.filter(u => {
+                const matchSearch = u.username.toLowerCase().includes(search) ||
+                    (u.email && u.email.toLowerCase().includes(search));
+                const matchStatus = !status || u.status === status;
+                const matchRole = !role || u.role === role;
+                return matchSearch && matchStatus && matchRole;
+            });
+
+            renderUsers(filtered);
+        }
+
+        // Render Users
+        function renderUsers(users) {
+            const tbody = document.getElementById('usersTable');
+            document.getElementById('userCount').textContent = users.length + ' kullanıcı';
+
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h3>Kullanıcı Bulunamadı</h3>
+                                <p>Arama kriterlerinize uygun kullanıcı yok.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = users.map(u => {
+                const statusClass = u.status === 'active' ? 'success' : 'danger';
+                const statusText = u.status === 'active' ? 'Aktif' : 'Banlı';
+                const date = new Date(u.created_at).toLocaleDateString('tr-TR');
+                const roleIcon = u.role === 'admin' ? '<i class="fas fa-shield-alt text-warning" title="Admin"></i>' : '';
+
+                return `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-muted);">#${u.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">${(u.username || 'U')[0].toUpperCase()}</div>
+                                <div class="user-info">
+                                    <div class="name">${u.username} ${roleIcon}</div>
+                                    <div class="email">${u.email || '-'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-weight: 700; color: var(--success);">₺ ${parseFloat(u.balance || 0).toLocaleString('tr-TR')}</td>
+                        <td style="color: var(--info);">₺ ${parseFloat(u.total_deposit || 0).toLocaleString('tr-TR')}</td>
+                        <td style="color: var(--warning);">₺ ${parseFloat(u.total_withdraw || 0).toLocaleString('tr-TR')}</td>
+                        <td style="color: var(--text-muted);">${date}</td>
+                        <td>
+                            <span class="badge badge-${statusClass}">
+                                <span class="status-dot ${u.status}"></span>
+                                ${statusText}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn edit" onclick="editUser(${u.id})" title="Düzenle">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                ${u.status === 'active'
+                        ? `<button class="action-btn delete" onclick="banUser(${u.id})" title="Banla"><i class="fas fa-ban"></i></button>`
+                        : `<button class="action-btn success" onclick="unbanUser(${u.id})" title="Ban Kaldır"><i class="fas fa-unlock"></i></button>`
+                    }
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Edit User
+        function editUser(id) {
+            const user = allUsers.find(u => u.id === id);
+            if (!user) return;
+
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editUsername').value = user.username;
+            document.getElementById('editBalance').value = user.balance;
+            document.getElementById('editStatus').value = user.status;
+            document.getElementById('editRole').value = user.role || 'user';
+
+            openModal();
+        }
+
+        // Save User
+        async function saveUser() {
+            const id = document.getElementById('editUserId').value;
+            const balance = document.getElementById('editBalance').value;
+            const status = document.getElementById('editStatus').value;
+            const role = document.getElementById('editRole').value;
+
+            try {
+                const res = await fetch('/api/users/' + id, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ balance, status, role })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Kullanıcı başarıyla güncellendi!', 'success');
+                    closeModal();
+                    loadUsers();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Ban User
+        async function banUser(id) {
+            if (!confirm('Bu kullanıcıyı banlamak istediğinize emin misiniz?')) return;
+
+            try {
+                const res = await fetch('/api/users/' + id + '/ban', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Kullanıcı banlandı!', 'success');
+                    loadUsers();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Unban User
+        async function unbanUser(id) {
+            if (!confirm('Bu kullanıcının banını kaldırmak istediğinize emin misiniz?')) return;
+
+            try {
+                const res = await fetch('/api/users/' + id + '/unban', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Ban kaldırıldı!', 'success');
+                    loadUsers();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalBackdrop').classList.add('show');
+            document.getElementById('editUserModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('show');
+            document.getElementById('editUserModal').classList.remove('show');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadUsers);
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('show');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            }
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Banner Yönetimi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+    <style>
+        .banner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .banner-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .banner-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .banner-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #1a1d26;
+        }
+
+        .banner-info {
+            padding: 16px;
+        }
+
+        .banner-info h4 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .banner-info p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        .banner-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(245, 197, 24, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        #bannerFileInput {
+            display: none;
+        }
+
+        .preview-container {
+            margin-top: 16px;
+            display: none;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+            max-height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon"><i class="fas fa-crown"></i></div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/"
+                style="display: flex; align-items: center; gap: 10px; background: var(--primary-gradient); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px;">
+                <i class="fas fa-home"></i><span>ANASAYFA</span>
+            </a>
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+                <a href="/admin/kullanicilar"><i class="fas fa-users"></i><span>Kullanıcılar</span></a>
+                <a href="/admin/finans"><i class="fas fa-wallet"></i><span>Finans</span></a>
+                <a href="/admin/kuponlar"><i class="fas fa-ticket-alt"></i><span>Kuponlar</span></a>
+                <a href="/admin/dogrulama"><i class="fas fa-user-check"></i><span>Doğrulama</span></a>
+                <a href="/admin/bannerler" class="active"><i class="fas fa-images"></i><span>Banner Yönetimi</span></a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar"><i class="fas fa-history"></i><span>Loglar</span></a>
+                <a href="/admin/ayarlar"><i class="fas fa-cog"></i><span>Ayarlar</span></a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-images"></i> Banner Yönetimi</h1>
+                <p class="subtitle">Anasayfadaki kayan bannerları buradan yönetebilirsin.</p>
+            </div>
+        </div>
+
+        <div class="card fade-in" style="margin-bottom: 24px;">
+            <div class="card-header">
+                <h3><i class="fas fa-plus-circle"></i> Yeni Banner Ekle</h3>
+            </div>
+            <div class="card-body">
+                <div class="settings-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">Banner Başlığı</label>
+                            <input type="text" id="bannerTitle" class="form-control"
+                                placeholder="Örn: %100 Hoşgeldin Bonusu">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Yönlendirme Linki (Opsiyonel)</label>
+                            <input type="text" id="bannerLink" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="upload-area" onclick="document.getElementById('bannerFileInput').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Banner resmini buraya tıkla veya sürükle</p>
+                            <span class="text-muted text-xs">Önerilen boyut: 1200x400px (Max 10MB)</span>
+                            <input type="file" id="bannerFileInput" accept="image/*" onchange="previewImage(this)">
+                            <div class="preview-container" id="previewContainer">
+                                <img id="imagePreview" src="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-full" onclick="uploadBanner()" id="uploadBtn">
+                    <i class="fas fa-upload"></i> Bannerı Yükle
+                </button>
+            </div>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-header flex justify-between">
+                <h3><i class="fas fa-list"></i> Mevcut Bannerlar</h3>
+                <button class="btn btn-secondary btn-sm" onclick="loadBanners()"><i class="fas fa-sync"></i></button>
+            </div>
+            <div class="card-body">
+                <div class="banner-grid" id="bannerList">
+                    <!-- Banners will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/admin/login';
+
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const container = document.getElementById('previewContainer');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function uploadBanner() {
+            const title = document.getElementById('bannerTitle').value;
+            const linkUrl = document.getElementById('bannerLink').value;
+            const fileInput = document.getElementById('bannerFileInput');
+            const btn = document.getElementById('uploadBtn');
+
+            if (fileInput.files.length === 0) {
+                showToast('Lütfen bir resim seçin!', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('link_url', linkUrl);
+            formData.append('banner', fileInput.files[0]);
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+
+            try {
+                const res = await fetch('/api/admin/banners', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Banner başarıyla yüklendi!', 'success');
+                    document.getElementById('bannerTitle').value = '';
+                    document.getElementById('bannerLink').value = '';
+                    fileInput.value = '';
+                    document.getElementById('previewContainer').style.display = 'none';
+                    loadBanners();
+                } else {
+                    showToast(data.error || 'Yükleme başarısız.', 'error');
+                }
+            } catch (e) {
+                showToast('Sunucu hatası!', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-upload"></i> Bannerı Yükle';
+            }
+        }
+
+        async function loadBanners() {
+            const container = document.getElementById('bannerList');
+            container.innerHTML = '<div class="col-span-full text-center py-20"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+            try {
+                const res = await fetch('/api/admin/banners', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const banners = await res.json();
+                if (banners.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center py-20 text-muted">Henüz banner eklenmemiş.</div>';
+                    return;
+                }
+                container.innerHTML = banners.map(b => `
+                    <div class="banner-card">
+                        <img src="${b.image_url}" class="banner-preview">
+                        <div class="banner-info">
+                            <h4>${b.title || 'Başlıksız Banner'}</h4>
+                            <p>${b.link_url || 'Link Yok'}</p>
+                        </div>
+                        <div class="banner-actions">
+                            <button class="btn btn-danger btn-sm" onclick="deleteBanner(${b.id})"><i class="fas fa-trash"></i> Sil</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 text-danger">Yüklenirken hata oluştu.</div>';
+            }
+        }
+
+        async function deleteBanner(id) {
+            if (!confirm('Bu bannerı silmek istediğinize emin misiniz?')) return;
+            try {
+                const res = await fetch(`/api/admin/banners/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Banner silindi!', 'success');
+                    loadBanners();
+                }
+            } catch (e) {
+                showToast('Hata oluştu!', 'error');
+            }
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3000);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
+        function logout() { localStorage.removeItem('token'); window.location.href = '/admin/login'; }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadBanners);
+        } else {
+            loadBanners();
+        }
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+</body>
+
+</html>

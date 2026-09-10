@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Hesap Doğrulama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanıcılar" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                </a>
+                <a href="/admin/kuponlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                    <span class="nav-badge" id="pendingCount">0</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-user-check"></i> Hesap Doğrulama</h1>
+                <p class="subtitle">Kullanıcı hesap doğrulama taleplerini buradan yönetebilirsin.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="loadRequests()">
+                    <i class="fas fa-sync-alt"></i>
+                    Yenile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card warning stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bekleyen Talepler</h4>
+                        <div class="value" id="pendingRequests">0</div>
+                    </div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card success stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Onaylanan</h4>
+                        <div class="value" id="approvedRequests">0</div>
+                    </div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card danger stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Reddedilen</h4>
+                        <div class="value" id="rejectedRequests">0</div>
+                    </div>
+                    <div class="stat-icon danger">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card info stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Doğrulanmamış</h4>
+                        <div class="value" id="unverifiedRequests">0</div>
+                    </div>
+                    <div class="stat-icon info">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <select class="form-control form-select" id="filterStatus" style="max-width: 200px;"
+                onchange="loadRequests()">
+                <option value="">Tüm Durumlar</option>
+                <option value="pending" selected>Bekleyen</option>
+                <option value="verified">Onaylanan</option>
+                <option value="rejected">Reddedilen</option>
+                <option value="unverified">Doğrulanmamış</option>
+            </select>
+        </div>
+
+        <!-- Requests Table -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h3><i class="fas fa-id-card"></i> Doğrulama Talepleri</h3>
+                <span class="badge badge-primary" id="requestCount">0 talep</span>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı</th>
+                                <th>E-mail</th>
+                                <th>Telefon</th>
+                                <th>Belge</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTable">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 60px;">
+                                    <div class="spinner" style="margin: 0 auto 16px;"></div>
+                                    <p style="color: var(--text-muted);">Talepler yükleniyor...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Document Preview Modal -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+    <div class="modal" id="documentModal" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-image"></i> Belge Önizleme</h3>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+            <img id="documentImage" src="" alt="Belge" style="max-width: 100%; max-height: 500px; border-radius: 8px;">
+            <div id="documentPdf" style="display: none;">
+                <p style="color: var(--text-muted); margin: 20px 0;">PDF belgesi - indirmek için tıklayın</p>
+                <a id="documentLink" href="" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-download"></i> PDF İndir
+                </a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" id="currentUserId">
+            <button class="btn btn-danger" onclick="rejectUser()">
+                <i class="fas fa-times"></i> Reddet
+            </button>
+            <button class="btn btn-success" onclick="approveUser()">
+                <i class="fas fa-check"></i> Onayla
+            </button>
+        </div>
+    </div>
+
+    <!-- Reject Reason Modal -->
+    <div class="modal" id="rejectModal" style="max-width: 500px; z-index: 2002;">
+        <div class="modal-header">
+            <h3><i class="fas fa-times-circle text-danger"></i> Red Sebebi</h3>
+            <button class="modal-close" onclick="closeRejectModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Red Sebebi</label>
+                <textarea class="form-control" id="rejectReason" rows="3"
+                    placeholder="Belge neden reddedildi?">Belgeniz okunaklı değil. Lütfen daha net bir fotoğraf yükleyin.</textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeRejectModal()">İptal</button>
+            <button class="btn btn-danger" onclick="confirmReject()">
+                <i class="fas fa-times"></i> Reddet
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        let allRequests = [];
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Load Stats
+        async function loadStats() {
+            try {
+                const [pending, verified, rejected, unverified] = await Promise.all([
+                    fetch('/api/verification-all?status=pending', { headers: { 'Authorization': 'Bearer ' + token } }),
+                    fetch('/api/verification-all?status=verified', { headers: { 'Authorization': 'Bearer ' + token } }),
+                    fetch('/api/verification-all?status=rejected', { headers: { 'Authorization': 'Bearer ' + token } }),
+                    fetch('/api/verification-all?status=unverified', { headers: { 'Authorization': 'Bearer ' + token } })
+                ]);
+
+                const pendingData = await pending.json();
+                const verifiedData = await verified.json();
+                const rejectedData = await rejected.json();
+                const unverifiedData = await unverified.json();
+
+                document.getElementById('pendingRequests').textContent = pendingData.length || 0;
+                document.getElementById('approvedRequests').textContent = verifiedData.length || 0;
+                document.getElementById('rejectedRequests').textContent = rejectedData.length || 0;
+                document.getElementById('unverifiedRequests').textContent = unverifiedData.length || 0;
+                document.getElementById('pendingCount').textContent = pendingData.length || 0;
+
+            } catch (e) {
+                console.error('Stats error:', e);
+            }
+        }
+
+        // Load Requests
+        async function loadRequests() {
+            const status = document.getElementById('filterStatus').value;
+            let url = '/api/verification-all';
+            if (status) url += '?status=' + status;
+
+            try {
+                const res = await fetch(url, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                allRequests = await res.json();
+                renderRequests(allRequests);
+            } catch (e) {
+                console.error('Load requests error:', e);
+                document.getElementById('requestsTable').innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 60px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 16px;"></i>
+                            <p>Talepler yüklenirken hata oluştu!</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render Requests
+        function renderRequests(requests) {
+            const tbody = document.getElementById('requestsTable');
+            document.getElementById('requestCount').textContent = requests.length + ' talep';
+
+            if (!requests || requests.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3>Talep Bulunamadı</h3>
+                                <p>Seçilen filtreye uygun doğrulama talebi yok.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = requests.map(r => {
+                let statusBadge = '';
+                let statusClass = '';
+                switch (r.verification_status) {
+                    case 'pending':
+                        statusBadge = 'Bekliyor';
+                        statusClass = 'warning';
+                        break;
+                    case 'verified':
+                        statusBadge = 'Onaylandı';
+                        statusClass = 'success';
+                        break;
+                    case 'rejected':
+                        statusBadge = 'Reddedildi';
+                        statusClass = 'danger';
+                        break;
+                    default:
+                        statusBadge = 'Doğrulanmamış';
+                        statusClass = 'info';
+                }
+
+                const date = new Date(r.created_at).toLocaleDateString('tr-TR');
+                const hasDocument = r.verification_document && r.verification_document.length > 0;
+
+                let actionBtns = '';
+                if (r.verification_status === 'pending' && hasDocument) {
+                    actionBtns = `
+                        <button class="btn btn-primary btn-sm" onclick="viewDocument(${r.id}, '${r.verification_document}')">
+                            <i class="fas fa-eye"></i> İncele
+                        </button>
+                    `;
+                } else if (r.verification_status === 'unverified') {
+                    actionBtns = '<span style="color: var(--text-muted); font-size: 0.8rem;">Belge yok</span>';
+                } else {
+                    actionBtns = '<span style="color: var(--text-muted);">-</span>';
+                }
+
+                return `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-muted);">#${r.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">${(r.username || 'U')[0].toUpperCase()}</div>
+                                <div class="user-info">
+                                    <div class="name">${r.username || 'Bilinmeyen'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">${r.email || '-'}</td>
+                        <td style="color: var(--text-secondary);">${r.phone || '-'}</td>
+                        <td>
+                            ${hasDocument
+                        ? `<span class="badge badge-success"><i class="fas fa-file"></i> Yüklendi</span>`
+                        : `<span class="badge badge-info"><i class="fas fa-times"></i> Yok</span>`
+                    }
+                        </td>
+                        <td style="color: var(--text-muted); font-size: 0.85rem;">${date}</td>
+                        <td>
+                            <span class="badge badge-${statusClass}">
+                                ${statusBadge}
+                            </span>
+                        </td>
+                        <td>${actionBtns}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // View Document
+        function viewDocument(userId, documentPath) {
+            document.getElementById('currentUserId').value = userId;
+
+            const isPdf = documentPath.toLowerCase().endsWith('.pdf');
+            const imgElement = document.getElementById('documentImage');
+            const pdfElement = document.getElementById('documentPdf');
+            const linkElement = document.getElementById('documentLink');
+
+            if (isPdf) {
+                imgElement.style.display = 'none';
+                pdfElement.style.display = 'block';
+                linkElement.href = documentPath;
+            } else {
+                imgElement.style.display = 'block';
+                pdfElement.style.display = 'none';
+                imgElement.src = documentPath;
+            }
+
+            openModal();
+        }
+
+        // Approve User
+        async function approveUser() {
+            const userId = document.getElementById('currentUserId').value;
+
+            try {
+                const res = await fetch('/api/verify-user/' + userId + '/approve', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Hesap başarıyla onaylandı!', 'success');
+                    closeModal();
+                    loadRequests();
+                    loadStats();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Reject User
+        function rejectUser() {
+            document.getElementById('rejectModal').classList.add('show');
+        }
+
+        // Confirm Reject
+        async function confirmReject() {
+            const userId = document.getElementById('currentUserId').value;
+            const reason = document.getElementById('rejectReason').value;
+
+            try {
+                const res = await fetch('/api/verify-user/' + userId + '/reject', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason: reason })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Doğrulama talebi reddedildi!', 'success');
+                    closeRejectModal();
+                    closeModal();
+                    loadRequests();
+                    loadStats();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalBackdrop').classList.add('show');
+            document.getElementById('documentModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('show');
+            document.getElementById('documentModal').classList.remove('show');
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.remove('show');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('show');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadRequests();
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeRejectModal();
+                closeModal();
+            }
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+.phase2-shell {
+    margin-top: 24px;
+    display: grid;
+    gap: 24px;
+}
+
+.phase2-card {
+    background: var(--gradient-card, linear-gradient(180deg, rgba(26,29,38,0.98), rgba(18,20,26,0.98)));
+    border: 1px solid var(--border-color, rgba(255,255,255,0.08));
+    border-radius: 20px;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+}
+
+.phase2-card-head {
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.08));
+}
+
+.phase2-card-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.phase2-subtext {
+    color: var(--text-muted, #8b93a6);
+    font-size: 0.84rem;
+}
+
+.phase2-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.14);
+    color: #6ee7b7;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.phase2-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 8px rgba(110, 231, 183, 0.12);
+}
+
+.phase2-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.phase2-grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.phase2-grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.phase2-metric {
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.phase2-metric-label {
+    font-size: 0.82rem;
+    color: var(--text-muted, #8b93a6);
+    margin-bottom: 6px;
+}
+
+.phase2-metric-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary, #fff);
+}
+
+.phase2-table-wrap {
+    overflow-x: auto;
+}
+
+.phase2-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.phase2-table th,
+.phase2-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    vertical-align: middle;
+}
+
+.phase2-table th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted, #8b93a6);
+}
+
+.phase2-table td {
+    font-size: 0.92rem;
+    color: var(--text-primary, #fff);
+}
+
+.phase2-actions {
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.phase2-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.phase2-btn:hover {
+    transform: translateY(-1px);
+}
+
+.phase2-btn.primary {
+    background: linear-gradient(135deg, #f5c518, #f59e0b);
+    color: #18181b;
+    box-shadow: 0 12px 24px rgba(245, 158, 11, 0.22);
+}
+
+.phase2-btn.success {
+    background: linear-gradient(135deg, #10b981, #22c55e);
+    color: #06130d;
+}
+
+.phase2-btn.danger {
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color: #fff;
+}
+
+.phase2-btn.secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: #e5e7eb;
+}
+
+.phase2-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.phase2-chip.success {
+    background: rgba(16, 185, 129, 0.14);
+    color: #6ee7b7;
+}
+
+.phase2-chip.warning {
+    background: rgba(245, 158, 11, 0.16);
+    color: #fcd34d;
+}
+
+.phase2-chip.danger {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fda4af;
+}
+
+.phase2-chip.info {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+}
+
+.phase2-inline-form {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.phase2-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.phase2-field span {
+    font-size: 0.78rem;
+    color: var(--text-muted, #8b93a6);
+    font-weight: 600;
+}
+
+.phase2-field input,
+.phase2-field select,
+.phase2-field textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+    padding: 12px 14px;
+    font: inherit;
+}
+
+.phase2-field textarea {
+    resize: vertical;
+    min-height: 96px;
+}
+
+.phase2-row-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.phase2-provider-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.phase2-provider-card {
+    padding: 18px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.phase2-provider-card h4 {
+    margin: 0 0 8px;
+}
+
+.phase2-provider-profit {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.phase2-provider-profit.positive {
+    color: #6ee7b7;
+}
+
+.phase2-provider-profit.negative {
+    color: #fda4af;
+}
+
+.phase2-alert-list {
+    display: grid;
+    gap: 10px;
+}
+
+.phase2-alert-item {
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.phase2-alert-item p {
+    margin: 6px 0 0;
+    color: #fca5a5;
+    font-size: 0.88rem;
+}
+
+.phase2-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 7, 12, 0.68);
+    backdrop-filter: blur(8px);
+    z-index: 2200;
+    display: none;
+}
+
+.phase2-modal-backdrop.show {
+    display: block;
+}
+
+.phase2-modal {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: min(560px, calc(100vw - 28px));
+    z-index: 2201;
+    display: none;
+}
+
+.phase2-modal.show {
+    display: block;
+}
+
+.phase2-empty {
+    padding: 28px 20px;
+    text-align: center;
+    color: var(--text-muted, #8b93a6);
+}
+
+@media (max-width: 1100px) {
+    .phase2-grid.two,
+    .phase2-provider-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .phase2-inline-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .phase2-inline-form,
+    .phase2-grid.three {
+        grid-template-columns: 1fr;
+    }
+
+    .phase2-card-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .phase2-table th,
+    .phase2-table td {
+        padding: 12px;
+    }
+}

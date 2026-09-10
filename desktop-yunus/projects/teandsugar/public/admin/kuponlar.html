@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Kuponlar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanıcılar" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                </a>
+                <a href="/admin/kuponlar" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-ticket-alt"></i> Kupon Yönetimi</h1>
+                <p class="subtitle">Bahis kuponlarını buradan yönetebilirsin.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="loadBets()">
+                    <i class="fas fa-sync-alt"></i>
+                    Yenile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card warning stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bekleyen Bahisler</h4>
+                        <div class="value" id="pendingBets">0</div>
+                        <div class="change" style="background: var(--warning-light); color: var(--warning);">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>Devam ediyor</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card success stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Kazanan Bahisler</h4>
+                        <div class="value" id="wonBets">0</div>
+                        <div class="change positive">
+                            <i class="fas fa-trophy"></i>
+                            <span>Kazandı</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card danger stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Kaybeden Bahisler</h4>
+                        <div class="value" id="lostBets">0</div>
+                        <div class="change negative">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Kaybetti</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon danger">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card info stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Toplam Bahis Hacmi</h4>
+                        <div class="value" id="totalVolume">₺ 0</div>
+                        <div class="change" style="background: var(--info-light); color: var(--info);">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Toplam</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon info">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="input-group" style="flex: 1; max-width: 350px;">
+                <i class="fas fa-search input-icon"></i>
+                <input type="text" class="form-control" id="searchInput" placeholder="Kullanıcı veya maç ara..."
+                    onkeyup="filterBets()">
+            </div>
+            <select class="form-control form-select" id="filterStatus" style="max-width: 200px;" onchange="loadBets()">
+                <option value="">Tüm Durumlar</option>
+                <option value="pending">Bekleyen</option>
+                <option value="won">Kazanan</option>
+                <option value="lost">Kaybeden</option>
+            </select>
+        </div>
+
+        <!-- Bets Table -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h3><i class="fas fa-dice"></i> Bahis Kuponları</h3>
+                <span class="badge badge-primary" id="betCount">0 kupon</span>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı</th>
+                                <th>Maç / Etkinlik</th>
+                                <th>Seçim</th>
+                                <th>Oran</th>
+                                <th>Tutar</th>
+                                <th>Muhtemel Kazanç</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="betsTable">
+                            <tr>
+                                <td colspan="10" style="text-align: center; padding: 60px;">
+                                    <div class="spinner" style="margin: 0 auto 16px;"></div>
+                                    <p style="color: var(--text-muted);">Bahisler yükleniyor...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Settle Modal -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+    <div class="modal" id="settleModal">
+        <div class="modal-header">
+            <h3><i class="fas fa-gavel"></i> Bahisi Sonuçlandır</h3>
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="settleBetId">
+            <div style="text-align: center; padding: 20px 0;">
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Bu bahisin sonucunu seçin:</p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <button class="btn btn-success btn-lg" onclick="settleBet('won')" style="flex: 1;">
+                        <i class="fas fa-trophy"></i>
+                        Kazandı
+                    </button>
+                    <button class="btn btn-danger btn-lg" onclick="settleBet('lost')" style="flex: 1;">
+                        <i class="fas fa-times-circle"></i>
+                        Kaybetti
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">İptal</button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        let allBets = [];
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Load Bets
+        async function loadBets() {
+            const status = document.getElementById('filterStatus').value;
+            let url = '/api/bets';
+            if (status) url += '?status=' + status;
+
+            try {
+                const res = await fetch(url, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                allBets = await res.json();
+
+                updateStats();
+                renderBets(allBets);
+            } catch (e) {
+                console.error('Load bets error:', e);
+                document.getElementById('betsTable').innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 60px; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 16px;"></i>
+                            <p>Bahisler yüklenirken hata oluştu!</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Update Stats
+        function updateStats() {
+            const pending = allBets.filter(b => b.status === 'pending').length;
+            const won = allBets.filter(b => b.status === 'won').length;
+            const lost = allBets.filter(b => b.status === 'lost').length;
+            const totalVolume = allBets.reduce((sum, b) => sum + parseFloat(b.amount || 0), 0);
+
+            document.getElementById('pendingBets').textContent = pending;
+            document.getElementById('wonBets').textContent = won;
+            document.getElementById('lostBets').textContent = lost;
+            document.getElementById('totalVolume').textContent = '₺ ' + totalVolume.toLocaleString('tr-TR');
+        }
+
+        // Filter Bets
+        function filterBets() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = allBets.filter(b => {
+                return (b.username && b.username.toLowerCase().includes(search)) ||
+                    (b.match_name && b.match_name.toLowerCase().includes(search));
+            });
+
+            renderBets(filtered);
+        }
+
+        // Render Bets
+        function renderBets(bets) {
+            const tbody = document.getElementById('betsTable');
+            document.getElementById('betCount').textContent = bets.length + ' kupon';
+
+            if (!bets || bets.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <h3>Bahis Bulunamadı</h3>
+                                <p>Seçilen filtrelere uygun bahis yok.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = bets.map(b => {
+                let statusBadge = '';
+                let statusClass = '';
+                if (b.status === 'pending') {
+                    statusBadge = 'Devam Ediyor';
+                    statusClass = 'warning';
+                } else if (b.status === 'won') {
+                    statusBadge = 'Kazandı';
+                    statusClass = 'success';
+                } else {
+                    statusBadge = 'Kaybetti';
+                    statusClass = 'danger';
+                }
+
+                const date = new Date(b.created_at).toLocaleString('tr-TR');
+
+                let actionBtns = '';
+                if (b.status === 'pending') {
+                    actionBtns = `
+                        <button class="btn btn-primary btn-sm" onclick="openSettleModal(${b.id})">
+                            <i class="fas fa-gavel"></i>
+                            Sonuçlandır
+                        </button>
+                    `;
+                } else {
+                    actionBtns = '<span style="color: var(--text-muted);">-</span>';
+                }
+
+                return `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-muted);">#${b.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">${(b.username || 'U')[0].toUpperCase()}</div>
+                                <div class="user-info">
+                                    <div class="name">${b.username || 'Bilinmeyen'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-weight: 500;">${b.match_name || '-'}</td>
+                        <td>
+                            <span class="badge badge-primary">${b.pick || '-'}</span>
+                        </td>
+                        <td style="font-weight: 700; color: var(--warning);">${parseFloat(b.odds || 0).toFixed(2)}</td>
+                        <td style="font-weight: 600;">₺ ${parseFloat(b.amount || 0).toLocaleString('tr-TR')}</td>
+                        <td style="font-weight: 700; color: var(--success);">₺ ${parseFloat(b.potential_win || 0).toLocaleString('tr-TR')}</td>
+                        <td style="color: var(--text-muted); font-size: 0.85rem;">${date}</td>
+                        <td>
+                            <span class="badge badge-${statusClass}">
+                                <i class="fas fa-${b.status === 'pending' ? 'clock' : b.status === 'won' ? 'trophy' : 'times'}"></i>
+                                ${statusBadge}
+                            </span>
+                        </td>
+                        <td>${actionBtns}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Open Settle Modal
+        function openSettleModal(id) {
+            document.getElementById('settleBetId').value = id;
+            openModal();
+        }
+
+        // Settle Bet
+        async function settleBet(result) {
+            const id = document.getElementById('settleBetId').value;
+            const resultText = result === 'won' ? 'KAZANDI' : 'KAYBETTI';
+
+            try {
+                const res = await fetch('/api/bets/' + id + '/settle', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ result: result })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Bahis ' + resultText + ' olarak sonuçlandı!', 'success');
+                    closeModal();
+                    loadBets();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalBackdrop').classList.add('show');
+            document.getElementById('settleModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('show');
+            document.getElementById('settleModal').classList.remove('show');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadBets);
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('show');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            }
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+</body>
+
+</html>

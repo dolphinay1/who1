@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Ayarlar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+    <link rel="stylesheet" href="/admin/phase2-integration.css">
+    <style>
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .settings-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .settings-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-card-header i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .settings-card-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .settings-card-body {
+            padding: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .setting-item:first-child {
+            padding-top: 0;
+        }
+
+        .setting-info h4 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .setting-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .promo-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .promo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+        }
+
+        .promo-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .promo-code {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .promo-value {
+            color: var(--success);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanıcılar" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                </a>
+                <a href="/admin/kuponlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-cog"></i> Genel Ayarlar</h1>
+                <p class="subtitle">Sistem ayarlarını buradan yönetebilirsin.</p>
+            </div>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Site Settings -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-globe"></i>
+                    <h3>Site Bilgileri</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="form-group">
+                        <label class="form-label">Site Adı</label>
+                        <input type="text" class="form-control" id="siteName" value="Clash Bet">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Hoşgeldin Bonusu (TL)</label>
+                        <div class="input-group">
+                            <i class="fas fa-gift input-icon"></i>
+                            <input type="number" class="form-control" id="welcomeBonus" value="2000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Minimum Yatırım (TL)</label>
+                        <div class="input-group">
+                            <i class="fas fa-arrow-down input-icon"></i>
+                            <input type="number" class="form-control" id="minDeposit" value="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Minimum Çekim (TL)</label>
+                        <div class="input-group">
+                            <i class="fas fa-arrow-up input-icon"></i>
+                            <input type="number" class="form-control" id="minWithdraw" value="100">
+                        </div>
+                    </div>
+
+                    <div class="setting-item"
+                        style="border-top: 1px solid var(--border-color); margin-top: 16px; padding-top: 16px;">
+                        <div class="setting-info">
+                            <h4>Bakım Modu</h4>
+                            <p>Siteyi geçici olarak kapatır</p>
+                        </div>
+                        <label class="form-switch">
+                            <input type="checkbox" id="maintenanceMode">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary w-full mt-3" onclick="saveSettings()" style="margin-top: 20px;">
+                        <i class="fas fa-save"></i>
+                        Ayarları Kaydet
+                    </button>
+                </div>
+            </div>
+
+            <!-- Veritral API Settings -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-key"></i>
+                    <h3>Veritral API Ayarları</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="form-group">
+                        <label class="form-label">API Key</label>
+                        <input type="text" class="form-control" id="veritralApiKey" placeholder="Veritral API Key">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">API Secret</label>
+                        <input type="password" class="form-control" id="veritralApiSecret" placeholder="Veritral API Secret">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Launch URL</label>
+                        <input type="text" class="form-control" id="veritralLaunchUrl" value="https://api.veritral.com/v1/game/launch">
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">
+                        <i class="fas fa-info-circle"></i> Slot oyunlarını başlatmak için Veritral API bilgilerini giriniz.
+                    </p>
+
+                    <button class="btn btn-primary w-full" onclick="saveSettings()">
+                        <i class="fas fa-save"></i>
+                        Veritral Ayarlarını Kaydet
+                    </button>
+                </div>
+            </div>
+
+            <!-- Announcement Settings -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>Kayan Yazı (Duyuru)</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="alert alert-info" style="margin-bottom: 20px;">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Ana sayfada üst kısmında geçen duyuru yazısı.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Duyuru Metni</label>
+                        <textarea class="form-control" id="announcementText" rows="4"
+                            placeholder="Duyuru metnini buraya yazın...">HOŞGELDİNİZ! İLK YATIRIMA ÖZEL %100 BONUS FIRSATI SİZLERLE...</textarea>
+                    </div>
+
+                    <button class="btn btn-success w-full" onclick="saveAnnouncement()" id="announcementBtn">
+                        <i class="fas fa-megaphone"></i>
+                        Duyuruyu Güncelle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Promo Codes -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-gift"></i>
+                    <h3>Promosyon Kodu Ekle</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="form-group">
+                        <label class="form-label">Promosyon Kodu</label>
+                        <input type="text" class="form-control" id="promoCode" placeholder="HOŞGELDİN"
+                            style="text-transform: uppercase;">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Tip</label>
+                            <select class="form-control form-select" id="promoType">
+                                <option value="money">Para (TL)</option>
+                                <option value="spin">Free Spin</option>
+                                <option value="bonus">Bonus %</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Değer</label>
+                            <input type="number" class="form-control" id="promoValue" placeholder="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Maksimum Kullanım</label>
+                        <input type="number" class="form-control" id="promoMaxUses" value="100">
+                    </div>
+
+                    <button class="btn btn-warning w-full" onclick="addPromoCode()">
+                        <i class="fas fa-plus"></i>
+                        Promosyon Kodu Ekle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Promo Codes -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-tags"></i>
+                    <h3>Aktif Promosyon Kodları</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="promo-list" id="promoList">
+                        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 12px;"></i>
+                            <p>Yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="settings-card fade-in">
+                <div class="settings-card-header">
+                    <i class="fas fa-server"></i>
+                    <h3>Sistem Bilgileri</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Versiyon</h4>
+                            <p>Admin Panel</p>
+                        </div>
+                        <span class="badge badge-primary">v3.0</span>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Sunucu Durumu</h4>
+                            <p>API Bağlantısı</p>
+                        </div>
+                        <span class="badge badge-success">
+                            <span class="status-dot active"></span>
+                            Aktif
+                        </span>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Son Güncelleme</h4>
+                            <p>Sistem</p>
+                        </div>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;" id="lastUpdate">-</span>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Lisans</h4>
+                            <p>Clash Bet License</p>
+                        </div>
+                        <code
+                            style="font-size: 0.75rem; color: var(--success); background: var(--success-light); padding: 4px 8px; border-radius: 4px;">
+                            AKTIF
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-card fade-in" style="border-color: rgba(239, 68, 68, 0.3);">
+                <div class="settings-card-header" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                    <h3 style="color: var(--danger);">Tehlikeli Bölge</h3>
+                </div>
+                <div class="settings-card-body">
+                    <div class="alert alert-danger" style="margin-bottom: 20px;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Bu bölgedeki işlemler geri alınamaz!</span>
+                    </div>
+
+                    <button class="btn btn-danger w-full mb-2" onclick="clearCache()" style="margin-bottom: 12px;">
+                        <i class="fas fa-broom"></i>
+                        Önbelleği Temizle
+                    </button>
+
+                    <button class="btn btn-secondary w-full" onclick="exportData()">
+                        <i class="fas fa-download"></i>
+                        Verileri Dışa Aktar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Load Settings
+        async function loadSettings() {
+            try {
+                const res = await fetch('/api/settings', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const settings = await res.json();
+
+                document.getElementById('siteName').value = settings.site_name || 'Clash Bet';
+                document.getElementById('announcementText').value = settings.announcement || '';
+                document.getElementById('welcomeBonus').value = settings.welcome_bonus || 2000;
+                document.getElementById('minDeposit').value = settings.min_deposit || 50;
+                document.getElementById('minWithdraw').value = settings.min_withdraw || 100;
+                document.getElementById('maintenanceMode').checked = settings.maintenance_mode === '1';
+
+                // Veritral Settings
+                document.getElementById('veritralApiKey').value = settings.veritral_api_key || '';
+                document.getElementById('veritralApiSecret').value = settings.veritral_api_secret || '';
+                document.getElementById('veritralLaunchUrl').value = settings.veritral_launch_url || 'https://api.veritral.com/v1/game/launch';
+
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleString('tr-TR');
+            } catch (e) {
+                console.error('Load settings error:', e);
+            }
+        }
+
+        // Save Settings
+        async function saveSettings() {
+            const settings = {
+                site_name: document.getElementById('siteName').value,
+                welcome_bonus: document.getElementById('welcomeBonus').value,
+                min_deposit: document.getElementById('minDeposit').value,
+                min_withdraw: document.getElementById('minWithdraw').value,
+                maintenance_mode: document.getElementById('maintenanceMode').checked ? '1' : '0',
+                veritral_api_key: document.getElementById('veritralApiKey').value,
+                veritral_api_secret: document.getElementById('veritralApiSecret').value,
+                veritral_launch_url: document.getElementById('veritralLaunchUrl').value
+            };
+
+            try {
+                const res = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(settings)
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Ayarlar başarıyla kaydedildi!', 'success');
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Save Announcement
+        async function saveAnnouncement() {
+            const text = document.getElementById('announcementText').value;
+            const btn = document.getElementById('announcementBtn');
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/admin/api/duyuru-güncelle', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ announcement: text })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Duyuru başarıyla güncellendi!', 'success');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Başarılı!';
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-megaphone"></i> Duyuruyu Güncelle';
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                    btn.innerHTML = '<i class="fas fa-megaphone"></i> Duyuruyu Güncelle';
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+                btn.innerHTML = '<i class="fas fa-megaphone"></i> Duyuruyu Güncelle';
+                btn.disabled = false;
+            }
+        }
+
+        // Add Promo Code
+        async function addPromoCode() {
+            const code = document.getElementById('promoCode').value.toUpperCase();
+            const type = document.getElementById('promoType').value;
+            const value = document.getElementById('promoValue').value;
+            const maxUses = document.getElementById('promoMaxUses').value;
+
+            if (!code || !value) {
+                showToast('Lütfen kod ve değer giriniz!', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/promo-codes', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        type: type,
+                        value: parseInt(value),
+                        max_uses: parseInt(maxUses)
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Promosyon kodu eklendi!', 'success');
+                    document.getElementById('promoCode').value = '';
+                    document.getElementById('promoValue').value = '';
+                    loadPromoCodes();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Load Promo Codes
+        async function loadPromoCodes() {
+            try {
+                const res = await fetch('/api/promo-codes', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const codes = await res.json();
+
+                const container = document.getElementById('promoList');
+
+                if (!codes || codes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                            <i class="fas fa-tags" style="font-size: 1.5rem; margin-bottom: 12px; opacity: 0.5;"></i>
+                            <p>Henüz promosyon kodu yok</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = codes.map(c => {
+                    const typeText = c.type === 'money' ? 'TL' : c.type === 'spin' ? 'Spin' : '%';
+                    const statusClass = c.is_active ? 'success' : 'danger';
+                    const statusText = c.is_active ? 'Aktif' : 'Pasif';
+
+                    return `
+                        <div class="promo-item">
+                            <div>
+                                <span class="promo-code">${c.code}</span>
+                                <span class="badge badge-${statusClass}" style="margin-left: 8px; font-size: 0.65rem;">
+                                    ${statusText}
+                                </span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <span class="promo-value">${c.value} ${typeText}</span>
+                                <span style="color: var(--text-muted); font-size: 0.8rem;">
+                                    ${c.used_count || 0}/${c.max_uses}
+                                </span>
+                                <button class="action-btn delete" onclick="deletePromoCode(${c.id})" title="Sil">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Load promo codes error:', e);
+                document.getElementById('promoList').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--danger);">
+                        <i class="fas fa-exclamation-circle" style="font-size: 1.5rem; margin-bottom: 12px;"></i>
+                        <p>Yüklenirken hata oluştu</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Delete Promo Code
+        async function deletePromoCode(id) {
+            if (!confirm('Bu promosyon kodunu silmek istediğinize emin misiniz?')) return;
+
+            try {
+                const res = await fetch('/api/promo-codes/' + id, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('Promosyon kodu silindi!', 'success');
+                    loadPromoCodes();
+                } else {
+                    showToast('Hata: ' + data.message, 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Sunucu hatası!', 'error');
+            }
+        }
+
+        // Clear Cache
+        function clearCache() {
+            if (!confirm('Önbelleği temizlemek istediğinize emin misiniz?')) return;
+            showToast('Önbellek temizlendi!', 'success');
+        }
+
+        // Export Data
+        function exportData() {
+            showToast('Veriler hazırlanıyor...', 'info');
+            setTimeout(() => {
+                showToast('Veriler indirilmeye hazır!', 'success');
+            }, 2000);
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            loadPromoCodes();
+        });
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('show');
+                document.getElementById('mobileMenuBtn').classList.remove('active');
+            }
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+    <script src="/admin/phase2-settings.js"></script>
+</body>
+
+</html>

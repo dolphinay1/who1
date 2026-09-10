@@ -1,0 +1,27 @@
+{
+  "name": "clash-bet-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.2",
+    "node-fetch": "^2.7.0",
+    "pg": "^8.20.0",
+    "sqlite3": "^5.1.7"
+  }
+}

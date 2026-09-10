@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3 class="text-center text-white mb-4">CLASH BET</h3>
+        <a href="/admin/dashboard" class="active"><i class="fas fa-home me-2"></i> Dashboard</a>
+        <a href="/admin/kullanicilar"><i class="fas fa-users me-2"></i> Kullanıcılar</a>
+        <a href="/admin/finans"><i class="fas fa-wallet me-2"></i> Finans</a>
+        <a href="/admin/kuponlar"><i class="fas fa-ticket-alt me-2"></i> Kuponlar</a>
+        <a href="/admin/loglar"><i class="fas fa-list me-2"></i> Loglar</a>
+        <a href="/admin/ayarlar"><i class="fas fa-cog me-2"></i> Ayarlar</a>
+        <a href="#" onclick="logout()" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Çıkış</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="mb-4">Dashboard</h2>
+
+        <!-- İstatistik Kartları -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-icon-primary">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Toplam Kullanıcı</h6>
+                            <h3 class="mb-0" id="totalUsers">-</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-icon-success">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Toplam Bakiye</h6>
+                            <h3 class="mb-0" id="totalBalance">-</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-icon-warning">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Aktif Bahisler</h6>
+                            <h3 class="mb-0" id="activeBets">-</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-icon-info">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Bekleyen İşlemler</h6>
+                            <h3 class="mb-0" id="pendingTransactions">-</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Son Kullanıcılar -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="mb-3">Son Kayıt Olan Kullanıcılar</h5>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Kullanıcı</th>
+                                    <th>Bakiye</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentUsers">
+                                <tr>
+                                    <td colspan="3" class="text-center">Yükleniyor...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="mb-3">Son İşlemler</h5>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Kullanıcı</th>
+                                    <th>Tip</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTransactions">
+                                <tr>
+                                    <td colspan="4" class="text-center">Yükleniyor...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Token kontrolü
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Logout fonksiyonu
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Dashboard verilerini yükle
+        async function loadDashboard() {
+            try {
+                // İstatistikleri getir
+                const usersRes = await fetch('/api/users', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const users = await usersRes.json();
+
+                const transactionsRes = await fetch('/api/transactions', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const transactions = await transactionsRes.json();
+
+                const betsRes = await fetch('/api/bets', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const bets = await betsRes.json();
+
+                // İstatistikleri güncelle
+                document.getElementById('totalUsers').textContent = users.length;
+                
+                const totalBalance = users.reduce((sum, user) => sum + parseFloat(user.balance), 0);
+                document.getElementById('totalBalance').textContent = `₺ ${totalBalance.toFixed(2)}`;
+                
+                const activeBets = bets.filter(b => b.status === 'pending').length;
+                document.getElementById('activeBets').textContent = activeBets;
+                
+                const pendingTransactions = transactions.filter(t => t.status === 'pending').length;
+                document.getElementById('pendingTransactions').textContent = pendingTransactions;
+
+                // Son kullanıcıları göster
+                const recentUsers = users.slice(0, 5);
+                document.getElementById('recentUsers').innerHTML = recentUsers.map(user => `
+                    <tr>
+                        <td>${user.username}</td>
+                        <td class="text-success fw-bold">₺ ${parseFloat(user.balance).toFixed(2)}</td>
+                        <td><span class="status-badge ${user.status === 'active' ? 'status-active' : 'status-banned'}">${user.status === 'active' ? 'Aktif' : 'Banlı'}</span></td>
+                    </tr>
+                `).join('');
+
+                // Son işlemleri göster
+                const recentTransactions = transactions.slice(0, 5);
+                document.getElementById('recentTransactions').innerHTML = recentTransactions.map(t => `
+                    <tr>
+                        <td>${t.username}</td>
+                        <td><span class="${t.type === 'deposit' ? 'text-success' : 'text-danger'}">${t.type === 'deposit' ? 'Yatırım' : 'Çekim'}</span></td>
+                        <td class="fw-bold">₺ ${parseFloat(t.amount).toFixed(2)}</td>
+                        <td><span class="badge ${t.status === 'pending' ? 'bg-warning text-dark' : t.status === 'approved' ? 'bg-success' : 'bg-danger'}">${t.status === 'pending' ? 'Bekliyor' : t.status === 'approved' ? 'Onaylandı' : 'Reddedildi'}</span></td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error('Veri yükleme hatası:', error);
+                if (error.message.includes('401') || error.message.includes('403')) {
+                    logout();
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        loadDashboard();
+    </script>
+</body>
+</html>

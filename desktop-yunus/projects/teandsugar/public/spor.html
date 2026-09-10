@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spor Bahisleri | CLASH BET</title>
+    <meta name="description" content="Canlı spor bahisleri - Süper Lig, Premier League, La Liga ve daha fazlası. En yüksek oranlarla şimdi bahis yap.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <style>
+        body { background: #0b0e14; color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; min-height: 100vh; }
+        .page-container { max-width: 1200px; margin: 0 auto; padding: 0 12px 100px 12px; }
+
+        /* Sport Hero */
+        .sport-hero {
+            padding: 28px 24px;
+            background: linear-gradient(135deg, rgba(22,163,106,0.1) 0%, rgba(15,23,42,0.95) 50%, rgba(245,197,24,0.06) 100%);
+            border: 1px solid rgba(22,163,106,0.2);
+            border-radius: 20px;
+            margin: 16px 0 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .sport-hero::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(22,163,106,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .sport-hero h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            animation: shimmerText 3s linear infinite;
+        }
+        .sport-hero p { color: #64748b; font-size: 12px; font-weight: 600; margin-top: 4px; }
+        .sport-hero-icon {
+            font-size: 32px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            width: 52px; height: 52px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+        }
+
+        /* Layout */
+        .sport-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 16px;
+        }
+
+        /* League Sidebar */
+        .league-sidebar {
+            background: linear-gradient(180deg, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0.7) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 16px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+        .league-sidebar h3 {
+            font-size: 11px;
+            font-weight: 900;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(16,185,129,0.15);
+        }
+        .league-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+            border: none;
+            background: transparent;
+            text-align: left;
+            width: 100%;
+        }
+        .league-item:hover { background: rgba(16,185,129,0.06); color: #e2e8f0; }
+        .league-item.active { background: rgba(16,185,129,0.12); color: #10b981; font-weight: 800; }
+        .league-item img { width: 18px; height: 18px; object-fit: contain; }
+        .league-item .li-count {
+            margin-left: auto;
+            font-size: 9px;
+            background: rgba(255,255,255,0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #64748b;
+        }
+        .league-item.active .li-count { background: rgba(16,185,129,0.15); color: #10b981; }
+
+        /* Mobile League Bar */
+        .mobile-league-bar {
+            display: none;
+            overflow-x: auto;
+            gap: 6px;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .mobile-league-bar::-webkit-scrollbar { display: none; }
+        @media (max-width: 900px) {
+            .mobile-league-bar { display: flex; }
+            .sport-layout { grid-template-columns: 1fr; }
+            .league-sidebar { display: none; }
+        }
+        .league-chip {
+            padding: 8px 14px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(15,23,42,0.8); color: #64748b;
+            font-size: 10px; font-weight: 700;
+            white-space: nowrap; cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .league-chip img { width: 14px; height: 14px; object-fit: contain; }
+        .league-chip:hover { color: #e2e8f0; border-color: rgba(255,255,255,0.15); }
+        .league-chip.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff; border-color: #10b981; font-weight: 900;
+        }
+
+        /* Stats Bar */
+        .sport-stats {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; background: rgba(15,23,42,0.6);
+            border: 1px solid rgba(16,185,129,0.1); border-radius: 10px; margin-bottom: 14px;
+        }
+        .sport-stats span { font-size: 11px; color: #64748b; font-weight: 600; }
+        .sport-stats strong { color: #10b981; }
+
+        /* Search */
+        .sport-search {
+            position: relative; flex: 1; min-width: 200px;
+        }
+        .sport-search input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border-radius: 12px;
+            border: 1px solid rgba(16,185,129,0.2);
+            background: rgba(15,23,42,0.8);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .sport-search input:focus { border-color: #10b981; box-shadow: 0 0 20px rgba(16,185,129,0.15); }
+        .sport-search input::placeholder { color: #4a5568; }
+        .sport-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #64748b; pointer-events: none; }
+
+        /* Match Content */
+        .match-content { min-height: 300px; }
+
+        /* League Header */
+        .sport-league-header {
+            display: flex; align-items: center; gap: 10px;
+            background: linear-gradient(90deg, #1a1e26 0%, transparent 100%);
+            padding: 12px 16px; border-radius: 12px;
+            margin: 16px 0 10px 0; border-left: 4px solid #10b981;
+        }
+        .sport-league-header img { width: 28px; height: 28px; object-fit: contain; }
+        .sport-league-header .slh-name { font-size: 13px; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sport-league-header .slh-count { font-size: 10px; color: #666; margin-left: 8px; }
+
+        @media (max-width: 480px) {
+            .sport-hero h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="sticky top-0 z-[100] bg-[#0b0e14]/95 border-b border-white/5 px-4 py-3 flex justify-between items-center backdrop-blur-md">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.href='/'">
+            <img src="logo.png" alt="CLASH BET" class="h-[76px] xl:h-[84px] object-contain">
+        </div>
+        <div id="guestNav" class="flex gap-1.5 align-center">
+            <button onclick="location.href='/'" class="bg-[#1e293b] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🏠 ANASAYFA</button>
+            <button onclick="location.href='slots.html'" class="bg-[#d97706] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🎰 SLOTLAR</button>
+            <button onclick="location.href='canli-casino.html'" class="bg-[#9333ea] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🃏 CASİNO</button>
+            <button onclick="openModal('loginModal')" class="bg-[#2563eb] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">GİRİŞ YAP</button>
+            <button onclick="openModal('registerModal')" class="bg-[#f5c518] clash-btn text-black text-[9px] font-black px-3 py-1.5 rounded-lg">ÜYE OL</button>
+        </div>
+        <div id="userNav" class="hidden flex items-center gap-2">
+            <button onclick="location.href='/'" class="bg-[#1e293b] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🏠</button>
+            <button onclick="location.href='slots.html'" class="bg-[#d97706] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🎰 SLOT</button>
+            <button onclick="location.href='canli-casino.html'" class="bg-[#9333ea] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🃏 CASİNO</button>
+            <div onclick="openModal('profileModal')" class="bg-black/50 border border-[#10b981] px-3 py-1.5 rounded-lg text-right cursor-pointer hover:bg-black/70">
+                <p id="navUserName" class="text-[#10b981] font-bold text-[8px] uppercase">User</p>
+                <p class="text-[10px] font-black text-white"><span id="mainBalance">0.00 TL</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <!-- Hero -->
+        <div class="sport-hero">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;gap:14px;">
+                <div class="sport-hero-icon">⚽</div>
+                <div>
+                    <h1>SPOR BAHİSLERİ</h1>
+                    <p id="sportPageCount">Yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <div class="sport-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Takım veya lig ara..." oninput="handleSearch(this.value)">
+            </div>
+            <span id="dateBadge" style="padding:10px 16px;border-radius:12px;border:1px solid rgba(16,185,129,0.2);background:rgba(15,23,42,0.8);color:#10b981;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;">📅</span>
+        </div>
+
+        <!-- Mobile League Bar -->
+        <div class="mobile-league-bar" id="mobileLeagueBar"></div>
+
+        <!-- Stats -->
+        <div class="sport-stats">
+            <span id="matchCount">Maçlar yükleniyor...</span>
+            <span>🔴 <strong>CANLI</strong></span>
+        </div>
+
+        <!-- Layout -->
+        <div class="sport-layout">
+            <!-- Sidebar -->
+            <aside class="league-sidebar">
+                <h3>⚽ Ligler</h3>
+                <div id="leagueSidebar">
+                    <button class="league-item active" onclick="setLeague('all',this)">
+                        <span>📅</span><span>Tüm Maçlar</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Match Content -->
+            <div class="match-content" id="matchContainer">
+                <div class="text-center text-gray-500 py-10">
+                    <div class="animate-spin text-2xl mb-2">⚽</div>
+                    <p class="text-sm">Maçlar yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kupon (Betting Slip) -->
+    <div id="bettingSlip" class="betting-slip" style="display:none;">
+        <div class="slip-header" onclick="toggleSlip()">
+            <span>🎫 KUPON</span>
+            <span id="slipCount" class="slip-count">0</span>
+        </div>
+        <div class="slip-body" id="slipBody">
+            <div id="slipItems"></div>
+            <div class="slip-summary">
+                <div class="slip-row">
+                    <span>Toplam Oran:</span>
+                    <span id="totalOdds" class="text-[#f5c518] font-bold">1.00</span>
+                </div>
+                <div class="slip-row">
+                    <span>Bahis Tutarı:</span>
+                    <input type="number" id="betAmount" value="100" min="10" max="100000" style="width:100px;padding:5px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:#1a1e26;color:#fff;text-align:right;">
+                    <span class="text-gray-400">TL</span>
+                </div>
+                <div class="slip-row" style="font-size:14px;margin-top:10px;">
+                    <span>Potansiyel Kazanç:</span>
+                    <span id="potentialWin" class="text-green-400 font-bold">100.00 TL</span>
+                </div>
+            </div>
+            <button onclick="placeBet()" class="slip-btn">BAHİS YATIR</button>
+            <button onclick="clearSlip()" class="slip-clear-btn">Kuponu Temizle</button>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="mobile-nav">
+        <div class="nav-item" onclick="location.href='/'"><div class="nav-icon">🏠</div><span>Anasayfa</span></div>
+        <div class="nav-item" onclick="location.href='slots.html'"><div class="nav-icon">🎰</div><span>Slotlar</span></div>
+        <div class="nav-item" onclick="location.href='canli-casino.html'"><div class="nav-icon">🃏</div><span>Canlı Casino</span></div>
+        <div class="nav-item active"><div class="nav-icon">⚽</div><span style="color:#10b981;font-weight:700;">Spor</span></div>
+        <div class="nav-item" onclick="checkAuth('profile')"><div class="nav-icon">👤</div><span>Profil</span></div>
+    </nav>
+
+    <!-- Match Detail Modal -->
+    <div id="matchDetailModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:500px;max-height:85vh;overflow-y:auto;">
+            <div class="modal-header" style="position:sticky;top:0;z-index:10;background:#111318;">
+                <span class="modal-title" id="matchDetailTitle">⚽ Maç Detayları</span>
+                <span class="close-btn" onclick="closeMatchDetail()">&times;</span>
+            </div>
+            <div class="modal-body" id="matchDetailBody" style="padding:15px;"></div>
+        </div>
+    </div>
+
+    <!-- Bet Success Modal -->
+    <div id="betSuccessModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:380px;text-align:center;">
+            <div class="modal-header" style="background:linear-gradient(135deg,#10b981,#059669);border:none;">
+                <span class="modal-title">✅ Bahis Başarılı!</span>
+                <span class="close-btn" onclick="closeBetSuccessModal()">&times;</span>
+            </div>
+            <div class="modal-body" style="padding:25px;">
+                <div style="font-size:50px;margin-bottom:15px;">🎫</div>
+                <div id="betSuccessDetails" style="text-align:left;background:rgba(16,185,129,0.1);border-radius:12px;padding:15px;margin-bottom:20px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <span style="color:#9ca3af;">Kupon No:</span>
+                        <span id="successCouponId" style="color:#f5c518;font-weight:bold;">#-</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+                        <span style="color:#9ca3af;">Yatırılan:</span>
+                        <span id="successBetAmount" style="color:#fff;font-weight:bold;">- TL</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+                        <span style="color:#9ca3af;">Toplam Oran:</span>
+                        <span id="successTotalOdds" style="color:#fff;font-weight:bold;">-</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid rgba(255,255,255,0.1);">
+                        <span style="color:#9ca3af;">Potansiyel Kazanç:</span>
+                        <span id="successPotentialWin" style="color:#10b981;font-weight:bold;font-size:18px;">- TL</span>
+                    </div>
+                </div>
+                <button onclick="closeBetSuccessModal()" style="width:100%;padding:12px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:10px;color:#fff;font-weight:bold;font-size:15px;cursor:pointer;">Tamam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="authWarningModal" class="modal" style="display:none;">
+        <div class="modal-content p-6 text-center" style="max-width:380px;">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-2xl text-gray-400 hover:text-gray-200">&times;</button>
+            <div style="font-size:50px;margin-bottom:12px;">🔐</div>
+            <h2 class="text-lg font-black text-white mb-2">Giriş Yapmalısınız</h2>
+            <p class="text-xs text-gray-400 mb-4">Bahis yapmak için giriş yapın veya üye olun.</p>
+            <div class="flex gap-2 justify-center">
+                <button onclick="closeModals();openModal('loginModal')" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg text-xs font-bold">GİRİŞ YAP</button>
+                <button onclick="closeModals();openModal('registerModal')" class="bg-[#10b981] text-white px-4 py-2 rounded-lg text-xs font-black">KAYIT OL</button>
+            </div>
+        </div>
+    </div>
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:360px;padding:24px;">
+            <span class="close-btn" onclick="closeModals()" style="position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;">&times;</span>
+            <h3 class="text-white text-lg font-black mb-4">🔑 GİRİŞ YAP</h3>
+            <input type="text" id="loginUser" placeholder="Kullanıcı Adı" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-3">
+            <input type="password" id="loginPass" placeholder="Şifre" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-4">
+            <button onclick="doLogin()" class="w-full bg-[#2563eb] text-white py-2.5 rounded-xl font-bold text-sm">GİRİŞ YAP</button>
+        </div>
+    </div>
+    <div id="registerModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:360px;padding:24px;">
+            <span class="close-btn" onclick="closeModals()" style="position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;">&times;</span>
+            <h3 class="text-white text-lg font-black mb-4">📝 KAYIT OL</h3>
+            <input type="text" id="regUser" placeholder="Kullanıcı Adı" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-3">
+            <input type="password" id="regPass" placeholder="Şifre" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-4">
+            <button onclick="doRegister()" class="w-full bg-[#10b981] text-white py-2.5 rounded-xl font-black text-sm">KAYIT OL</button>
+        </div>
+    </div>
+
+<script>
+// ===== State =====
+let liveMatches = [];
+let availableLeagues = [];
+let selectedLeague = 'all';
+let searchTerm = '';
+let bettingSlip = [];
+window.matchDataStore = {};
+
+// ===== Auth =====
+function checkAuth(a){if(!localStorage.getItem('currentUser')){openModal('authWarningModal');return false;}return true;}
+function initAuth() {
+    const u = JSON.parse(localStorage.getItem('currentUser'));
+    if (u) {
+        document.getElementById('guestNav').classList.add('hidden');
+        document.getElementById('userNav').classList.remove('hidden');
+        document.getElementById('navUserName').textContent = u.username || u.user;
+        document.getElementById('mainBalance').textContent = (u.balance||0).toFixed(2)+' TL';
+    }
+}
+async function doLogin() {
+    const res = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:document.getElementById('loginUser').value,pass:document.getElementById('loginPass').value})});
+    const d = await res.json(); if(d.success){localStorage.setItem('currentUser',JSON.stringify(d.user));localStorage.setItem('token',d.token);location.reload();}else alert(d.message);
+}
+async function doRegister() {
+    const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:document.getElementById('regUser').value,pass:document.getElementById('regPass').value})});
+    const d = await res.json(); if(d.success){localStorage.setItem('currentUser',JSON.stringify(d.user));localStorage.setItem('token',d.token);location.reload();}else alert(d.message);
+}
+function openModal(id){const m=document.getElementById(id);if(m){m.style.display='flex';m.classList.add('active');}}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>{m.style.display='none';m.classList.remove('active');});}
+
+// ===== Date Badge =====
+const d = new Date();
+document.getElementById('dateBadge').innerHTML = `📅 ${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
+
+// ===== Fetch Matches =====
+async function fetchMatches() {
+    const container = document.getElementById('matchContainer');
+    container.innerHTML = '<div class="text-center text-gray-500 py-10"><div class="animate-spin text-2xl mb-2">⚽</div><p class="text-sm">Maçlar yükleniyor...</p></div>';
+    try {
+        const res = await fetch('/api/live-matches');
+        const data = await res.json();
+        if (data.success) {
+            liveMatches = data.matches || [];
+            availableLeagues = data.leagues?.map(l => ({
+                key: l.key, name: l.name, flag: l.flag, badge: l.badge,
+                matchCount: l.matchCount || 0, todayCount: l.todayCount || 0
+            })) || [];
+            document.getElementById('sportPageCount').textContent = `${liveMatches.length} Maç • ${availableLeagues.length} Lig`;
+            if (false) { const todayCount = data.stats?.todayCount || 0;
+            if (selectedLeague === 'all' && todayCount === 0 && availableLeagues.length > 0) {
+                selectedLeague = availableLeagues[0].key;
+            }
+            document.getElementById('sportPageCount').textContent = todayCount > 0
+                ? `${todayCount} BugÃ¼n â€¢ ${liveMatches.length} YaklaÅŸan MaÃ§ â€¢ ${availableLeagues.length} Lig`
+                : `${liveMatches.length} YaklaÅŸan MaÃ§ â€¢ ${availableLeagues.length} Lig`;
+            }
+            renderLeagueSidebar();
+            renderMatches();
+        }
+    } catch (e) {
+        console.error('Maç çekme hatası:', e);
+        container.innerHTML = '<div class="text-center text-gray-500 py-10"><p class="text-sm">Maçlar yüklenirken hata oluştu.</p></div>';
+    }
+}
+
+// ===== League Sidebar =====
+function renderLeagueSidebar() {
+    const today = new Date().toISOString().split('T')[0];
+    const todayCount = liveMatches.filter(m => m.date === today).length;
+
+    // Sidebar
+    let html = `<button class="league-item ${selectedLeague==='all'?'active':''}" onclick="setLeague('all',this)">
+        <span>📅</span><span>Bugün</span><span class="li-count">${todayCount}</span></button>`;
+    // Mobile
+    let mHtml = `<button class="league-chip ${selectedLeague==='all'?'active':''}" onclick="setLeague('all',this)">📅 Bugün <span style="background:rgba(255,255,255,0.2);padding:1px 5px;border-radius:8px;font-size:9px;margin-left:3px;">${todayCount}</span></button>`;
+
+    availableLeagues.forEach(l => {
+        const count = liveMatches.filter(m => m.leagueKey === l.key).length;
+        const active = selectedLeague === l.key ? 'active' : '';
+        const esc = l.key.replace(/'/g, "\\'");
+        html += `<button class="league-item ${active}" onclick="setLeague('${esc}',this)">
+            ${l.badge ? `<img src="${l.badge}" alt="${l.name}">` : `<span>${l.flag}</span>`}
+            <span>${l.name}</span><span class="li-count">${count}</span></button>`;
+        mHtml += `<button class="league-chip ${active}" onclick="setLeague('${esc}',this)">
+            ${l.badge ? `<img src="${l.badge}" alt="${l.name}">` : l.flag} ${l.name}</button>`;
+    });
+    document.getElementById('leagueSidebar').innerHTML = html;
+    document.getElementById('mobileLeagueBar').innerHTML = mHtml;
+}
+
+// ===== Render Matches =====
+function renderMatches() {
+    const container = document.getElementById('matchContainer');
+    const today = new Date().toISOString().split('T')[0];
+
+    let filtered;
+    if (selectedLeague === 'all') {
+        filtered = liveMatches.filter(m => m.date === today);
+        if (filtered.length === 0) {
+            filtered = [...liveMatches]
+                .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+        }
+    } else {
+        filtered = liveMatches.filter(m => m.leagueKey === selectedLeague);
+    }
+
+    // Search filter
+    if (searchTerm.length >= 2) {
+        const st = searchTerm.toLowerCase();
+        filtered = filtered.filter(m =>
+            m.homeTeam.toLowerCase().includes(st) ||
+            m.awayTeam.toLowerCase().includes(st) ||
+            m.league.toLowerCase().includes(st)
+        );
+    }
+
+    document.getElementById('matchCount').textContent = `${filtered.length} maç gösteriliyor`;
+
+    if (filtered.length === 0) {
+        const msg = selectedLeague === 'all'
+            ? '📅 Şu anda gösterilecek yaklaşan maç bulunmuyor. Ligleri kontrol edin.'
+            : '⚽ Bu ligde yaklaşan maç bulunmuyor.';
+        container.innerHTML = `<div class="text-center text-gray-500 py-10"><p class="text-sm">${msg}</p></div>`;
+        return;
+    }
+
+    // Group by league
+    const grouped = {};
+    filtered.forEach(m => {
+        if (!grouped[m.leagueKey]) grouped[m.leagueKey] = { name: m.league, flag: m.leagueFlag, badge: m.leagueBadge, matches: [] };
+        grouped[m.leagueKey].matches.push(m);
+    });
+
+    let html = '';
+    Object.entries(grouped).forEach(([key, ld]) => {
+        html += `<div class="sport-league-header">
+            ${ld.badge ? `<img src="${ld.badge}" alt="${ld.name}">` : `<span style="font-size:20px;">${ld.flag}</span>`}
+            <div style="flex:1;">
+                <span class="slh-name">${ld.name}</span>
+                <span class="slh-count">${ld.matches.length} maç</span>
+            </div>
+        </div>`;
+
+        ld.matches.forEach(m => {
+            const matchDate = new Date(m.date);
+            const dateStr = matchDate.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+            window.matchDataStore[m.id] = m;
+
+            html += `<div class="match-card p-4" data-match-id="${m.id}">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[9px] text-gray-500">${dateStr}</span>
+                    <span class="match-time">${m.time}</span>
+                    <span class="text-[9px] text-[#10b981] cursor-pointer font-bold" onclick="openMatchDetail('${m.id}')">+50 Oran →</span>
+                </div>
+                <div class="flex justify-between items-center mb-4 text-center">
+                    <div class="w-1/3">
+                        <img src="${m.homeLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.homeTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true`}" class="h-10 mx-auto mb-2 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.homeTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true'">
+                        <p class="text-[9px] font-bold text-gray-300">${m.homeTeam}</p>
+                    </div>
+                    <div class="italic text-green-400 font-bold self-center text-xs">VS</div>
+                    <div class="w-1/3">
+                        <img src="${m.awayLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.awayTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true`}" class="h-10 mx-auto mb-2 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.awayTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true'">
+                        <p class="text-[9px] font-bold text-gray-300">${m.awayTeam}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="odd-box" onclick="addToSlip('${m.id}','MS 1','${m.homeTeam} Kazanır',${m.odds.home})">
+                        <span class="text-gray-500 text-[10px]">1</span><br>${m.odds.home}
+                    </div>
+                    <div class="odd-box" onclick="addToSlip('${m.id}','MS X','Beraberlik',${m.odds.draw})">
+                        <span class="text-gray-500 text-[10px]">X</span><br>${m.odds.draw}
+                    </div>
+                    <div class="odd-box" onclick="addToSlip('${m.id}','MS 2','${m.awayTeam} Kazanır',${m.odds.away})">
+                        <span class="text-gray-500 text-[10px]">2</span><br>${m.odds.away}
+                    </div>
+                </div>
+            </div>`;
+        });
+    });
+    container.innerHTML = html;
+}
+
+// ===== Filters =====
+window.setLeague = (key, btn) => {
+    selectedLeague = key;
+    renderLeagueSidebar();
+    renderMatches();
+};
+let st;
+function handleSearch(v) {
+    clearTimeout(st);
+    st = setTimeout(() => { searchTerm = v; renderMatches(); }, 300);
+}
+
+// ===== Betting Slip =====
+window.addToSlip = (matchId, pickType, pickLabel, odds) => {
+    const userStr = localStorage.getItem('currentUser');
+    let isLoggedIn = false;
+    try { isLoggedIn = JSON.parse(userStr)?.username; } catch(e) {}
+    if (!isLoggedIn) { openModal('authWarningModal'); return; }
+
+    const match = window.matchDataStore[matchId];
+    if (!match) return;
+
+    const idx = bettingSlip.findIndex(b => b.matchId === matchId);
+    if (idx > -1) {
+        if (bettingSlip[idx].pickType === pickType) { bettingSlip.splice(idx, 1); updateSlipUI(); return; }
+        bettingSlip[idx] = { matchId, matchName: `${match.homeTeam} - ${match.awayTeam}`, pickType, pickLabel, odds: parseFloat(odds) };
+    } else {
+        bettingSlip.push({ matchId, matchName: `${match.homeTeam} - ${match.awayTeam}`, pickType, pickLabel, odds: parseFloat(odds) });
+    }
+    updateSlipUI();
+    showSlip();
+};
+
+function updateSlipUI() {
+    const slipEl = document.getElementById('bettingSlip');
+    const slipItems = document.getElementById('slipItems');
+    const slipCount = document.getElementById('slipCount');
+    const totalOddsEl = document.getElementById('totalOdds');
+    const potentialWinEl = document.getElementById('potentialWin');
+    const betAmountEl = document.getElementById('betAmount');
+
+    if (bettingSlip.length === 0) { slipEl.style.display = 'none'; return; }
+    slipEl.style.display = 'block';
+    slipCount.textContent = bettingSlip.length;
+
+    let html = ''; let totalOdds = 1;
+    bettingSlip.forEach((bet, i) => {
+        totalOdds *= bet.odds;
+        html += `<div class="slip-item">
+            <button class="slip-item-remove" onclick="removeFromSlip(${i})">×</button>
+            <div class="slip-item-match">${bet.matchName}</div>
+            <div class="slip-item-pick">${bet.pickType}: ${bet.pickLabel}</div>
+            <div class="slip-item-odds">${bet.odds.toFixed(2)}</div>
+        </div>`;
+    });
+    slipItems.innerHTML = html;
+    totalOddsEl.textContent = totalOdds.toFixed(2);
+    potentialWinEl.textContent = ((parseFloat(betAmountEl.value)||100) * totalOdds).toFixed(2) + ' TL';
+}
+
+document.getElementById('betAmount').addEventListener('input', updateSlipUI);
+window.removeFromSlip = (i) => { bettingSlip.splice(i, 1); updateSlipUI(); };
+window.clearSlip = () => { bettingSlip = []; updateSlipUI(); };
+window.toggleSlip = () => { document.getElementById('bettingSlip').classList.toggle('collapsed'); };
+window.showSlip = () => { document.getElementById('bettingSlip').classList.remove('collapsed'); };
+
+window.placeBet = async () => {
+    if (bettingSlip.length === 0) { alert('Lütfen en az bir bahis seçin!'); return; }
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem('currentUser')); } catch(e) {}
+    if (!user) { openModal('authWarningModal'); return; }
+    const userName = user.username || user.user;
+    if (!userName) { alert('Tekrar giriş yapın.'); return; }
+
+    const betAmount = parseFloat(document.getElementById('betAmount').value) || 0;
+    if (betAmount < 10) { alert('Minimum 10 TL!'); return; }
+    if (betAmount > (parseFloat(user.balance)||0)) { alert('Yetersiz bakiye!'); return; }
+
+    let totalOdds = 1;
+    bettingSlip.forEach(b => totalOdds *= b.odds);
+
+    try {
+        const res = await fetch('/api/place-bet', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                username: userName, amount: betAmount,
+                totalOdds: parseFloat(totalOdds.toFixed(2)),
+                potentialWin: parseFloat((betAmount * totalOdds).toFixed(2)),
+                selections: bettingSlip.map(b => ({ matchId: b.matchId, match: b.matchName, pick: b.pickType, label: b.pickLabel, odds: b.odds }))
+            })
+        });
+        const result = await res.json();
+        if (result.success) {
+            user.balance = result.newBalance;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            document.getElementById('mainBalance').textContent = result.newBalance.toFixed(2) + ' TL';
+            showBetSuccessModal(result.couponId, betAmount, totalOdds, betAmount * totalOdds);
+            clearSlip();
+        } else alert('❌ ' + (result.message || 'Bahis yatırılamadı!'));
+    } catch(e) { console.error(e); alert('Sunucu hatası!'); }
+};
+
+function showBetSuccessModal(couponId, amount, odds, pot) {
+    document.getElementById('successCouponId').textContent = '#' + couponId;
+    document.getElementById('successBetAmount').textContent = amount.toFixed(2) + ' TL';
+    document.getElementById('successTotalOdds').textContent = odds.toFixed(2);
+    document.getElementById('successPotentialWin').textContent = pot.toFixed(2) + ' TL';
+    openModal('betSuccessModal');
+}
+window.closeBetSuccessModal = () => closeModals();
+
+// ===== Match Detail =====
+function generateFallbackOdds(baseOdds) {
+    return {
+        matchResult: [
+            { label: '1', desc: 'Ev Sahibi', odds: baseOdds.home },
+            { label: 'X', desc: 'Beraberlik', odds: baseOdds.draw },
+            { label: '2', desc: 'Deplasman', odds: baseOdds.away }
+        ],
+        overUnder: [
+            { label: 'Üst 2.5', odds: (1.5+Math.random()*0.5).toFixed(2) },
+            { label: 'Alt 2.5', odds: (2.0+Math.random()*0.5).toFixed(2) },
+            { label: 'Üst 3.5', odds: (2.0+Math.random()*0.8).toFixed(2) },
+            { label: 'Alt 3.5', odds: (1.3+Math.random()*0.3).toFixed(2) }
+        ],
+        bothScore: [
+            { label: 'Var', odds: (1.6+Math.random()*0.4).toFixed(2) },
+            { label: 'Yok', odds: (2.0+Math.random()*0.5).toFixed(2) }
+        ],
+        doubleChance: [
+            { label: '1X', odds: (1.1+Math.random()*0.3).toFixed(2) },
+            { label: '12', odds: (1.0+Math.random()*0.2).toFixed(2) },
+            { label: 'X2', odds: (1.2+Math.random()*0.4).toFixed(2) }
+        ]
+    };
+}
+
+window.openMatchDetail = (matchId) => {
+    const match = window.matchDataStore[matchId];
+    if (!match) return;
+    document.getElementById('matchDetailTitle').innerHTML = `⚽ ${match.homeTeam} vs ${match.awayTeam}`;
+    const odds = match.detailedOdds || generateFallbackOdds(match.odds);
+    const body = document.getElementById('matchDetailBody');
+
+    let html = `<div style="text-align:center;padding:15px;background:rgba(16,185,129,0.05);border-radius:12px;margin-bottom:15px;">
+        <div style="display:flex;justify-content:center;align-items:center;gap:20px;">
+            <div>
+                <img src="${match.homeLogo||`https://ui-avatars.com/api/?name=${encodeURIComponent(match.homeTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true`}" style="width:48px;height:48px;object-fit:contain;" onerror="this.src='https://ui-avatars.com/api/?name=TM&background=1a1e26&color=10b981&size=80&bold=true'">
+                <div style="font-size:11px;font-weight:800;margin-top:6px;">${match.homeTeam}</div>
+            </div>
+            <div style="color:#10b981;font-weight:900;font-size:16px;">VS</div>
+            <div>
+                <img src="${match.awayLogo||`https://ui-avatars.com/api/?name=${encodeURIComponent(match.awayTeam.substring(0,2))}&background=1a1e26&color=10b981&size=80&bold=true`}" style="width:48px;height:48px;object-fit:contain;" onerror="this.src='https://ui-avatars.com/api/?name=TM&background=1a1e26&color=10b981&size=80&bold=true'">
+                <div style="font-size:11px;font-weight:800;margin-top:6px;">${match.awayTeam}</div>
+            </div>
+        </div>
+    </div>`;
+
+    // Maç Sonucu
+    html += `<div style="margin-bottom:15px;">
+        <div style="font-size:12px;font-weight:800;color:#10b981;margin-bottom:8px;">🏆 Maç Sonucu</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            ${odds.matchResult.map(o => `<div class="odd-box" onclick="addToSlip('${matchId}','MS ${o.label}','${o.desc}',${o.odds})" style="text-align:center;cursor:pointer;">
+                <div style="font-size:9px;color:#666;">${o.label}</div><div style="font-weight:800;color:#fff;">${o.odds}</div>
+            </div>`).join('')}
+        </div></div>`;
+
+    // Üst/Alt
+    html += `<div style="margin-bottom:15px;">
+        <div style="font-size:12px;font-weight:800;color:#10b981;margin-bottom:8px;">📊 Üst/Alt Gol</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+            ${odds.overUnder.map(o => `<div class="odd-box" onclick="addToSlip('${matchId}','${o.label}','${o.label}',${o.odds})" style="text-align:center;cursor:pointer;">
+                <div style="font-size:9px;color:#666;">${o.label}</div><div style="font-weight:800;color:#fff;">${o.odds}</div>
+            </div>`).join('')}
+        </div></div>`;
+
+    // KG Var/Yok
+    html += `<div style="margin-bottom:15px;">
+        <div style="font-size:12px;font-weight:800;color:#10b981;margin-bottom:8px;">⚽ Karşılıklı Gol</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+            ${odds.bothScore.map(o => `<div class="odd-box" onclick="addToSlip('${matchId}','KG ${o.label}','KG ${o.label}',${o.odds})" style="text-align:center;cursor:pointer;">
+                <div style="font-size:9px;color:#666;">${o.label}</div><div style="font-weight:800;color:#fff;">${o.odds}</div>
+            </div>`).join('')}
+        </div></div>`;
+
+    // Çifte Şans
+    html += `<div>
+        <div style="font-size:12px;font-weight:800;color:#10b981;margin-bottom:8px;">🎯 Çifte Şans</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            ${odds.doubleChance.map(o => `<div class="odd-box" onclick="addToSlip('${matchId}','ÇŞ ${o.label}','Çifte Şans ${o.label}',${o.odds})" style="text-align:center;cursor:pointer;">
+                <div style="font-size:9px;color:#666;">${o.label}</div><div style="font-weight:800;color:#fff;">${o.odds}</div>
+            </div>`).join('')}
+        </div></div>`;
+
+    body.innerHTML = html;
+    openModal('matchDetailModal');
+};
+window.closeMatchDetail = () => closeModals();
+
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', () => { initAuth(); fetchMatches(); setInterval(fetchMatches, 5*60*1000); });
+</script>
+    <script src="js/shared-footer.js" defer></script>
+    <script src="js/shared-mobile-nav.js" defer></script>
+</body>
+</html>

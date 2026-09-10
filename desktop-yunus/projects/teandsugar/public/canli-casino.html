@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canlı Casino | CLASH BET</title>
+    <meta name="description" content="Canlı Casino oyunları - Lightning Roulette, Crazy Time, Blackjack, Baccarat ve daha fazlası Clash Bet'te.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <style>
+        body { background: #0b0e14; color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; min-height: 100vh; }
+        .page-container { max-width: 1200px; margin: 0 auto; padding: 0 12px 100px 12px; }
+
+        /* Live Casino Hero */
+        .live-hero {
+            padding: 28px 24px;
+            background: linear-gradient(135deg, rgba(147,51,234,0.1) 0%, rgba(15,23,42,0.95) 50%, rgba(220,38,38,0.08) 100%);
+            border: 1px solid rgba(147,51,234,0.2);
+            border-radius: 20px;
+            margin: 16px 0 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .live-hero::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(147,51,234,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .live-hero h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #c084fc, #e879f9, #c084fc);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            animation: shimmerText 3s linear infinite;
+        }
+        .live-hero p { color: #64748b; font-size: 12px; font-weight: 600; margin-top: 4px; }
+        .live-hero-icon {
+            font-size: 32px;
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            width: 52px; height: 52px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(147,51,234,0.4);
+        }
+
+        /* LIVE Badge */
+        .live-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(220,38,38,0.9);
+            backdrop-filter: blur(5px);
+            font-size: 8px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 5;
+            border: 1px solid rgba(239,68,68,0.5);
+        }
+        .live-dot {
+            width: 6px; height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Category Tabs (purple theme) */
+        .live-tab {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            background: rgba(30,41,59,0.6);
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border-bottom: 3px solid rgba(0,0,0,0.2) !important;
+        }
+        .live-tab:hover { background: rgba(147,51,234,0.1); color: #c084fc; border-color: rgba(147,51,234,0.2) !important; }
+        .live-tab.active {
+            background: linear-gradient(135deg, rgba(147,51,234,0.15), rgba(124,58,237,0.15));
+            color: #c084fc;
+            border-color: rgba(147,51,234,0.4) !important;
+            border-bottom-color: rgba(88,28,135,0.6) !important;
+            box-shadow: 0 0 15px rgba(147,51,234,0.1);
+        }
+
+        /* Search */
+        .live-search {
+            position: relative; flex: 1; min-width: 200px;
+        }
+        .live-search input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border-radius: 12px;
+            border: 1px solid rgba(147,51,234,0.2);
+            background: rgba(15,23,42,0.8);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .live-search input:focus { border-color: #9333ea; box-shadow: 0 0 20px rgba(147,51,234,0.15); }
+        .live-search input::placeholder { color: #4a5568; }
+        .live-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #64748b; pointer-events: none; }
+
+        /* Live Game Card */
+        .live-game-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 16/10;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .live-game-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #9333ea;
+            box-shadow: 0 12px 30px rgba(147,51,234,0.3), 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        .live-game-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .live-game-card:hover img { transform: scale(1.1); }
+        .live-game-card .game-name-tag {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+            font-size: 11px;
+            padding: 24px 10px 10px 10px;
+        }
+        .live-game-card .play-overlay span {
+            background: linear-gradient(135deg, #9333ea, #7c3aed) !important;
+            color: #fff !important;
+        }
+
+        /* Provider filter on live page */
+        .live-providers {
+            display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;
+        }
+        .live-providers::-webkit-scrollbar { display: none; }
+        .live-prov-chip {
+            padding: 7px 14px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            background: rgba(15,23,42,0.8); color: #64748b;
+            font-size: 10px; font-weight: 700;
+            white-space: nowrap; cursor: pointer;
+            transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(0,0,0,0.2) !important;
+        }
+        .live-prov-chip:hover { color: #e2e8f0; border-color: rgba(255,255,255,0.15) !important; }
+        .live-prov-chip.active {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: #fff; border-color: #9333ea !important;
+            border-bottom-color: #581c87 !important; font-weight: 900;
+        }
+
+        /* Live Grid */
+        .live-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        /* Stats */
+        .live-stats {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; background: rgba(15,23,42,0.6);
+            border: 1px solid rgba(147,51,234,0.1); border-radius: 10px; margin-bottom: 14px;
+        }
+        .live-stats span { font-size: 11px; color: #64748b; font-weight: 600; }
+        .live-stats strong { color: #c084fc; }
+
+        @media (max-width: 768px) {
+            .live-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .live-hero h1 { font-size: 20px; }
+            .live-game-card { aspect-ratio: 4/3; }
+        }
+        @media (max-width: 480px) {
+            .live-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .live-game-card .game-name-tag { font-size: 9px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="sticky top-0 z-[100] bg-[#0b0e14]/95 border-b border-white/5 px-4 py-3 flex justify-between items-center backdrop-blur-md">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.href='/'">
+            <img src="logo.png" alt="CLASH BET" class="h-[76px] xl:h-[84px] object-contain">
+        </div>
+        <div id="guestNav" class="flex gap-1.5 align-center">
+            <button onclick="location.href='/'" class="bg-[#1e293b] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🏠 ANASAYFA</button>
+            <button onclick="location.href='slots.html'" class="bg-[#d97706] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🎰 SLOTLAR</button>
+            <button onclick="location.href='spor.html'" class="bg-[#16a34a] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">⚽ SPOR</button>
+            <button onclick="openModal('loginModal')" class="bg-[#2563eb] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">GİRİŞ YAP</button>
+            <button onclick="openModal('registerModal')" class="bg-[#f5c518] clash-btn text-black text-[9px] font-black px-3 py-1.5 rounded-lg">ÜYE OL</button>
+        </div>
+        <div id="userNav" class="hidden flex items-center gap-2">
+            <button onclick="location.href='/'" class="bg-[#1e293b] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🏠</button>
+            <button onclick="location.href='slots.html'" class="bg-[#d97706] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">🎰 SLOT</button>
+            <button onclick="location.href='spor.html'" class="bg-[#16a34a] clash-btn text-white text-[9px] font-bold px-3 py-1.5 rounded-lg">⚽ SPOR</button>
+            <div onclick="openModal('profileModal')" class="bg-black/50 border border-[#9333ea] px-3 py-1.5 rounded-lg text-right cursor-pointer hover:bg-black/70">
+                <p id="navUserName" class="text-[#c084fc] font-bold text-[8px] uppercase">User</p>
+                <p class="text-[10px] font-black text-white"><span id="mainBalance">0.00 TL</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <!-- Hero -->
+        <div class="live-hero">
+            <div style="position:relative;z-index:1;display:flex;align-items:center;gap:14px;">
+                <div class="live-hero-icon">🃏</div>
+                <div>
+                    <h1>CANLI CASİNO</h1>
+                    <p id="liveGameCount">Yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <div class="live-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Oyun ara..." oninput="handleSearch(this.value)">
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none;">
+            <button class="live-tab active" onclick="setCategory('all',this)"><span>⭐</span> Tümü</button>
+            <button class="live-tab" onclick="setCategory('live',this)"><span>🎡</span> Game Shows</button>
+            <button class="live-tab" onclick="setCategory('table',this)"><span>🃏</span> Masa Oyunları</button>
+            <button class="live-tab" onclick="setCategory('roulette',this)"><span>🎯</span> Rulet</button>
+            <button class="live-tab" onclick="setCategory('blackjack',this)"><span>♠️</span> Blackjack</button>
+            <button class="live-tab" onclick="setCategory('baccarat',this)"><span>♦️</span> Baccarat</button>
+        </div>
+
+        <!-- Provider Chips -->
+        <div class="live-providers" id="providerChips"></div>
+
+        <!-- Stats -->
+        <div class="live-stats">
+            <span id="resultCount">Yükleniyor...</span>
+            <span>🔴 <strong>CANLI</strong></span>
+        </div>
+
+        <!-- Grid -->
+        <div class="live-grid" id="gameGrid">
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+            <div class="slot-skeleton" style="aspect-ratio:16/10;"></div>
+        </div>
+
+        <div class="casino-load-more" id="loadMoreBox" style="display:none;">
+            <button class="casino-load-btn" id="loadMoreBtn" onclick="loadMore()" style="border-color:rgba(147,51,234,0.3) !important;color:#c084fc;">
+                <span>DAHA FAZLA YÜKLE</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="mobile-nav">
+        <div class="nav-item" onclick="location.href='/'"><div class="nav-icon">🏠</div><span>Anasayfa</span></div>
+        <div class="nav-item" onclick="location.href='slots.html'"><div class="nav-icon">🎰</div><span>Slotlar</span></div>
+        <div class="nav-item active"><div class="nav-icon">🃏</div><span style="color:#c084fc;font-weight:700;">Canlı Casino</span></div>
+        <div class="nav-item" onclick="location.href='spor.html'"><div class="nav-icon">⚽</div><span>Spor</span></div>
+        <div class="nav-item" onclick="checkAuth('profile')"><div class="nav-icon">👤</div><span>Profil</span></div>
+    </nav>
+
+    <!-- Game Modal -->
+    <div id="gameModal" class="modal" style="display:none;z-index:9999;">
+        <div class="modal-content" style="max-width:95vw;max-height:95vh;width:900px;height:600px;padding:0;overflow:hidden;">
+            <div class="modal-header" style="padding:8px 12px;display:flex;justify-content:space-between;align-items:center;background:#111318;">
+                <span class="modal-title" id="activeGameName" style="font-size:13px;">Yükleniyor...</span>
+                <span class="close-btn" onclick="closeGameModal()" style="font-size:22px;">&times;</span>
+            </div>
+            <iframe id="gameFrame" style="width:100%;height:calc(100% - 40px);border:none;background:#000;" src="about:blank" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div id="authWarningModal" class="modal" style="display:none;">
+        <div class="modal-content p-6 text-center" style="max-width:380px;">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-2xl text-gray-400 hover:text-gray-200">&times;</button>
+            <div style="font-size:50px;margin-bottom:12px;">🔐</div>
+            <h2 class="text-lg font-black text-white mb-2">Giriş Yapmalısınız</h2>
+            <p class="text-xs text-gray-400 mb-4">Canlı casino oynamak için giriş yapın veya üye olun.</p>
+            <div class="flex gap-2 justify-center">
+                <button onclick="closeModals();openModal('loginModal')" class="bg-[#2563eb] text-white px-4 py-2 rounded-lg text-xs font-bold">GİRİŞ YAP</button>
+                <button onclick="closeModals();openModal('registerModal')" class="bg-[#9333ea] text-white px-4 py-2 rounded-lg text-xs font-black">KAYIT OL</button>
+            </div>
+        </div>
+    </div>
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:360px;padding:24px;">
+            <span class="close-btn" onclick="closeModals()" style="position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;">&times;</span>
+            <h3 class="text-white text-lg font-black mb-4">🔑 GİRİŞ YAP</h3>
+            <input type="text" id="loginUser" placeholder="Kullanıcı Adı" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-3">
+            <input type="password" id="loginPass" placeholder="Şifre" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-4">
+            <button onclick="doLogin()" class="w-full bg-[#2563eb] text-white py-2.5 rounded-xl font-bold text-sm">GİRİŞ YAP</button>
+        </div>
+    </div>
+    <div id="registerModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:360px;padding:24px;">
+            <span class="close-btn" onclick="closeModals()" style="position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;">&times;</span>
+            <h3 class="text-white text-lg font-black mb-4">📝 KAYIT OL</h3>
+            <input type="text" id="regUser" placeholder="Kullanıcı Adı" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-3">
+            <input type="password" id="regPass" placeholder="Şifre" class="w-full px-4 py-2.5 rounded-lg bg-[#0f1219] border border-white/10 text-white placeholder-gray-500 text-sm mb-4">
+            <button onclick="doRegister()" class="w-full bg-[#9333ea] text-white py-2.5 rounded-xl font-black text-sm">KAYIT OL</button>
+        </div>
+    </div>
+
+<script>
+let state = { page: 1, totalPages: 1, total: 0, category: 'all', provider: 'all', search: '', providers: [], loading: false };
+
+function checkAuth(a) { if(!localStorage.getItem('currentUser')){openModal('authWarningModal');return false;} return true; }
+function initAuth() {
+    const u = JSON.parse(localStorage.getItem('currentUser'));
+    if (u) {
+        document.getElementById('guestNav').classList.add('hidden');
+        document.getElementById('userNav').classList.remove('hidden');
+        document.getElementById('navUserName').textContent = u.username || u.user;
+        document.getElementById('mainBalance').textContent = (u.balance||0).toFixed(2)+' TL';
+    }
+}
+async function doLogin() {
+    const res = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:document.getElementById('loginUser').value,pass:document.getElementById('loginPass').value})});
+    const d = await res.json(); if(d.success){localStorage.setItem('currentUser',JSON.stringify(d.user));localStorage.setItem('token',d.token);location.reload();}else alert(d.message);
+}
+async function doRegister() {
+    const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:document.getElementById('regUser').value,pass:document.getElementById('regPass').value})});
+    const d = await res.json(); if(d.success){localStorage.setItem('currentUser',JSON.stringify(d.user));localStorage.setItem('token',d.token);location.reload();}else alert(d.message);
+}
+function openModal(id){const m=document.getElementById(id);if(m){m.style.display='flex';m.classList.add('active');}}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>{m.style.display='none';m.classList.remove('active');});}
+function closeGameModal(){document.getElementById('gameFrame').src='about:blank';closeModals();}
+
+async function loadGames(append=false) {
+    if(state.loading) return;
+    state.loading = true;
+    const grid = document.getElementById('gameGrid');
+    if(!append){grid.innerHTML='';for(let i=0;i<6;i++) grid.innerHTML+='<div class="slot-skeleton" style="aspect-ratio:16/10;"></div>';}
+
+    try {
+        // Fetch both live and table games
+        let url = `/api/veritral/games?page=${state.page}&limit=40`;
+        if(state.provider!=='all') url += `&provider=${encodeURIComponent(state.provider)}`;
+        if(state.search) url += `&search=${encodeURIComponent(state.search)}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        if(!data.success) return;
+
+        // Filter for live + table categories
+        let games = data.games || [];
+        if(state.category === 'all') {
+            games = games.filter(g => g.category === 'live' || g.category === 'table');
+        } else if(state.category === 'live') {
+            games = games.filter(g => g.category === 'live');
+        } else if(state.category === 'table') {
+            games = games.filter(g => g.category === 'table');
+        } else if(state.category === 'roulette') {
+            games = games.filter(g => (g.category === 'live' || g.category === 'table') && g.name.toLowerCase().includes('roulette'));
+        } else if(state.category === 'blackjack') {
+            games = games.filter(g => (g.category === 'live' || g.category === 'table') && g.name.toLowerCase().includes('blackjack'));
+        } else if(state.category === 'baccarat') {
+            games = games.filter(g => (g.category === 'live' || g.category === 'table') && g.name.toLowerCase().includes('baccarat'));
+        }
+
+        state.total = games.length;
+        state.totalPages = data.totalPages;
+
+        if(state.providers.length===0 && data.providers) {
+            // Get providers that have live/table games
+            const liveProviders = [...new Set(games.map(g=>g.provider))];
+            state.providers = liveProviders;
+            renderProviders();
+        }
+
+        document.getElementById('liveGameCount').textContent = `${games.length} Canlı Oyun`;
+        document.getElementById('resultCount').textContent = `${games.length} oyun gösteriliyor`;
+
+        if(!append) grid.innerHTML = '';
+        if(games.length === 0 && !append) {
+            grid.innerHTML = '<div class="col-span-full text-center text-gray-500 text-sm py-16">Bu kategoride canlı oyun bulunamadı.</div>';
+        } else {
+            games.forEach(g => {
+                const safeName = (g.name||'').replace(/'/g,"\\'");
+                grid.innerHTML += `<div class="live-game-card" onclick="launchGame('${g.id}','${safeName}')">
+                    <img src="${g.image}" loading="lazy" alt="${g.name}" onerror="this.src='https://via.placeholder.com/400x250/1e1030/c084fc?text=${encodeURIComponent(g.name)}'">
+                    <div class="live-badge"><div class="live-dot"></div>CANLI</div>
+                    <div class="game-name-tag">${g.name}</div>
+                    <div class="play-overlay"><span class="font-black px-4 py-1.5 rounded-full text-[11px]">KATIL</span></div>
+                </div>`;
+            });
+        }
+        document.getElementById('loadMoreBox').style.display = state.page < state.totalPages ? 'block' : 'none';
+    } catch(e) {
+        console.error(e);
+        if(!append) grid.innerHTML = '<div class="col-span-full text-center text-red-400 text-sm py-16">Yükleme hatası.</div>';
+    } finally { state.loading = false; }
+}
+
+function renderProviders() {
+    let html = `<button class="live-prov-chip ${state.provider==='all'?'active':''}" onclick="setProvider('all',this)">Tümü</button>`;
+    state.providers.forEach(p => {
+        const esc = p.replace(/'/g,"\\'");
+        html += `<button class="live-prov-chip ${state.provider===p?'active':''}" onclick="setProvider('${esc}',this)">${p}</button>`;
+    });
+    document.getElementById('providerChips').innerHTML = html;
+}
+
+function setCategory(c,btn) { state.category=c; state.page=1; document.querySelectorAll('.live-tab').forEach(t=>t.classList.remove('active')); if(btn)btn.classList.add('active'); loadGames(); }
+function setProvider(p,btn) { state.provider=p; state.page=1; document.querySelectorAll('.live-prov-chip').forEach(c=>c.classList.remove('active')); if(btn)btn.classList.add('active'); loadGames(); }
+let st; function handleSearch(v){clearTimeout(st);st=setTimeout(()=>{state.search=v;state.page=1;loadGames();},300);}
+function loadMore(){if(state.page<state.totalPages){state.page++;loadGames(true);}}
+
+async function launchGame(gameId, gameName) {
+    if(!localStorage.getItem('currentUser')){openModal('authWarningModal');return;}
+    document.getElementById('activeGameName').textContent = 'Yükleniyor...';
+    document.getElementById('gameFrame').src = 'about:blank';
+    openModal('gameModal');
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/launch-game?gameId=${gameId}`,{headers:{'Authorization':'Bearer '+token}});
+        const data = await res.json();
+        if(data.success && data.launchUrl){document.getElementById('gameFrame').src=data.launchUrl;document.getElementById('activeGameName').textContent=gameName;}
+        else{alert(data.message||'Oyun başlatılamadı!');closeGameModal();}
+    } catch(e){console.error(e);alert('Hata oluştu.');closeGameModal();}
+}
+
+document.addEventListener('DOMContentLoaded',()=>{initAuth();loadGames();});
+</script>
+    <script src="js/shared-footer.js" defer></script>
+    <script src="js/shared-mobile-nav.js" defer></script>
+</body>
+</html>

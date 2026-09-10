@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Bet Admin - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="stylesheet" href="/admin/phase1-integration.css">
+    <link rel="stylesheet" href="/admin/phase2-integration.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars icon-open"></i>
+        <i class="fas fa-times icon-close"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CLASH BET</h1>
+            <span>Admin Panel</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" onclick="closeMobileMenu()"
+                style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f5c518 0%, #f59e0b 100%); color: black; padding: 12px 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 16px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                <i class="fas fa-home" style="font-size: 1rem;"></i>
+                <span>ANASAYFA</span>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.8rem;"></i>
+            </a>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Ana Menü</div>
+                <a href="/admin/dashboard" class="active" onclick="closeMobileMenu()">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/kullanicilar" onclick="closeMobileMenu()">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a href="/admin/finans" onclick="closeMobileMenu()">
+                    <i class="fas fa-wallet"></i>
+                    <span>Finans</span>
+                    <span class="nav-badge" id="pendingCount">0</span>
+                </a>
+                <a href="/admin/kuponlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Kuponlar</span>
+                </a>
+                <a href="/admin/dogrulama" onclick="closeMobileMenu()">
+                    <i class="fas fa-user-check"></i>
+                    <span>Doğrulama</span>
+                </a>
+                <a href="/admin/bannerler" onclick="closeMobileMenu()">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Sistem</div>
+                <a href="/admin/loglar" onclick="closeMobileMenu()">
+                    <i class="fas fa-history"></i>
+                    <span>Loglar</span>
+                </a>
+                <a href="/admin/ayarlar" onclick="closeMobileMenu()">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile" onclick="logout()">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">Super Admin</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-th-large"></i> Dashboard</h1>
+                <p class="subtitle">Hoşgeldin! Sistemin genel durumuna buradan bakabilirsin.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="loadAllData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Yenile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card primary stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Kasa Hacmi</h4>
+                        <div class="value" id="totalBalance">₺ 0</div>
+                        <div class="change positive" id="balanceChange">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon primary">
+                        <i class="fas fa-vault"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card success stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Toplam Üye</h4>
+                        <div class="value" id="totalUsers">0</div>
+                        <div class="change positive" id="userChange">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+8 bugün</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card warning stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Bekleyen İşlem</h4>
+                        <div class="value" id="pendingTransactions">0</div>
+                        <div class="change" style="background: var(--warning-light); color: var(--warning);">
+                            <i class="fas fa-clock"></i>
+                            <span>Onay bekliyor</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card info stagger-item">
+                <div class="stat-card-content">
+                    <div class="stat-info">
+                        <h4>Aktif Bahisler</h4>
+                        <div class="value" id="activeBets">0</div>
+                        <div class="change" style="background: var(--info-light); color: var(--info);">
+                            <i class="fas fa-play"></i>
+                            <span>Devam ediyor</span>
+                        </div>
+                    </div>
+                    <div class="stat-icon info">
+                        <i class="fas fa-dice"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px;">
+            <!-- Revenue Chart -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Haftalık Gelir/Gider</h3>
+                    <div class="header-actions">
+                        <select class="form-control" style="width: auto; padding: 8px 16px;" id="chartPeriod"
+                            onchange="updateChart()">
+                            <option value="week">Bu Hafta</option>
+                            <option value="month">Bu Ay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h3><i class="fas fa-bolt"></i> Hızlı İstatistikler</h3>
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--success-light); border-radius: 12px;">
+                            <div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Bugün Yatırılan</div>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--success);"
+                                    id="todayDeposits">₺ 0</div>
+                            </div>
+                            <i class="fas fa-arrow-down" style="font-size: 1.5rem; color: var(--success);"></i>
+                        </div>
+
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--danger-light); border-radius: 12px;">
+                            <div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Bugün Çekilen</div>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--danger);"
+                                    id="todayWithdraws">₺ 0</div>
+                            </div>
+                            <i class="fas fa-arrow-up" style="font-size: 1.5rem; color: var(--danger);"></i>
+                        </div>
+
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--info-light); border-radius: 12px;">
+                            <div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Bugün Oynanan Bahis</div>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--info);" id="todayBets">₺ 0
+                                </div>
+                            </div>
+                            <i class="fas fa-dice" style="font-size: 1.5rem; color: var(--info);"></i>
+                        </div>
+
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(233, 69, 96, 0.15); border-radius: 12px;">
+                            <div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Net Kar</div>
+                                <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary);" id="netProfit">
+                                    ₺ 0</div>
+                            </div>
+                            <i class="fas fa-chart-pie" style="font-size: 1.5rem; color: var(--primary);"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions & Activities -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Recent Transactions -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h3><i class="fas fa-exchange-alt"></i> Son İşlemler</h3>
+                    <a href="/admin/finans" class="btn btn-ghost btn-sm">Tümünü Gör</a>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kullanıcı</th>
+                                    <th>İşlem</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTransactions">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 40px;">
+                                        <div class="spinner" style="margin: 0 auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Users -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-plus"></i> Yeni Üyeler</h3>
+                    <a href="/admin/kullanıcılar" class="btn btn-ghost btn-sm">Tümünü Gör</a>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kullanıcı</th>
+                                    <th>Bakiye</th>
+                                    <th>Kayıt</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentUsers">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 40px;">
+                                        <div class="spinner" style="margin: 0 auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+        // Auth check
+        if (!token) {
+            window.location.href = '/admin/login';
+        }
+
+        // Revenue Chart
+        let revenueChart;
+
+        function initChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            const gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient1.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+            gradient1.addColorStop(1, 'rgba(16, 185, 129, 0)');
+
+            const gradient2 = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient2.addColorStop(0, 'rgba(239, 68, 68, 0.3)');
+            gradient2.addColorStop(1, 'rgba(239, 68, 68, 0)');
+
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Pzt', 'Sal', 'Car', 'Per', 'Cum', 'Cmt', 'Paz'],
+                    datasets: [
+                        {
+                            label: 'Yatırım',
+                            data: [0, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#10b981',
+                            backgroundColor: gradient1,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#10b981',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        },
+                        {
+                            label: 'Çekim',
+                            data: [0, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#ef4444',
+                            backgroundColor: gradient2,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#ef4444',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'end',
+                            labels: {
+                                color: '#a0aec0',
+                                usePointStyle: true,
+                                padding: 20,
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1a1d26',
+                            titleColor: '#fff',
+                            bodyColor: '#a0aec0',
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: true,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ₺' + context.raw.toLocaleString('tr-TR');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#6b7280',
+                                font: {
+                                    family: 'Inter'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#6b7280',
+                                font: {
+                                    family: 'Inter'
+                                },
+                                callback: function (value) {
+                                    return '₺' + value.toLocaleString('tr-TR');
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Load Dashboard Stats
+        async function loadDashboardStats() {
+            try {
+                const res = await fetch('/api/dashboard-stats', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                // Update stats
+                document.getElementById('totalBalance').textContent = '₺ ' + (data.totalBalance || 0).toLocaleString('tr-TR');
+                document.getElementById('totalUsers').textContent = data.totalUsers || 0;
+                document.getElementById('pendingTransactions').textContent = (data.pendingDeposits?.count || 0) + (data.pendingWithdraws?.count || 0);
+                document.getElementById('activeBets').textContent = data.activeBets || 0;
+
+                // Update pending badge in sidebar
+                const pendingTotal = (data.pendingDeposits?.count || 0) + (data.pendingWithdraws?.count || 0);
+                document.getElementById('pendingCount').textContent = pendingTotal;
+
+                // Quick stats
+                document.getElementById('todayDeposits').textContent = '₺ ' + (data.todayDeposits || 0).toLocaleString('tr-TR');
+                document.getElementById('todayWithdraws').textContent = '₺ ' + (data.todayWithdraws || 0).toLocaleString('tr-TR');
+                document.getElementById('todayBets').textContent = '₺ ' + (data.todayBets || 0).toLocaleString('tr-TR');
+                document.getElementById('netProfit').textContent = '₺ ' + ((data.todayDeposits || 0) - (data.todayWithdraws || 0)).toLocaleString('tr-TR');
+
+                // Update chart
+                if (data.weeklyStats && revenueChart) {
+                    revenueChart.data.datasets[0].data = data.weeklyStats.deposits || [0, 0, 0, 0, 0, 0, 0];
+                    revenueChart.data.datasets[1].data = data.weeklyStats.withdraws || [0, 0, 0, 0, 0, 0, 0];
+                    revenueChart.update();
+                }
+
+            } catch (e) {
+                console.error('Dashboard stats error:', e);
+            }
+        }
+
+        // Load Recent Transactions
+        async function loadRecentTransactions() {
+            try {
+                const res = await fetch('/api/transactions?limit=5', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const transactions = await res.json();
+
+                const tbody = document.getElementById('recentTransactions');
+
+                if (!transactions || transactions.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-state" style="padding: 30px;">
+                                    <div class="empty-state-icon" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                        <i class="fas fa-inbox"></i>
+                                    </div>
+                                    <p style="margin: 0; color: var(--text-muted);">Henüz işlem yok</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = transactions.slice(0, 5).map(t => {
+                    const isDeposit = t.type === 'deposit';
+                    const statusClass = t.status === 'pending' ? 'warning' : t.status === 'approved' ? 'success' : 'danger';
+                    const statusText = t.status === 'pending' ? 'Bekliyor' : t.status === 'approved' ? 'Onaylandı' : 'Reddedildi';
+
+                    return `
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-avatar">${(t.username || 'U')[0].toUpperCase()}</div>
+                                    <div class="user-info">
+                                        <div class="name">${t.username || 'Bilinmeyen'}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-${isDeposit ? 'success' : 'danger'}">
+                                    <i class="fas fa-arrow-${isDeposit ? 'down' : 'up'}"></i>
+                                    ${isDeposit ? 'Yatırım' : 'Çekim'}
+                                </span>
+                            </td>
+                            <td style="font-weight: 600; color: var(--${isDeposit ? 'success' : 'danger'});">
+                                ₺ ${parseFloat(t.amount).toLocaleString('tr-TR')}
+                            </td>
+                            <td>
+                                <span class="badge badge-${statusClass}">${statusText}</span>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Recent transactions error:', e);
+                document.getElementById('recentTransactions').innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle"></i> Yüklenemedi
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Load Recent Users
+        async function loadRecentUsers() {
+            try {
+                const res = await fetch('/api/users?limit=5', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const users = await res.json();
+
+                const tbody = document.getElementById('recentUsers');
+
+                if (!users || users.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-state" style="padding: 30px;">
+                                    <div class="empty-state-icon" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <p style="margin: 0; color: var(--text-muted);">Henüz üye yok</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = users.slice(0, 5).map(u => {
+                    const date = new Date(u.created_at).toLocaleDateString('tr-TR');
+                    const statusClass = u.status === 'active' ? 'success' : 'danger';
+                    const statusText = u.status === 'active' ? 'Aktif' : 'Banlı';
+
+                    return `
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-avatar">${(u.username || 'U')[0].toUpperCase()}</div>
+                                    <div class="user-info">
+                                        <div class="name">${u.username}</div>
+                                        <div class="email">${u.email || ''}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="font-weight: 600; color: var(--success);">
+                                ₺ ${parseFloat(u.balance || 0).toLocaleString('tr-TR')}
+                            </td>
+                            <td style="color: var(--text-muted);">${date}</td>
+                            <td>
+                                <span class="badge badge-${statusClass}">
+                                    <span class="status-dot ${u.status}"></span>
+                                    ${statusText}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Recent users error:', e);
+                document.getElementById('recentUsers').innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--danger);">
+                            <i class="fas fa-exclamation-circle"></i> Yüklenemedi
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Load all data
+        function loadAllData() {
+            loadDashboardStats();
+            loadRecentTransactions();
+            loadRecentUsers();
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            menuBtn.classList.toggle('active');
+        }
+
+        // Close Mobile Menu
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+
+        // Close sidebar on window resize (if larger than 992px)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                const menuBtn = document.getElementById('mobileMenuBtn');
+
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                menuBtn.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            loadAllData();
+
+            // Auto refresh every 30 seconds
+            setInterval(loadAllData, 30000);
+        });
+    </script>
+    <script src="/admin/phase1-integration.js"></script>
+    <script src="/admin/phase2-dashboard.js"></script>
+</body>
+
+</html>

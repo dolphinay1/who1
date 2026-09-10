@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VerteX Markets — Piyasa Analizi</title>
+    <meta
+      name="description"
+      content="Altın, gümüş, petrol, NASDAQ, BIST 100 ve kripto piyasaları hakkında güncel analizler. VerteX Markets ile piyasaları takip edin."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=7" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#D4A54A" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <link rel="apple-touch-icon" href="images/logo.png" />
+  </head>
+  <body>
+    <div class="particles" id="particles"></div>
+    <nav class="nav" id="nav">
+      <div class="nav__container">
+        <a href="#hero" class="nav__logo">
+          <img src="images/logo.png" alt="VerteX" class="nav__logo-img" />
+          <span class="nav__logo-text">Verte<span class="gold">X</span></span>
+        </a>
+        <div class="nav__links">
+          <a href="#insights" class="nav__link">Analiz</a>
+          <a href="#aibot" class="nav__link">AI Bot</a>
+          <a href="#contact" class="nav__link">Kurumsal Danışmanlık</a>
+          <button
+            id="installBtn"
+            class="nav__link nav__install"
+            style="display: none"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>Uygulamayı Yükle</span>
+          </button>
+          <a href="#contact" class="nav__link nav__link--cta">Analiz Al</a>
+        </div>
+      </div>
+    </nav>
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <img
+          src="images/hero-bg.png"
+          alt=""
+          class="hero__bg-img"
+          loading="eager"
+        />
+        <div class="hero__bg-overlay"></div>
+      </div>
+      <div class="hero__container">
+        <div class="hero__content">
+          <div class="hero__badges">
+            <div class="hero__award">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 15l-2 5-9-5 9-5 2 5z" />
+                <circle cx="12" cy="8" r="4" />
+              </svg>
+              <span>2024 Yılın Finans Analizi ve Girişimciliği Ödülü</span>
+            </div>
+            <div class="hero__badge"><span>Piyasa Analizi</span></div>
+          </div>
+          <h1 class="hero__title">
+            <span class="hero__instrument" id="heroInstrument">Altın</span>
+            Neden<br />
+            <span class="hero__direction" id="heroDirection"
+              ><span class="direction-text gold-gradient">Düşüyor?</span></span
+            >
+          </h1>
+          <p class="hero__subtitle" id="heroSubtitle">
+            Merkez bankası kararlarından teknik formasyonlara, makroekonomik
+            verilerden algoritmik sinyallere — piyasayı hareket ettiren
+            dinamikleri kurumsal bakış açısıyla yorumluyoruz.
+          </p>
+          <div class="hero__actions">
+            <a href="#contact" class="btn btn--primary"
+              ><span>Ücretsiz Analiz Al</span
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+            <a href="#insights" class="btn btn--ghost">Detaylı İncele</a>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__card" id="priceCard">
+            <div class="hero__card-tabs" id="cardTabs"></div>
+            <div class="hero__card-header">
+              <span class="hero__card-label" id="cardSymbol">XAU/USD</span>
+              <span class="hero__card-change" id="cardChange"
+                >— yükleniyor</span
+              >
+            </div>
+            <div class="hero__card-price" id="cardPrice">
+              —<span class="hero__card-decimal">.—</span>
+            </div>
+            <div class="hero__card-chart">
+              <svg viewBox="0 0 300 80" class="chart-svg">
+                <defs>
+                  <linearGradient id="chartGradUp" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+                  </linearGradient>
+                  <linearGradient
+                    id="chartGradDown"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stop-color="#ef4444" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  id="chartLine"
+                  d=""
+                  fill="none"
+                  stroke="#D4A54A"
+                  stroke-width="2"
+                />
+                <path id="chartArea" d="" fill="url(#chartGradUp)" />
+              </svg>
+            </div>
+            <div class="hero__card-footer">
+              <span id="cardUpdate">Son güncelleme: —</span>
+              <span class="hero__card-live">● Canlı</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll"><div class="hero__scroll-line"></div></div>
+    </section>
+    <section class="insights" id="insights">
+      <div class="insights__container">
+        <div class="insights__header">
+          <span class="section-label">Piyasa Analitiği</span>
+          <h2 class="insights__title">
+            Fiyatlamayı Belirleyen
+            <span class="gold">Makro ve Teknik Katalizörler</span>
+          </h2>
+          <div class="insights__tabs" id="insightTabs"></div>
+        </div>
+        <div class="insights__grid" id="insightsGrid"></div>
+        <div class="fear-greed">
+          <div class="fear-greed__header">
+            <h4>Piyasa Duyarlılık Endeksi</h4>
+            <span class="fear-greed__value">Aşırı Açgözlülük (78)</span>
+          </div>
+          <div class="fear-greed__gauge">
+            <div class="fear-greed__bar">
+              <div class="fear-greed__indicator" style="left: 78%"></div>
+            </div>
+            <div class="fear-greed__labels">
+              <span>Aşırı Korku</span>
+              <span>Nötr</span>
+              <span>Aşırı Açgözlülük</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="aibot" id="aibot">
+      <div class="aibot__container">
+        <div class="aibot__content">
+          <span class="section-label">Yapay Zeka</span>
+          <h2 class="aibot__title">
+            Verte<span class="gold">X</span> AI
+            <span class="gold-gradient">Bot</span>
+          </h2>
+          <p class="aibot__subtitle">
+            Manuel trade'in psikolojik zaaflarını ortadan kaldıran, veri odaklı
+            kantitatif (quantitative) analiz motoru.
+          </p>
+          <div class="aibot__features">
+            <div class="aibot__feature">
+              <div class="aibot__feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M21 12V7H5a2 2 0 010-4h14v4" />
+                  <path d="M3 5v14a2 2 0 002 2h16v-5" />
+                  <path d="M18 12a2 2 0 000 4h4v-4Z" />
+                </svg>
+              </div>
+              <div>
+                <h4>Asya Seansı ve Likidite Taraması</h4>
+                <p>
+                  Asya seansı (02:00-09:00 TSİ) boyunca JPY çaprazları ve emtia
+                  vadeli işlemlerini tarayarak majör kırılımları önceden tespit
+                  eder.
+                </p>
+              </div>
+            </div>
+            <div class="aibot__feature">
+              <div class="aibot__feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h4>Volatilite & Risk Optimizasyonu</h4>
+                <p>
+                  Volatilite spike'larında VIX korelasyonu hesaplayarak pozisyon
+                  riskini anlık olarak optimize eder. Korku ve açgözlülük
+                  faktörü devre dışıdır.
+                </p>
+              </div>
+            </div>
+            <div class="aibot__feature">
+              <div class="aibot__feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </div>
+              <div>
+                <h4>Makro Verilerde HFT Reaksiyonu</h4>
+                <p>
+                  Tarım Dışı İstihdam (NFP) gibi majör veriler açıklandığı anda
+                  50ms (milisaniye) içinde önceden tanımlı senaryoları devreye
+                  alır.
+                </p>
+              </div>
+            </div>
+            <div class="aibot__feature">
+              <div class="aibot__feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h4>Kantitatif Backtesting</h4>
+                <p>
+                  Oluşturulan stratejileri son 5 yıllık tick-data üzerinde test
+                  (Monte Carlo simülasyonu) ederek draw-down ve başarı oranını
+                  önceden çıkarır.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="aibot__cta">
+            <a href="#contact" class="btn btn--primary"
+              ><span>HFT Algoritmaları Hakkında Bilgi Al</span
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" /></svg
+            ></a>
+            <p class="aibot__disclaimer">
+              Bu bölüm yalnızca bilgilendirme amaçlıdır. Yatırım tavsiyesi
+              değildir.
+            </p>
+          </div>
+        </div>
+        <div class="aibot__visual">
+          <div class="aibot__card">
+            <div class="aibot__card-header">
+              <span class="aibot__card-status">● Aktif</span>
+              <span>VerteX AI v3.0</span>
+            </div>
+            <div class="aibot__card-terminal" id="aiTerminal">
+              <div class="terminal-line">
+                <span class="t-gray">[14:30]</span> Piyasa taranıyor...
+              </div>
+              <div class="terminal-line">
+                <span class="t-gold">XAU/USD</span> — Destek: $3,280 | Direnç:
+                $3,350
+              </div>
+              <div class="terminal-line">
+                <span class="t-green">▲ Sinyal:</span> BIST100 güçlü alım
+                bölgesinde
+              </div>
+              <div class="terminal-line">
+                <span class="t-red">▼ Uyarı:</span> BRENT kısa vadeli baskı
+                altında
+              </div>
+              <div class="terminal-line">
+                <span class="t-gray">[14:31]</span> 6 enstrüman analiz edildi ✓
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="performance">
+      <div class="performance__container">
+        <div class="performance__header">
+          <span class="section-label">Performans Kütüğü</span>
+          <h3>
+            <span class="gold">VerteX AI</span> Son 30 Günlük İşlem Performansı
+          </h3>
+          <p>Algoritmik sinyal istatistikleri (Kanıtlanmış Win-Rate)</p>
+        </div>
+        <div class="performance__table-wrapper">
+          <table class="performance__table">
+            <thead>
+              <tr>
+                <th>Parite</th>
+                <th>Sinyal Tipi</th>
+                <th>Başarı Oranı</th>
+                <th>Net Getiri (Pips/$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="gold">XAU/USD</span></td>
+                <td>HFT Scalp</td>
+                <td><span class="t-green">%82</span></td>
+                <td>+450 Pips</td>
+              </tr>
+              <tr>
+                <td><strong>EUR/USD</strong></td>
+                <td>Swing Trade</td>
+                <td><span class="t-green">%78</span></td>
+                <td>+145 Pips</td>
+              </tr>
+              <tr>
+                <td><strong>NASDAQ</strong></td>
+                <td>Momentum Breakout</td>
+                <td><span class="t-green">%71</span></td>
+                <td>+850 Puan</td>
+              </tr>
+              <tr>
+                <td><strong>BTC/USD</strong></td>
+                <td>Volatility Grid</td>
+                <td><span class="t-green">%85</span></td>
+                <td>+$4,200</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="faq" id="faq">
+      <div class="faq__container">
+        <div class="faq__header">
+          <span class="section-label">SSS</span>
+          <h2 class="faq__title">
+            Sıkça Sorulan <span class="gold">Sorular</span>
+          </h2>
+        </div>
+        <div class="faq__list">
+          <div class="faq-item">
+            <button class="faq-item__header">
+              <span>VerteX analizleri ücretli mi?</span>
+              <svg
+                class="faq-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="faq-item__body">
+              <div class="faq-item__content">
+                Hayır, piyasa bültenlerimiz ve günlük analiz bildirimlerimiz
+                tamamen ücretsizdir. Kurumsal vizyonumuz gereği finansal
+                okuryazarlığı artırmayı hedefliyoruz.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__header">
+              <span>AI Bot benim yerime trade işlemi açar mı?</span>
+              <svg
+                class="faq-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="faq-item__body">
+              <div class="faq-item__content">
+                AI Bot doğrudan hesabınızda otomatik işlem açmaz. Bir karar
+                destek mekanizması (DSS) olarak çalışır. Piyasayı tarayıp size
+                giriş-çıkış noktaları (entry/exit) hakkında teknik sinyaller ve
+                olasılık projeksiyonları sunar. Karar her zaman size aittir.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__header">
+              <span>VerteX güvenilir bir kurum mu?</span>
+              <svg
+                class="faq-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="faq-item__body">
+              <div class="faq-item__content">
+                Evet. VerteX Markets, regüle piyasalarda faaliyet gösteren SPK
+                lisanslı bir kurum bünyesinde teknoloji ve analiz hizmeti
+                sağlamaktadır. Form üzerinden gönderdiğiniz bilgiler KVKK
+                kapsamında şifrelenerek korunur.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="vip-tier">
+      <div class="vip-tier__container">
+        <div class="vip-tier__card">
+          <div class="vip-tier__icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--gold-300)"
+              stroke-width="2"
+            >
+              <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" />
+            </svg>
+          </div>
+          <h3 class="vip-tier__title">Kurumsal & VIP Portföy Yönetimi</h3>
+          <p class="vip-tier__desc">
+            Minimum <strong>$50,000</strong> bakiyeli hesaplar için özel tahsis
+            edilmiş algoritmik fon yönetimi ve birebir analist desteği.
+          </p>
+          <a href="#contact" class="btn btn--primary"
+            >VIP Detayları Görüşelim</a
+          >
+        </div>
+      </div>
+    </section>
+    <section class="mt5-section" id="mt5">
+      <div class="mt5-section__container">
+        <div class="mt5-section__content">
+          <span class="section-label">Trading Platformu</span>
+          <h2 class="mt5-section__title">
+            MetaTrader 5 ile <span class="gold">Kusursuz Yatırım</span>
+          </h2>
+          <p class="mt5-section__desc">
+            Küresel kurumsal yatırımcıların standart platformu. Gelişmiş Piyasa
+            Derinliği (DOM), MQL5 ile sınırsız algoritmik ticaret yeteneği, 80+
+            analitik obje ve ultra düşük gecikmeli (ultra-low latency) emir
+            iletimi sayesinde milisaniyelik fiyat aksiyonlarını avantaja
+            çevirin.
+          </p>
+          <div class="mt5-section__features">
+            <div class="mt5-feature">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold-300)"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                />
+              </svg>
+              <span>Hızlı İşlem</span>
+            </div>
+            <div class="mt5-feature">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold-300)"
+                stroke-width="2"
+              >
+                <path d="M3 3v18h18" />
+                <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+              </svg>
+              <span>Teknik Araçlar</span>
+            </div>
+            <div class="mt5-feature">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold-300)"
+                stroke-width="2"
+              >
+                <path
+                  d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"
+                />
+              </svg>
+              <span>Algoritmik Altyapı</span>
+            </div>
+          </div>
+          <a
+            href="https://www.metatrader5.com/en/download"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--primary mt5-section__btn"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>MetaTrader 5 İndir</span>
+          </a>
+        </div>
+        <div class="mt5-section__deposit">
+          <div class="deposit-card glass-card">
+            <div class="deposit-card__header">
+              <h4>Kripto ile Devam Et</h4>
+            </div>
+            <div class="deposit-card__body deposit-card__body--vertical">
+              <div class="deposit-card__qr">
+                <img
+                  src="images/tether-qr.png"
+                  alt="USDT TRC20 QR"
+                  class="deposit-card__qr-img"
+                />
+              </div>
+              <div class="deposit-card__info">
+                <div class="deposit-card__network">
+                  <span>USDT — TRC20</span>
+                </div>
+                <div class="deposit-card__address-box">
+                  <code class="deposit-card__address" id="tetherAddress"
+                    >TDSzchJzUQjCJyrmCLG2usUyycaMzMYY2W</code
+                  >
+                  <button
+                    class="deposit-card__copy"
+                    id="copyTetherBtn"
+                    title="Adresi Kopyala"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path
+                        d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <span class="deposit-card__hint"
+                  >Sadece TRC20 ağını kullanın</span
+                >
+              </div>
+            </div>
+            <button class="sparkle-btn" id="depositStartBtn">
+              <span class="sparkle-btn__text">Başla</span>
+              <div class="sparkle-btn__particles">
+                <span class="sparkle"></span><span class="sparkle"></span
+                ><span class="sparkle"></span> <span class="sparkle"></span
+                ><span class="sparkle"></span><span class="sparkle"></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="contact" id="contact">
+      <div class="contact__container">
+        <div class="contact__info">
+          <span class="section-label">Profesyonel Danışmanlık</span>
+          <h2 class="contact__title">
+            Piyasa Uzmanlarımızla <span class="gold">Görüşün</span>
+          </h2>
+          <p class="contact__text">
+            Altın, gümüş, petrol, endeks ve kripto portföyünüz için teknik ve
+            temel analiz stratejilerimizi ücretsiz talep edin.
+          </p>
+          <div class="contact__channels">
+            <a
+              href="https://whatsapp.com/channel/0029VbCfIli4SpkIp7J3A23s"
+              target="_blank"
+              class="channel channel--whatsapp"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                />
+              </svg>
+              <div>
+                <span class="channel__label">WhatsApp</span
+                ><span class="channel__desc">Hızlı iletişim</span>
+              </div>
+            </a>
+            <a
+              href="https://www.instagram.com/vertexmarketstrade"
+              target="_blank"
+              class="channel channel--instagram"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                />
+              </svg>
+              <div>
+                <span class="channel__label">Instagram</span
+                ><span class="channel__desc">@vertexmarketstrade</span>
+              </div>
+            </a>
+            <a
+              href="https://x.com/vertexmarketsfx"
+              target="_blank"
+              class="channel channel--twitter"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                />
+              </svg>
+              <div>
+                <span class="channel__label">X (Twitter)</span
+                ><span class="channel__desc">@vertexmarketsfx</span>
+              </div>
+            </a>
+            <a
+              href="https://www.youtube.com/c/VertexInvesting"
+              target="_blank"
+              class="channel channel--youtube"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                />
+              </svg>
+              <div>
+                <span class="channel__label">YouTube</span
+                ><span class="channel__desc">VerteX Investing</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="contact__form-wrapper">
+          <form class="form" id="leadForm">
+            <div class="form__badge">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              256-Bit SSL ile Korunmaktadır
+            </div>
+            <div class="form__header">
+              <h3 class="form__title">Ücretsiz Piyasa Raporumu Gönder</h3>
+              <p class="form__desc">
+                Bu hafta sadece 15 ücretsiz kontenjan bulunmaktadır.
+              </p>
+            </div>
+            <div class="form__group">
+              <label for="fullName" class="form__label">Ad Soyad</label
+              ><input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="form__input"
+                placeholder="Adınız Soyadınız"
+                required
+              />
+            </div>
+            <div class="form__group">
+              <label for="phone" class="form__label">Telefon</label
+              ><input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="form__input"
+                placeholder="+90 5XX XXX XX XX"
+                required
+              />
+            </div>
+            <div class="form__group">
+              <label for="email" class="form__label">E-posta</label
+              ><input
+                type="email"
+                id="email"
+                name="email"
+                class="form__input"
+                placeholder="ornek@sirket.com"
+                required
+              />
+            </div>
+            <div class="form__group">
+              <label for="interest" class="form__label"
+                >İlgilendiğiniz Piyasa</label
+              >
+              <select
+                id="interest"
+                name="interest"
+                class="form__input form__select"
+                required
+              >
+                <option value="" disabled selected>Seçiniz</option>
+                <option value="gold">Altın (XAU/USD)</option>
+                <option value="silver">Gümüş (XAG/USD)</option>
+                <option value="oil">Brent Petrol</option>
+                <option value="nasdaq">NASDAQ</option>
+                <option value="bist">BIST 100</option>
+                <option value="crypto">Kripto (BTC)</option>
+                <option value="aibot">VerteX AI Bot</option>
+                <option value="all">Hepsi</option>
+              </select>
+            </div>
+            <div class="form__group">
+              <label for="message" class="form__label"
+                >Sorunuz <span class="form__optional">(opsiyonel)</span></label
+              ><textarea
+                id="message"
+                name="message"
+                class="form__input form__textarea"
+                placeholder="Piyasa hakkında merak ettiğiniz bir şey var mı?"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form__consent">
+              <input type="checkbox" id="consent" required /><label
+                for="consent"
+                >Kişisel verilerimin işlenmesini kabul ediyorum.
+                <a href="https://vertexmarkets.org" target="_blank"
+                  >Gizlilik Politikası</a
+                ></label
+              >
+            </div>
+            <button
+              type="submit"
+              class="btn btn--primary btn--full"
+              id="submitBtn"
+            >
+              <span>Ücretsiz Rapor Talebini İlet</span
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="form__success" id="formSuccess">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#D4A54A"
+                stroke-width="2"
+              >
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+              <h4>Talebiniz Alındı!</h4>
+              <p>En kısa sürede sizinle iletişime geçeceğim.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section class="regulation">
+      <div class="regulation__container">
+        <div class="regulation__content">
+          <span class="section-label">Güven ve Şeffaflık</span>
+          <h2 class="regulation__title">
+            Uluslararası <span class="gold">Regülasyon</span> ve Lisanslarımız
+          </h2>
+          <p class="regulation__desc">
+            VerteX Markets, şeffaflık ve yatırımcı güvenliğini en üst düzeyde
+            tutar. Yasal kayıtlarımız ve fon güvence sertifikamız uluslararası
+            standartlara tam uyumludur.
+          </p>
+          <div class="regulation__links">
+            <a
+              href="https://www.ticaretsicil.gov.tr/view/hizlierisim/unvansorgulama.php"
+              target="_blank"
+              class="btn btn--ghost"
+              >Ticaret Sicil Sorgulama</a
+            >
+            <a
+              href="https://assetinsurancefund.com/companies/vertex-markets/"
+              target="_blank"
+              class="btn btn--ghost"
+              >Asset Insurance Fund Lisansı</a
+            >
+          </div>
+        </div>
+        <div class="regulation__visual">
+          <a
+            href="images/certificate.png"
+            target="_blank"
+            title="Sertifikayı Büyüt"
+          >
+            <img
+              src="images/certificate.png"
+              alt="VerteX Markets Sertifikası"
+              class="regulation__cert"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+    <div class="trust-badges">
+      <div class="trust-badges__container">
+        <div class="trust-badge">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>256-Bit SSL Secured</span>
+        </div>
+        <div class="trust-badge">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+            />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+          <span>Uçtan Uca Şifreleme</span>
+        </div>
+        <div class="trust-badge">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          <span>%100 KVKK Uyumlu</span>
+        </div>
+        <div class="trust-badge">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4l3 3" />
+          </svg>
+          <span>7/24 Kesintisiz Hizmet</span>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="footer__container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <a href="#hero" class="nav__logo"
+              ><img
+                src="images/logo.png"
+                alt="VerteX"
+                class="nav__logo-img"
+              /><span class="nav__logo-text"
+                >Verte<span class="gold">X</span></span
+              ></a
+            >
+            <p class="footer__desc">
+              Yeni Nesil Algoritmik Piyasa Analitiği ve Trading Çözümleri
+            </p>
+          </div>
+          <div class="footer__legal">
+            <strong>Yasal Uyarı:</strong>
+            <p class="footer__disclaimer">
+              Bu sayfada yer alan tüm analiz, grafik ve yapay zeka terminal
+              çıktıları yalnızca genel bilgilendirme amacıyla hazırlanmıştır.
+              Burada sunulan bilgiler, yatırım danışmanlığı kapsamında değildir.
+              Kaldıraçlı piyasalarda (Forex, Kripto, VİOP) işlem yapmak yüksek
+              risk içerir ve yatırdığınız anaparanın tamamını kaybetmenize yol
+              açabilir. Geçmiş performans (backtesting), gelecekteki getirilerin
+              garantisi veya göstergesi olamaz. SPK (Sermaye Piyasası Kurulu)
+              mevzuatları çerçevesinde işlem yapmanız önemle rica olunur.
+            </p>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span
+            >© 2020 Vertex Markets Analytics. Tüm hakları uluslararası yasalarca
+            saklıdır.</span
+          >
+          <div class="footer__links">
+            <a href="https://vertexmarkets.org/about.html">Kurumsal Bilgiler</a
+            ><a href="https://vertexmarkets.org/kvkk.html">KVKK & Gizlilik</a
+            ><a href="https://vertexmarkets.org/contact.html">İletişim</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="floating-cta">
+      <a href="#contact" class="btn btn--primary btn--full"
+        >Ücretsiz Rapor Al</a
+      >
+    </div>
+    <script src="script.js"></script>
+    <script>
+      // PWA Service Worker & Install
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }
+      let deferredPrompt;
+      const installBtn = document.getElementById("installBtn");
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.style.display = "inline-flex";
+      });
+      if (installBtn) {
+        installBtn.addEventListener("click", async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === "accepted") installBtn.style.display = "none";
+          deferredPrompt = null;
+        });
+      }
+    </script>
+  </body>
+</html>
