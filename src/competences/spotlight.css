@@ -1,0 +1,272 @@
+/* ——— Spotlight stage (horizontal; no fragile 3D cylinder) ——— */
+.stage-wrap {
+    max-width: 440px;
+    margin: 0.75rem auto 0;
+    outline: none;
+}
+
+.stage-wrap:focus-visible {
+    border-radius: 20px;
+    box-shadow: 0 0 0 2px rgba(0, 255, 214, 0.45), 0 0 32px rgba(0, 255, 214, 0.15);
+}
+
+.stage-shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.stage-viewport {
+    overflow: hidden;
+    border-radius: 22px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(0, 255, 214, 0.22);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 24px 56px rgba(0, 0, 0, 0.45);
+    touch-action: pan-x pinch-zoom;
+}
+
+@media (max-width: 768px) {
+    .stage-viewport {
+        touch-action: auto;
+    }
+}
+
+.stage-track {
+    display: flex;
+    flex-direction: row;
+    will-change: transform;
+}
+
+.stage-card {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px 12px;
+}
+
+.stage-card__inner {
+    min-height: 280px;
+    border-radius: 18px;
+    padding: 9px;
+    background: var(--st-grad, linear-gradient(145deg, #00ffd6, #08e260));
+    box-shadow:
+        0 20px 48px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.stage-card--b {
+    --st-grad: linear-gradient(145deg, #a855f7, #6366f1);
+}
+.stage-card--c {
+    --st-grad: linear-gradient(145deg, #fbbf24, #f97316);
+}
+.stage-card--d {
+    --st-grad: linear-gradient(145deg, #22d3ee, #2563eb);
+}
+
+.stage-card__body {
+    border-radius: 14px;
+    padding: 1.35rem 1.2rem 1.1rem;
+    background: linear-gradient(168deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.07) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.stage-card__tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.78;
+    color: rgba(0, 60, 45, 0.88);
+}
+
+.stage-card--b .stage-card__tag {
+    color: rgba(59, 7, 100, 0.88);
+}
+.stage-card--c .stage-card__tag {
+    color: rgba(120, 50, 10, 0.92);
+}
+.stage-card--d .stage-card__tag {
+    color: rgba(12, 74, 110, 0.92);
+}
+
+.stage-card h3 {
+    margin: 0.4rem 0 0;
+    font-size: 1.28rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: rgba(0, 80, 55, 0.96);
+}
+
+.stage-card--b h3 {
+    color: #3b0764;
+}
+.stage-card--c h3 {
+    color: #7c2d12;
+}
+.stage-card--d h3 {
+    color: #0c4a6e;
+}
+
+.stage-card p {
+    margin: 0.55rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: rgba(0, 90, 60, 0.84);
+}
+
+.stage-card--b p {
+    color: rgba(59, 7, 100, 0.8);
+}
+.stage-card--c p {
+    color: rgba(120, 50, 10, 0.84);
+}
+.stage-card--d p {
+    color: rgba(12, 74, 110, 0.84);
+}
+
+.stage-card__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 0 0.15rem 0.1rem;
+}
+
+.stage-card .ux-social-btn svg {
+    fill: #047857;
+}
+.stage-card--b .ux-social-btn svg {
+    fill: #6d28d9;
+}
+.stage-card--c .ux-social-btn svg {
+    fill: #c2410c;
+}
+.stage-card--d .ux-social-btn svg {
+    fill: #0e7490;
+}
+
+.stage-card .ux-more-btn {
+    color: inherit;
+}
+
+.stage-fab {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 255, 214, 0.38);
+    background: rgba(0, 0, 0, 0.4);
+    color: #e8fff8;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+    box-shadow: 0 0 22px rgba(0, 255, 214, 0.1);
+}
+
+.stage-fab:hover {
+    border-color: rgba(192, 132, 252, 0.55);
+    box-shadow: 0 0 32px rgba(192, 132, 252, 0.28);
+    transform: scale(1.05);
+}
+
+.stage-fab svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+@media (max-width: 520px) {
+    .stage-shell {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+    }
+
+    .stage-fab {
+        display: none;
+    }
+
+    .stage-wrap {
+        max-width: 100%;
+    }
+}
+
+.stage-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 1.15rem;
+}
+
+.stage-dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.22);
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.stage-dots button.is-active {
+    background: #fff;
+    transform: scale(1.35);
+    box-shadow: 0 0 18px rgba(0, 255, 214, 0.55);
+}
+
+/* Footer */
+.site-foot {
+    text-align: center;
+    padding: 3rem 1rem 3.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(180, 230, 215, 0.4);
+    border-top: 1px solid rgba(0, 255, 214, 0.08);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    .section--reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    [data-hero-motion] .hero-blob,
+    [data-hero-motion] .hero-pill,
+    [data-hero-motion] .hero-ring,
+    [data-hero-motion] .hero-hex,
+    [data-hero-motion] .hero-slab {
+        transition: none;
+    }
+    .ux-card,
+    .ux-circle,
+    .ux-social-btn,
+    .ux-more,
+    .stage-track {
+        transition: none !important;
+    }
+    .ux-parent:hover .ux-card {
+        transform: none;
+    }
+    .ux-parent:hover .ux-circle:nth-child(2),
+    .ux-parent:hover .ux-circle:nth-child(3),
+    .ux-parent:hover .ux-circle:nth-child(4),
+    .ux-parent:hover .ux-circle:nth-child(5) {
+        transform: inherit;
+    }
+    .ux-parent:hover .ux-social-btn {
+        transform: none;
+    }
+}

@@ -7,7 +7,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         competences: resolve(__dirname, 'src/competences/index.html'),
-        projects: resolve(__dirname, 'src/projects/index.html')
+        projects: resolve(__dirname, 'src/projects/index.html'),
+        cv: resolve(__dirname, 'src/cv/index.html')
       }
     }
   },

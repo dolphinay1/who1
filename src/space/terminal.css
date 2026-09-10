@@ -1,0 +1,188 @@
+/* ============================================================
+   Retro Developer Terminal Window Styles (zsh)
+   ============================================================ */
+.terminal-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 620px;
+  max-width: 95vw;
+  height: 380px;
+  max-height: 70vh;
+  border-radius: 12px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "JetBrains Mono", "Courier New", Courier, monospace;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: none; /* Handled by GSAP Genie / Scale effect */
+}
+
+.terminal-window.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.terminal-window.hidden-window {
+  display: none !important;
+}
+
+/* Terminal Header */
+.terminal-header {
+  height: 36px;
+  background: #252526;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.terminal-header__title {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Terminal Body & Output */
+.terminal-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+.terminal-output {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.terminal-line {
+  margin: 0;
+}
+
+.terminal-line.command {
+  font-weight: 600;
+}
+
+/* Input prompt line */
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terminal-prompt {
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.terminal-input-field {
+  flex: 1;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+/* Themes colors */
+/* 1. Green Matrix (Default) */
+.terminal-window.matrix {
+  color: #33ff33;
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  text-shadow: 0 0 2px rgba(51, 255, 51, 0.4);
+}
+.terminal-window.matrix .terminal-header {
+  background: #152215;
+}
+.terminal-window.matrix .terminal-header__title {
+  color: rgba(51, 255, 51, 0.7);
+}
+.terminal-window.matrix .terminal-input-field {
+  caret-color: #33ff33;
+}
+.terminal-window.matrix .terminal-prompt {
+  color: #88ff88;
+}
+
+/* 2. Retro Amber */
+.terminal-window.amber {
+  color: #ffb000;
+  border: 1px solid rgba(255, 176, 0, 0.25);
+  text-shadow: 0 0 2px rgba(255, 176, 0, 0.4);
+}
+.terminal-window.amber .terminal-header {
+  background: #2b1d00;
+}
+.terminal-window.amber .terminal-header__title {
+  color: rgba(255, 176, 0, 0.7);
+}
+.terminal-window.amber .terminal-input-field {
+  caret-color: #ffb000;
+}
+.terminal-window.amber .terminal-prompt {
+  color: #ffd066;
+}
+
+/* 3. Sleek White */
+.terminal-window.white {
+  color: #f1f1f1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.terminal-window.white .terminal-header {
+  background: #222222;
+}
+.terminal-window.white .terminal-header__title {
+  color: rgba(255, 255, 255, 0.7);
+}
+.terminal-window.white .terminal-input-field {
+  caret-color: #f1f1f1;
+}
+.terminal-window.white .terminal-prompt {
+  color: #ffffff;
+}
+
+/* Scrollbar customize inside terminal */
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+.terminal-window.matrix .terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(51, 255, 51, 0.2);
+}
+.terminal-window.amber .terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 176, 0, 0.2);
+}

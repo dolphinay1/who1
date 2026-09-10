@@ -1,3 +1,5 @@
+import { playGenieOpen, playGenieClose } from "./space/genie.js";
+
 window.addEventListener("DOMContentLoaded", () => {
   const introViewport = document.getElementById("intro-viewport");
   const spaceViewport = document.getElementById("space-viewport");
@@ -14,11 +16,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
       spaceViewport.classList.add("active");
 
-      // Play background video on transition
-      const bgVideo = document.getElementById("space-bg-video");
-      if (bgVideo) {
-        bgVideo.play().catch(() => {});
-      }
 
       if (window.SpaceModule && typeof window.SpaceModule.init === "function") {
         window.SpaceModule.init();
@@ -36,12 +33,17 @@ window.addEventListener("DOMContentLoaded", () => {
   const expWindow = document.getElementById("exp-macos-window");
   const compWindow = document.getElementById("comp-macos-window");
   const projWindow = document.getElementById("proj-macos-window");
+  const cvWindow = document.getElementById("cv-macos-window");
+  const menuCVBtn = document.getElementById("menuCVBtn");
 
   const closeWindowBtn = document.getElementById("closeWindowBtn");
   const minimizeWindowBtn = document.getElementById("minimizeWindowBtn");
   const expCloseBtn = document.getElementById("expCloseBtn");
   const compCloseBtn = document.getElementById("compCloseBtn");
   const projCloseBtn = document.getElementById("projCloseBtn");
+  const cvCloseBtn = document.getElementById("cvCloseBtn");
+  const cvMinimizeBtn = document.getElementById("cvMinimizeBtn");
+  const cvMaximizeBtn = document.getElementById("cvMaximizeBtn");
 
   // Who is Yunus? folder click
   if (desktopFolder) {
@@ -53,46 +55,88 @@ window.addEventListener("DOMContentLoaded", () => {
   // Experience's folder click
   if (expFolder && expWindow) {
     expFolder.addEventListener("click", () => {
-      expWindow.classList.remove("hidden-window");
-      if (window.ExperiencesModule && typeof window.ExperiencesModule.init === "function") {
-        window.ExperiencesModule.init();
-      }
+      playGenieOpen(expWindow, expFolder, () => {
+        if (window.ExperiencesModule && typeof window.ExperiencesModule.init === "function") {
+          window.ExperiencesModule.init();
+        }
+        ScrollTrigger.refresh();
+      });
     });
   }
 
   // Competence's folder click
   if (compFolder && compWindow) {
     compFolder.addEventListener("click", () => {
-      compWindow.classList.add("open");
+      playGenieOpen(compWindow, compFolder);
     });
   }
 
   // Project's folder click
   if (projFolder && projWindow) {
     projFolder.addEventListener("click", () => {
-      projWindow.classList.add("open");
+      playGenieOpen(projWindow, projFolder);
     });
   }
 
   // Close buttons and window restore triggers
   if (expCloseBtn && expWindow) {
     expCloseBtn.addEventListener("click", () => {
-      expWindow.classList.add("hidden-window");
       if (window.ExperiencesModule && typeof window.ExperiencesModule.destroy === "function") {
         window.ExperiencesModule.destroy();
       }
+      playGenieClose(expWindow, expFolder);
     });
   }
 
   if (compCloseBtn && compWindow) {
     compCloseBtn.addEventListener("click", () => {
-      compWindow.classList.remove("open");
+      playGenieClose(compWindow, compFolder);
     });
   }
 
   if (projCloseBtn && projWindow) {
     projCloseBtn.addEventListener("click", () => {
-      projWindow.classList.remove("open");
+      playGenieClose(projWindow, projFolder);
+    });
+  }
+
+  if (menuCVBtn && cvWindow) {
+    menuCVBtn.addEventListener("click", () => {
+      if (cvWindow.classList.contains("hidden-window") || !cvWindow.classList.contains("open")) {
+        playGenieOpen(cvWindow, menuCVBtn);
+      } else {
+        playGenieClose(cvWindow, menuCVBtn);
+      }
+    });
+  }
+
+  if (cvCloseBtn && cvWindow) {
+    cvCloseBtn.addEventListener("click", () => {
+      playGenieClose(cvWindow, menuCVBtn);
+    });
+  }
+
+  if (cvMinimizeBtn && cvWindow) {
+    cvMinimizeBtn.addEventListener("click", () => {
+      playGenieClose(cvWindow, menuCVBtn);
+    });
+  }
+
+  if (cvMaximizeBtn && cvWindow) {
+    cvMaximizeBtn.addEventListener("click", () => {
+      cvWindow.removeAttribute("style");
+      cvWindow.dataset.dragged = "false";
+      cvWindow.classList.toggle("fullscreen-window");
+
+      if (cvWindow.classList.contains("fullscreen-window")) {
+        cvWindow.style.width = "100vw";
+        cvWindow.style.height = "100vh";
+        cvWindow.style.borderRadius = "0px";
+      } else {
+        cvWindow.style.width = "85vw";
+        cvWindow.style.height = "80vh";
+        cvWindow.style.borderRadius = "12px";
+      }
     });
   }
 
@@ -103,7 +147,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let startX, startY, winLeft, winTop;
 
     header.addEventListener("mousedown", (e) => {
-      if (e.target.closest(".window-controls")) return;
+      if (e.target.closest(".window-controls") || e.target.closest(".exp-window-controls")) return;
+      if (window.innerWidth <= 768) return;
       isDragging = true;
       startX = e.clientX;
       startY = e.clientY;
@@ -113,7 +158,9 @@ window.addEventListener("DOMContentLoaded", () => {
       winTop = rect.top;
       
       win.style.transition = "none";
-      win.style.transform = "none";
+      win.dataset.dragged = "true";
+      document.body.classList.add("dragging-active");
+      gsap.set(win, { xPercent: 0, yPercent: 0, x: 0, y: 0 });
       win.style.left = `${winLeft}px`;
       win.style.top = `${winTop}px`;
       
@@ -125,12 +172,17 @@ window.addEventListener("DOMContentLoaded", () => {
       if (!isDragging) return;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
+      
+      let targetTop = winTop + dy;
+      if (targetTop < 28) targetTop = 28;
+      
       win.style.left = `${winLeft + dx}px`;
-      win.style.top = `${winTop + dy}px`;
+      win.style.top = `${targetTop}px`;
     }
 
     function onMouseUp() {
       isDragging = false;
+      document.body.classList.remove("dragging-active");
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     }
@@ -138,35 +190,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const compHeader = compWindow ? compWindow.querySelector(".window-header") : null;
   const projHeader = projWindow ? projWindow.querySelector(".window-header") : null;
+  const expHeader = expWindow ? expWindow.querySelector(".exp-window-header") : null;
+  const cvHeader = cvWindow ? cvWindow.querySelector(".window-header") : null;
   makeDraggable(compHeader, compWindow);
   makeDraggable(projHeader, projWindow);
+  makeDraggable(expHeader, expWindow);
+  makeDraggable(cvHeader, cvWindow);
 
-  // Video window draggable and click logic
-  const videoFolder = document.getElementById("video-desktop-folder");
-  const videoWindow = document.getElementById("video-macos-window");
-  const videoCloseBtn = document.getElementById("videoCloseBtn");
-  const videoElement = document.getElementById("intro-video-element");
-
-  if (videoFolder && videoWindow) {
-    videoFolder.addEventListener("click", () => {
-      videoWindow.classList.add("open");
-      if (videoElement) {
-        videoElement.play().catch(() => {});
-      }
-    });
-  }
-
-  if (videoCloseBtn && videoWindow) {
-    videoCloseBtn.addEventListener("click", () => {
-      videoWindow.classList.remove("open");
-      if (videoElement) {
-        videoElement.pause();
-      }
-    });
-  }
-
-  const videoHeader = videoWindow ? videoWindow.querySelector(".window-header") : null;
-  makeDraggable(videoHeader, videoWindow);
 
   // Helper for mobile responsive language buttons
   function bindLangButtons(trBtnId, enBtnId, onSwitch) {
@@ -216,31 +246,12 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Liquid Glass Switcher Animation Helper
-  const liquidSwitcher = document.querySelector(".switcher");
-  if (liquidSwitcher) {
-    const trackPrevious = (el) => {
-      const radios = el.querySelectorAll('input[name="theme"]');
-      let previousValue = null;
-
-      // init first select
-      const initiallyChecked = el.querySelector('input[name="theme"]:checked');
-      if (initiallyChecked) {
-        previousValue = initiallyChecked.getAttribute("c-option");
-        el.setAttribute("c-previous", previousValue);
-      }
-
-      radios.forEach((radio) => {
-        radio.addEventListener("change", () => {
-          if (radio.checked) {
-            el.setAttribute("c-previous", previousValue ?? "");
-            previousValue = radio.getAttribute("c-option");
-          }
-        });
-      });
-    };
-
-    trackPrevious(liquidSwitcher);
-  }
+  // Competences language buttons
+  bindLangButtons("compLangTR", "compLangEN", (lang) => {
+    const iframe = document.querySelector("#comp-macos-window iframe");
+    if (iframe && iframe.contentWindow && typeof iframe.contentWindow.setLanguage === "function") {
+      iframe.contentWindow.setLanguage(lang);
+    }
+  });
 });
 

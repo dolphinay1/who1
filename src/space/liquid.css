@@ -1,0 +1,299 @@
+/* ==========================================
+ * Orijinal Liquid Glass Switcher (Sosyal Dock)
+ * ========================================== */
+
+.switcher {
+  --c-glass: #bbbbbc;
+  --c-light: #fff;
+  --c-dark: #000;
+  --c-content: #fafaf7;
+  --c-action: #ffffff;
+  --glass-reflex-dark: 1.5;
+  --glass-reflex-light: 0.8;
+  --saturation: 150%;
+
+  position: absolute;
+  z-index: 500;
+  bottom: 30px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 352px;
+  max-width: 352px;
+  height: 70px;
+  box-sizing: border-box;
+  padding: 5px 14px 5px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 99em;
+  font-size: 16px;
+  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+  backdrop-filter: blur(8px) url(#switcher) saturate(var(--saturation));
+  -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+  box-shadow: inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--c-light) calc(var(--glass-reflex-light) * 10%),
+        transparent
+      ),
+    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 60%), transparent),
+    inset -0.3px -1px 4px 0px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 12%),
+        transparent
+      ),
+    inset -1.5px 2.5px 0px -2px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 20%),
+        transparent
+      ),
+    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark)
+          calc(var(--glass-reflex-dark) * 20%), transparent),
+    inset 2px -6.5px 1px -4px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 10%),
+        transparent
+      ),
+    0px 1px 5px 0px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 10%),
+        transparent
+      ),
+    0px 6px 16px 0px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 8%),
+        transparent
+      );
+  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+
+.switcher__legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  -webkit-clip-path: inset(100%);
+          clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.switcher__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  stroke: var(--c);
+  stroke-width: 2;
+  fill: none;
+  transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+}
+
+.switcher__filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}
+
+.switcher__option {
+  --c: rgba(255, 255, 255, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 60px;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 99em;
+  opacity: 1;
+  transition: all 160ms;
+}
+
+.switcher__option:hover {
+  --c: var(--c-action);
+  cursor: pointer;
+}
+
+.switcher__option:hover .switcher__icon {
+  scale: 1.2;
+}
+
+/* Active background bubble */
+.switcher::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 5px;
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 99em;
+  background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+  z-index: -1;
+  box-shadow: inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--c-light) calc(var(--glass-reflex-light) * 10%),
+        transparent
+      ),
+    inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light)
+          calc(var(--glass-reflex-light) * 60%), transparent),
+    inset -1px 2px 3px -1px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 20%),
+        transparent
+      ),
+    inset 0px -4px 1px -2px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 10%),
+        transparent
+      ),
+    0px 3px 6px 0px
+      color-mix(
+        in srgb,
+        var(--c-dark) calc(var(--glass-reflex-dark) * 8%),
+        transparent
+      );
+  transform-origin: left;
+  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    translate 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Directional transform origins based on transition direction */
+.switcher::after {
+  transform-origin: left;
+}
+
+.switcher[c-previous="2"][c-option="1"]::after,
+.switcher[c-previous="3"][c-option="1"]::after,
+.switcher[c-previous="4"][c-option="1"]::after,
+.switcher[c-previous="5"][c-option="1"]::after,
+.switcher[c-previous="3"][c-option="2"]::after,
+.switcher[c-previous="4"][c-option="2"]::after,
+.switcher[c-previous="5"][c-option="2"]::after,
+.switcher[c-previous="4"][c-option="3"]::after,
+.switcher[c-previous="5"][c-option="3"]::after,
+.switcher[c-previous="5"][c-option="4"]::after {
+  transform-origin: right;
+}
+
+/* Slide translations & scale animation triggers */
+.switcher[c-option="1"]::after {
+  translate: 0 0;
+  -webkit-animation: scaleToggle 440ms ease;
+          animation: scaleToggle 440ms ease;
+}
+
+.switcher[c-option="2"]::after {
+  translate: 66px 0;
+  -webkit-animation: scaleToggle2 440ms ease;
+          animation: scaleToggle2 440ms ease;
+}
+
+.switcher[c-option="3"]::after {
+  translate: 132px 0;
+  -webkit-animation: scaleToggle3 440ms ease;
+          animation: scaleToggle3 440ms ease;
+}
+
+.switcher[c-option="4"]::after {
+  translate: 198px 0;
+  -webkit-animation: scaleToggle2 440ms ease;
+          animation: scaleToggle2 440ms ease;
+}
+
+.switcher[c-option="5"]::after {
+  translate: 264px 0;
+  -webkit-animation: scaleToggle 440ms ease;
+          animation: scaleToggle 440ms ease;
+}
+
+/* Keyframes for elastic liquid stretching */
+@-webkit-keyframes scaleToggle {
+  0% { scale: 1 1; }
+  50% { scale: 1.15 1; }
+  100% { scale: 1 1; }
+}
+@keyframes scaleToggle {
+  0% { scale: 1 1; }
+  50% { scale: 1.15 1; }
+  100% { scale: 1 1; }
+}
+
+@-webkit-keyframes scaleToggle2 {
+  0% { scale: 1 1; }
+  50% { scale: 1.25 1; }
+  100% { scale: 1 1; }
+}
+@keyframes scaleToggle2 {
+  0% { scale: 1 1; }
+  50% { scale: 1.25 1; }
+  100% { scale: 1 1; }
+}
+
+@-webkit-keyframes scaleToggle3 {
+  0% { scale: 1 1; }
+  50% { scale: 1.15 1; }
+  100% { scale: 1 1; }
+}
+@keyframes scaleToggle3 {
+  0% { scale: 1 1; }
+  50% { scale: 1.15 1; }
+  100% { scale: 1 1; }
+}
+
+/* Mobile responsive scaling */
+@media (max-width: 768px) {
+  .switcher {
+    width: 290px !important;
+    max-width: 290px !important;
+    height: 60px !important;
+    padding: 5px 10px !important;
+    gap: 5px !important;
+    bottom: 115px !important;
+  }
+  .switcher::after {
+    width: 50px !important;
+    height: 50px !important;
+    left: 10px !important;
+    top: 5px !important;
+    transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+      box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+      translate 400ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .switcher__option {
+    width: 50px !important;
+  }
+  .switcher__icon {
+    width: 20px;
+    height: 20px;
+  }
+  .switcher[c-option="1"]::after { translate: 0 0 !important; }
+  .switcher[c-option="2"]::after { translate: 55px 0 !important; }
+  .switcher[c-option="3"]::after { translate: 110px 0 !important; }
+  .switcher[c-option="4"]::after { translate: 165px 0 !important; }
+  .switcher[c-option="5"]::after { translate: 220px 0 !important; }
+}

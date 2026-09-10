@@ -8,7 +8,7 @@ const ExperiencesModule = (() => {
   let lenis = null;
   let rafId = null;
   let items = [];
-  let currentLang = 'tr';
+  let currentLang = 'en';
   let initialized = false;
   let lastTime = 0;
 
@@ -33,184 +33,32 @@ const ExperiencesModule = (() => {
 
   const EXPERIENCES = {
     tr: [
-      {
-        id: "EXP-001",
-        company: "QIH GROUP",
-        position: "IT Müdürü & Marketing Ekip Kaptanı",
-        description: "Bilgi teknolojileri altyapısını yönetirken çok kültürlü marketing ekibine liderlik ettim. IT sistemleri entegrasyonu ve veri güvenliğini sağlayarak operasyonları dijitalleştirdim. Marka bilinirliğini artıracak global marketing stratejileri kurguladım.",
-        duration: "Ağustos 2025 – Haziran 2026",
-        field: "Yazılım & Pazarlama"
-      },
-      {
-        id: "EXP-002",
-        company: "Marketing Yönetimi",
-        position: "Freelancer",
-        description: "Kurumların global büyüme hedeflerine yönelik veriye dayalı dijital pazarlama stratejileri kurguladım. Marka bilinirliğine doğrudan katkı sağlayarak pazarlama kampanyalarının verimliliğini optimize ettim.",
-        duration: "4+ Yıl",
-        field: "Dijital Pazarlama"
-      },
-      {
-        id: "EXP-003",
-        company: "PC Abi",
-        position: "Kurucu / Satış & Teknik Servis",
-        description: "Online satış stratejileriyle müşteri portföyünü %70 artırdım. Teknik servis süreçlerini optimize ederek teslimat sürelerini düşürdüm. Stok, müşteri ilişkisi ve fiyatlandırma dahil tüm operasyonu bireysel yürüttüm.",
-        duration: "1 Yıl 5 Ay",
-        field: "Teknoloji & Girişim"
-      },
-      {
-        id: "EXP-004",
-        company: "Saha Ekip Koordinatörü",
-        position: "Freelancer",
-        description: "Organizasyon projeleri için dönemsel personel tedarik süreçlerini uçtan uca yönettim. Aday arama, mülakat, seçme ve operasyon bazlı yerleştirme aşamalarını koordine ettim. Sahada ekibin sevk, idare ve performans denetimini üstlendim.",
-        duration: "6 Ay",
-        field: "Saha Koordinasyon"
-      },
-      {
-        id: "EXP-005",
-        company: "Ayvalık (Yerel Esnaf)",
-        position: "Operasyon Sorumlusu",
-        description: "Servis, karşılama ve mutfak ekiplerini koordine ettim. Yoğun saatlerde ekip liderliği yaparak hizmet kalitesini artırdım. Tedarik ve stok süreçlerini yöneterek maliyet kontrolüne doğrudan katkı sağladım.",
-        duration: "6 Ay",
-        field: "Operasyon Yönetimi"
-      },
-      {
-        id: "EXP-006",
-        company: "Yemeksepeti",
-        position: "Saha Dağıtım Sorumlusu (Kurye)",
-        description: "Teslimat süreçlerinde rota ve zaman optimizasyonu yaptım. Yoğun çalışma saatlerinde hatasız ve hızlı teslimat sağlayarak operasyonel verimlilik ve müşteri memnuniyeti hedeflerine katkıda bulundum.",
-        duration: "8 Ay",
-        field: "Lojistik & Dağıtım"
-      },
-      {
-        id: "EXP-007",
-        company: "Ayvalık Fly Beach",
-        position: "Servis Sorumlusu",
-        description: "Sipariş, kasa ve vardiya planlaması süreçlerini yönettim. POS sistemleri üzerinden günlük satış raporları hazırladım. Müşteri memnuniyetini koruma odaklı olarak şikayetlerin çözümünde birebir sorumluluk aldım.",
-        duration: "5 Ay",
-        field: "Hizmet Sektörü"
-      },
-      {
-        id: "EXP-008",
-        company: "Mattepost Post Production",
-        position: "Barmen / Barista",
-        description: "Post prodüksiyon stüdyosu bünyesinde baristalık ve barmenlik yaparak yoğun ve dinamik çalışma ortamında kaliteli hizmet sundum. Sipariş takibi, stok yönetimi ve müşteri ilişkilerini yönettim.",
-        duration: "4 Ay",
-        field: "Hizmet Sektörü"
-      },
-      {
-        id: "EXP-009",
-        company: "Kat Sorumlusu",
-        position: "Avlu Bomonti, Şişli",
-        description: "Rezervasyon karşılama, masa koordinasyonu ve müşteri taleplerine yanıt verdim. Günlük personel planlaması ve servis içi kontrol süreçlerinde operasyonel sorumluluk üstlendim.",
-        duration: "4 Ay",
-        field: "Hizmet & Rezervasyon"
-      },
-      {
-        id: "EXP-010",
-        company: "Point Hotel Taksim",
-        position: "Stajyer",
-        description: "Garsonluk, meydancılık, spa ve kat görevlisi olarak çeşitli birimlerde görev alarak lüks otel operasyonları hakkında kapsamlı saha tecrübesi kazandım.",
-        duration: "9 Ay",
-        field: "Turizm & Otelcilik"
-      },
-      {
-        id: "EXP-011",
-        company: "Siente Tekstil",
-        position: "Sosyal Medya Yönetimi (Freelancer)",
-        description: "Kurumun dijital kanallarını yöneterek sosyal medya etkileşim oranlarını %45 oranında artırdım. Özgün içerik planlaması ve hedef kitle analiziyle marka bilinirliğini güçlendirdim.",
-        duration: "6 Ay",
-        field: "Sosyal Medya & İçerik"
-      }
+      { id: "EXP-001", company: "QIH GROUP", position: "IT & Marketing Ekip Kaptanı", description: "Çok kültürlü pazarlama ekibine liderlik ederek kurumun BT altyapısını yönettim.<br>IT sistemleri entegrasyonu ve veri güvenliğini sağlayarak operasyonları dijitalleştirdim.<br>Marka bilinirliğini artırmaya yönelik global dijital pazarlama stratejileri kurguladım.", duration: "Ağustos 2025 – Haziran 2026", field: "Yazılım & Pazarlama" },
+      { id: "EXP-002", company: "Marketing Yönetimi", position: "Freelancer", description: "Kurumların uluslararası büyüme hedeflerine yönelik veriye dayalı dijital pazarlama stratejileri kurguladım.<br>Marka bilinirliğine doğrudan katkı sağlayarak pazarlama kampanyalarının verimliliğini optimize ettim.", duration: "4+ Yıl", field: "Dijital Pazarlama" },
+      { id: "EXP-003", company: "PC Abi", position: "Kurucu / Satış & Teknik Servis", description: "Online satış stratejileriyle müşteri portföyünü %70 oranında artırdım.<br>Stok, müşteri ilişkisi ve fiyatlandırma, teknik servis dahil tüm operasyonu bireysel yürüttüm.", duration: "1 Yıl 5 Ay", field: "Teknoloji & Girişim" },
+      { id: "EXP-004", company: "Saha Ekip Koordinatörü", position: "Ajans (Freelancer)", description: "Organizasyon projeleri için dönemsel personel tedarik süreçlerini uçtan uca yönettim.<br>Aday arama, mülakat, seçme ve operasyon bazlı yerleştirme aşamalarını koordine ettim.<br>Sahada ekibin sevk, idare ve performans denetimini üstlendim.", duration: "3 Ay", field: "Saha Koordinasyon" },
+      { id: "EXP-005", company: "Yemeksepeti", position: "Saha Dağıtım Sorumlusu (Kurye)", description: "Teslimat süreçlerinde rota ve zaman optimizasyonu yaptım.<br>Yoğun çalışma saatlerinde hatasız ve hızlı teslimat sağlayarak müşteri memnuniyetine katkıda bulundum.", duration: "8 Ay", field: "Lojistik & Dağıtım" },
+      { id: "EXP-006", company: "Mattepost Post Production", position: "Barmen / Barista", description: "Post prodüksiyon stüdyosu bünyesinde baristalık ve barmenlik yaparak kaliteli içecek hizmeti sundum.<br>Sipariş takibi, stok yönetimi ve müşteri ilişkilerini yönettim.", duration: "3 Ay (Dönemsel)", field: "Hizmet Sektörü" },
+      { id: "EXP-007", company: "Ekstracı & Part-Time Hizmet Ekibi", position: "Garson / Komi / Steward", description: "Eğitim hayatım boyunca çeşitli lüks otel, kongre merkezi ve elit davetlerde günlük esnek kadrolarda görev aldım.<br>Garsonluk, komilik ve stewardlık rollerini üstlenerek hizmet sektörü operasyonlarının her kademesinde pratik tecrübe kazandım.", duration: "1 Yıl (Dönemsel)", field: "Hizmet Sektörü" },
+      { id: "EXP-008", company: "Ayvalık Fly Beach", position: "Servis Sorumlusu", description: "Sipariş, kasa ve vardiya planlaması süreçlerini yönettim.<br>POS sistemleri üzerinden günlük satış raporları hazırladım.<br>Müşteri şikayetlerinin çözümünde birebir sorumluluk aldım.", duration: "3 Ay (Dönemsel)", field: "Hizmet Sektörü" },
+      { id: "EXP-009", company: "Harbiye Ordu Evi", position: "Soğuk Aşçısı & Pastane Sorumlusu", description: "Soğuk büfe sunumları ile unlu mamuller (simit, poğaça), sütlü/şerbetli tatlılar ve pastacılık ürünlerinin hazırlık, üretim ve sunum süreçlerini yönettim.<br>Yüksek hacimli operasyonlarda hijyen standartlarını koruyarak reçeteye uygun üretim gerçekleştirdim.", duration: "5 Ay", field: "Gastronomi & Mutfak" },
+      { id: "EXP-010", company: "Kat Sorumlusu", position: "Avlu Bomonti - Servis & Rezervasyon Yönetimi", description: "Rezervasyon karşılama, masa koordinasyonu ve müşteri taleplerine yanıt verdim.<br>Günlük personel planlaması ve servis içi kontrol süreçlerinde operasyonel sorumluluk üstlendim.", duration: "3 Ay (Dönemsel)", field: "Hizmet & Rezervasyon" },
+      { id: "EXP-011", company: "Point Hotel Taksim", position: "Stajyer", description: "Garsonluk, meydancılık, spa ve kat görevlisi olarak çeşitli birimlerde görev aldım.<br>Lüks otel operasyonları hakkında kapsamlı saha tecrübesi kazandım.", duration: "9 Ay", field: "Turizm & Otelcilik" },
+      { id: "EXP-012", company: "Siente Tekstil", position: "Sosyal Medya Yönetimi (Freelancer)", description: "Kurumun dijital kanallarını yöneterek sosyal medya etkileşim oranlarını %45 oranında artırdım.<br>Özgün içerik planlaması ve hedef kitle analiziyle marka bilinirliğini güçlendirdim.", duration: "3 Ay (Dönemsel)", field: "Sosyal Medya & İçerik" }
     ],
     en: [
-      {
-        id: "EXP-001",
-        company: "QIH GROUP",
-        position: "IT Manager & Marketing Team Leader",
-        description: "Led a multicultural marketing team while managing the IT infrastructure. Digitalized operational processes by ensuring system integration and data security. Developed global digital marketing strategies to boost brand awareness.",
-        duration: "August 2025 – June 2026",
-        field: "IT & Digital Marketing"
-      },
-      {
-        id: "EXP-002",
-        company: "Marketing Management",
-        position: "Freelancer",
-        description: "Designed data-driven digital marketing strategies aligned with international expansion goals. Directly increased brand awareness and optimized the performance of global marketing campaigns.",
-        duration: "4+ Years",
-        field: "Digital Marketing"
-      },
-      {
-        id: "EXP-003",
-        company: "PC Abi",
-        position: "Founder / Sales & Tech Support",
-        description: "Grew customer portfolio by 70% using online sales strategies. Optimized technical service workflows to reduce delivery times. Managed all business operations single-handedly: inventory, customer relations, pricing.",
-        duration: "1 Year 5 Months",
-        field: "Tech & Entrepreneurship"
-      },
-      {
-        id: "EXP-004",
-        company: "Field Team Coordinator",
-        position: "Freelancer",
-        description: "Managed end-to-end recruitment and staffing for event projects. Coordinated candidate screening, interviews, selection, and operational placements. Controlled field operations, team administration, and performance reviews to ensure service quality.",
-        duration: "6 Months",
-        field: "Event Operations"
-      },
-      {
-        id: "EXP-005",
-        company: "Ayvalık (Local Business)",
-        position: "Operations Supervisor",
-        description: "Coordinated service, hosting, and kitchen teams. Led operations during busy hours to increase service quality. Managed supply chain and inventory levels to contribute to cost control.",
-        duration: "6 Months",
-        field: "Operations"
-      },
-      {
-        id: "EXP-006",
-        company: "Yemeksepeti",
-        position: "Field Delivery Logistics",
-        description: "Optimized route planning and time management for food delivery processes. Contributed to customer satisfaction by ensuring zero-error delivery performance during peak operational hours.",
-        duration: "8 Months",
-        field: "Logistics & Delivery"
-      },
-      {
-        id: "EXP-007",
-        company: "Ayvalık Fly Beach",
-        position: "Service Supervisor",
-        description: "Managed guest orders, checkout operations, and shift scheduling. Prepared daily sales reports using POS systems. Took direct responsibility for resolving customer complaints and maintaining guest satisfaction.",
-        duration: "5 Months",
-        field: "Hospitality"
-      },
-      {
-        id: "EXP-008",
-        company: "Mattepost Post Production",
-        position: "Bartender / Barista",
-        description: "Provided high-quality barista and bartending services within a dynamic post-production studio environment. Managed order fulfillment, stock inventory, and client relations.",
-        duration: "4 Months",
-        field: "Hospitality"
-      },
-      {
-        id: "EXP-009",
-        company: "Floor Supervisor",
-        position: "Avlu Bomonti, Sisli",
-        description: "Handled reservation hosting, table coordination, and customer relations. Took charge of daily staff shift planning and in-service quality control audits.",
-        duration: "4 Months",
-        field: "Hospitality & Hosting"
-      },
-      {
-        id: "EXP-010",
-        company: "Point Hotel Taksim",
-        position: "Intern",
-        description: "Worked across multiple departments including service, housekeeping, spa, and front-desk. Gained comprehensive operational experience and knowledge in luxury hotel management.",
-        duration: "9 Months",
-        field: "Tourism & Hotel Mgmt"
-      },
-      {
-        id: "EXP-011",
-        company: "Siente Tekstil",
-        position: "Social Media Specialist (Freelancer)",
-        description: "Managed social media platforms and successfully grew engagement rates by 45%. Strengthened follower interactions and brand image through original content planning and audience analysis.",
-        duration: "6 Months",
-        field: "Social Media & Content"
-      }
+      { id: "EXP-001", company: "QIH GROUP", position: "IT & Marketing Team Leader", description: "Led a multicultural marketing team while managing the company's IT infrastructure.<br>Digitalized operational processes by ensuring system integration and data security.<br>Developed global digital marketing strategies to boost brand awareness.", duration: "August 2025 – June 2026", field: "IT & Digital Marketing" },
+      { id: "EXP-002", company: "Marketing Management", position: "Freelancer", description: "Designed data-driven digital marketing strategies aligned with international expansion goals.<br>Directly increased brand awareness and optimized the performance of global marketing campaigns.", duration: "4+ Years", field: "Digital Marketing" },
+      { id: "EXP-003", company: "PC Abi", position: "Founder / Sales & Tech Support", description: "Grew customer portfolio by 70% using online sales strategies.<br>Managed all business operations single-handedly: inventory, customer relations, pricing, and technical service.", duration: "1 Year 5 Months", field: "Tech & Entrepreneurship" },
+      { id: "EXP-004", company: "Field Team Coordinator", position: "Agency (Freelancer)", description: "Managed end-to-end recruitment and staffing for organization projects.<br>Coordinated candidate sourcing, interviews, selection, and operational placements.<br>Supervised field team operations, administration, and performance.", duration: "3 Months", field: "Event Operations" },
+      { id: "EXP-005", company: "Yemeksepeti", position: "Field Delivery Logistics", description: "Optimized route planning and time management for food delivery processes.<br>Contributed to customer satisfaction by ensuring zero-error delivery performance during peak operational hours.", duration: "8 Months", field: "Logistics & Delivery" },
+      { id: "EXP-006", company: "Mattepost Post Production", position: "Bartender / Barista", description: "Provided quality beverage service as a barista and bartender within a post-production studio.<br>Managed order tracking, stock inventory, and client relations.", duration: "3 Months (Seasonal)", field: "Hospitality" },
+      { id: "EXP-007", company: "Freelance Hospitality Staff", position: "Server / Busser / Steward", description: "Worked on flexible daily and part-time rosters at various high-end hotels, convention centers, and elite events during my academic years.<br>Developed hands-on experience in every stage of service operations.", duration: "1 Year (Seasonal)", field: "Hospitality Services" },
+      { id: "EXP-008", company: "Ayvalık Fly Beach", position: "Service Supervisor", description: "Managed guest orders, checkout operations, and shift scheduling.<br>Prepared daily sales reports using POS systems.<br>Took direct responsibility for resolving customer complaints.", duration: "3 Months (Seasonal)", field: "Hospitality" },
+      { id: "EXP-009", company: "Harbiye Military Officer's Club", position: "Cold Larder Cook & Pastry Assistant", description: "Managed the preparation, production, and presentation of cold buffet selections, bakery products (simit, poğaça), milk/syrup-based desserts, and pastry items.<br>Maintained high hygiene standards and recipe consistency during high-volume operations.", duration: "5 Months", field: "Gastronomy & Culinary" },
+      { id: "EXP-010", company: "Floor Supervisor", position: "Avlu Bomonti - Service & Reservation Mgmt", description: "Handled reservation hosting, table coordination, and customer relations.<br>Took charge of daily staff shift planning and in-service quality control.", duration: "3 Months (Seasonal)", field: "Hospitality & Hosting" },
+      { id: "EXP-011", company: "Point Hotel Taksim", position: "Intern", description: "Worked across multiple departments including service, housekeeping, spa, and front-desk.<br>Gained comprehensive operational experience in luxury hotel management.", duration: "9 Months", field: "Tourism & Hotel Mgmt" },
+      { id: "EXP-012", company: "Siente Tekstil", position: "Social Media Specialist (Freelancer)", description: "Managed social media platforms and successfully grew engagement rates by 45%.<br>Strengthened brand image through original content planning and audience analysis.", duration: "3 Months (Seasonal)", field: "Social Media & Content" }
     ]
   };
 
@@ -231,34 +79,30 @@ const ExperiencesModule = (() => {
     const exps = EXPERIENCES[currentLang];
     const headings = TEXTS[currentLang];
 
-    // Layout arrangement:
-    // 0: heading ("DENEYIMLER" / "EXPERIENCES")
-    // 1-2: cards (IT Müdürü, Marketing)
-    // 3: heading ("TEKNOLOJI" / "TECHNOLOGY")
-    // 4: card (PC Abi)
-    // 5: heading ("ORGANIZASYON" / "ORGANIZATION")
-    // 6-8: cards (Saha Ekip, Ayvalık Yerel, Yemeksepeti)
-    // 9: heading ("HIZMET" / "HOSPITALITY")
-    // 10-13: cards (Ayvalık Fly Beach, Mattepost Barmen, Kat Sorumlusu, Point Hotel)
-    // 14: heading ("MEDYA" / "MEDIA")
-    // 15: card (Siente Tekstil)
+    // Layout:
+    // DENEYIMLER → QIH (0), Marketing (1)
+    // TEKNOLOJI  → PC Abi (2)
+    // ORGANIZASYON → Saha Ekip (3), Yemeksepeti (4)
+    // HIZMET → Mattepost (5), Ekstracı (6), Fly Beach (7), Harbiye (8), Kat (9), Point Hotel (10)
+    // MEDYA → Siente (11)
     const sceneItems = [
-      { type: 'heading', value: headings[0] }, // Index 0
+      { type: 'heading', value: headings[0] },
       { type: 'card', value: exps[0], index: 0 },
       { type: 'card', value: exps[1], index: 1 },
-      { type: 'heading', value: headings[1] }, // Index 3
+      { type: 'heading', value: headings[1] },
       { type: 'card', value: exps[2], index: 2 },
-      { type: 'heading', value: headings[2] }, // Index 5
+      { type: 'heading', value: headings[2] },
       { type: 'card', value: exps[3], index: 3 },
       { type: 'card', value: exps[4], index: 4 },
+      { type: 'heading', value: headings[3] },
       { type: 'card', value: exps[5], index: 5 },
-      { type: 'heading', value: headings[3] }, // Index 9
       { type: 'card', value: exps[6], index: 6 },
       { type: 'card', value: exps[7], index: 7 },
       { type: 'card', value: exps[8], index: 8 },
       { type: 'card', value: exps[9], index: 9 },
-      { type: 'heading', value: headings[4] }, // Index 14
-      { type: 'card', value: exps[10], index: 10 }
+      { type: 'card', value: exps[10], index: 10 },
+      { type: 'heading', value: headings[4] },
+      { type: 'card', value: exps[11], index: 11 }
     ];
 
     CONFIG.itemCount = sceneItems.length;
@@ -312,7 +156,9 @@ const ExperiencesModule = (() => {
         items.push({
           el, type: 'card',
           x, y, rot,
-          baseZ: -i * CONFIG.zGap
+          baseZ: -i * CONFIG.zGap,
+          sceneIndex: i,
+          sceneLength: sceneItems.length
         });
       }
       world.appendChild(el);
@@ -332,9 +178,25 @@ const ExperiencesModule = (() => {
     }
   }
 
+  function handleResize() {
+    if (!viewport || !initialized) return;
+    const referenceWidth = viewport.offsetWidth > 0 ? viewport.offsetWidth : 1200;
+    const referenceHeight = viewport.offsetHeight > 0 ? viewport.offsetHeight : 800;
+
+    items.forEach((item) => {
+      if (item.type === 'card') {
+        const angle = (item.sceneIndex / item.sceneLength) * Math.PI * 6;
+        item.x = Math.cos(angle) * (referenceWidth * 0.28);
+        item.y = Math.sin(angle) * (referenceHeight * 0.25);
+      }
+    });
+  }
+
   function init() {
     if (initialized) return;
     initialized = true;
+
+    window.addEventListener('resize', handleResize);
 
     world = document.getElementById('world');
     viewport = document.getElementById('viewport');
@@ -344,11 +206,11 @@ const ExperiencesModule = (() => {
     if (!world) return;
 
     // Reset lang toggle buttons classes on init
-    currentLang = 'tr';
+    currentLang = 'en';
     const trBtn = document.getElementById('expLangTR');
     const enBtn = document.getElementById('expLangEN');
-    if (trBtn) trBtn.classList.add('active');
-    if (enBtn) enBtn.classList.remove('active');
+    if (trBtn) trBtn.classList.remove('active');
+    if (enBtn) enBtn.classList.add('active');
 
     buildScene();
 
@@ -503,6 +365,8 @@ const ExperiencesModule = (() => {
   }
 
   function destroy() {
+    window.removeEventListener('resize', handleResize);
+    
     if (rafId) {
       cancelAnimationFrame(rafId);
       rafId = null;
@@ -522,6 +386,10 @@ const ExperiencesModule = (() => {
         body.removeEventListener('wheel', fallbackWheelHandler);
         fallbackWheelHandler = null;
       }
+    }
+
+    if (world) {
+      world.innerHTML = '';
     }
 
     items = [];

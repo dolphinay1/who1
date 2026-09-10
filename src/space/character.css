@@ -1,0 +1,41 @@
+.center-portrait-wrap {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 2;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  perspective: 1000px;
+}
+.magnet-container {
+  display: inline-block;
+  cursor: pointer;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  mix-blend-mode: screen;
+  pointer-events: auto;
+  transform-style: preserve-3d;
+}
+.portrait-img {
+  width: clamp(280px, 38vw, 520px);
+  user-select: none;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 768px) {
+  .center-portrait-wrap {
+    top: 55%; /* Vertical center alignment relative to folders */
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    align-items: center;
+  }
+  .portrait-img {
+    width: 290px; /* Slightly larger scale on mobile */
+    max-width: 65vw;
+  }
+}

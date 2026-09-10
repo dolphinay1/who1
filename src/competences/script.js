@@ -1,3 +1,5 @@
+import "../space/security.js";
+
 (function () {
   'use strict';
 
@@ -142,13 +144,12 @@
   }
 
   function initLang() {
-    var btn = document.querySelector('[data-lang-toggle]');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      applyLang(getLang() === 'tr' ? 'en' : 'tr');
-    });
     applyLang(getLang());
   }
+
+  window.setLanguage = function (lang) {
+    applyLang(lang);
+  };
 
   function initReveal() {
     var blocks = [].slice.call(document.querySelectorAll('.section--reveal'));
@@ -306,44 +307,46 @@
       }
     });
 
-    // POINTER EVENT DRAG LOGIC WITH SENSITIVITY THRESHOLD TO ALLOW CLICKS
-    viewport.addEventListener('pointerdown', function (e) {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      swipe.active = true;
-      swipe.startX = e.clientX;
-      swipe.hasMoved = false;
-      swipe.pid = e.pointerId;
-    });
+    // POINTER EVENT DRAG LOGIC — Desktop only (mobile uses buttons/dots)
+    if (window.innerWidth > 768) {
+      viewport.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        swipe.active = true;
+        swipe.startX = e.clientX;
+        swipe.hasMoved = false;
+        swipe.pid = e.pointerId;
+      });
 
-    viewport.addEventListener('pointermove', function (e) {
-      if (!swipe.active || e.pointerId !== swipe.pid) return;
-      var dx = e.clientX - swipe.startX;
-      if (Math.abs(dx) > 10) {
-        swipe.hasMoved = true;
-        try {
-          viewport.setPointerCapture(e.pointerId);
-        } catch (err) {}
-      }
-    });
-
-    viewport.addEventListener('pointerup', function (e) {
-      if (!swipe.active || e.pointerId !== swipe.pid) return;
-      swipe.active = false;
-      swipe.pid = null;
-
-      if (swipe.hasMoved) {
+      viewport.addEventListener('pointermove', function (e) {
+        if (!swipe.active || e.pointerId !== swipe.pid) return;
         var dx = e.clientX - swipe.startX;
-        if (Math.abs(dx) >= 40) {
-          if (dx < 0) go(1);
-          else go(-1);
+        if (Math.abs(dx) > 10) {
+          swipe.hasMoved = true;
+          try {
+            viewport.setPointerCapture(e.pointerId);
+          } catch (err) {}
         }
-      }
-    });
+      });
 
-    viewport.addEventListener('pointercancel', function () {
-      swipe.active = false;
-      swipe.pid = null;
-    });
+      viewport.addEventListener('pointerup', function (e) {
+        if (!swipe.active || e.pointerId !== swipe.pid) return;
+        swipe.active = false;
+        swipe.pid = null;
+
+        if (swipe.hasMoved) {
+          var dx = e.clientX - swipe.startX;
+          if (Math.abs(dx) >= 40) {
+            if (dx < 0) go(1);
+            else go(-1);
+          }
+        }
+      });
+
+      viewport.addEventListener('pointercancel', function () {
+        swipe.active = false;
+        swipe.pid = null;
+      });
+    }
   }
 
   function initSkillsHover() {
@@ -364,7 +367,6 @@
 
       // Mobile Touch/Click Toggle
       var showDesc = function (e) {
-        if (e.type === 'touchstart') e.preventDefault();
         var desc = item.getAttribute("data-desc");
         if (descBox.textContent === desc && descBox.classList.contains("active")) {
           descBox.classList.remove("active");
@@ -374,7 +376,6 @@
         }
       };
       item.addEventListener("click", showDesc);
-      item.addEventListener("touchstart", showDesc, { passive: false });
     });
   }
 

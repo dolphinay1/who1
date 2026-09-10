@@ -6,165 +6,16 @@
   <title>Projects Showcase</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="header">
-    <h1 id="proj-main-title">PROJELERİM</h1>
+    <h1 id="proj-main-title" class="hero-heading">PROJELERİM</h1>
   </div>
 
-  <div class="grid-container">
-    <!-- Card 1: Crypdolfin Portfolio -->
-    <div class="chrome-card" role="button" onclick="openProject('crypdolfin')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover1.png" class="cover-image" alt="Crypdolfin Cover" />
-          </div>
-          <h3 class="title">WEB3 Portfolio</h3>
-          <img src="./images/proj1.png" class="character" alt="Dolphin" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 2: Excel Conversion -->
-    <div class="chrome-card" role="button" onclick="openProject('excel_conversion')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover2.png" class="cover-image" alt="Excel Converter Cover" />
-          </div>
-          <h3 class="title">Excel Converter</h3>
-          <img src="./images/proj2.png" class="character" alt="Cylinder" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3: B2B Lead Bot -->
-    <div class="chrome-card" role="button" onclick="openProject('lead_bot')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover3.png" class="cover-image" alt="B2B Lead Bot Cover" />
-          </div>
-          <h3 class="title">B2B Lead Bot</h3>
-          <img src="./images/proj3.png" class="character" alt="Drone" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 4: MarketBot -->
-    <div class="chrome-card" role="button" onclick="openProject('marketbot')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover4.png" class="cover-image" alt="MarketBot Cover" />
-          </div>
-          <h3 class="title">MarketBot</h3>
-          <img src="./images/proj4.png" class="character" alt="Chart" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 5: WebioTrader -->
-    <div class="chrome-card" role="button" onclick="openProject('webiotrader')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover5.png" class="cover-image" alt="WebioTrader Cover" />
-          </div>
-          <h3 class="title">WebioTrader</h3>
-          <img src="./images/proj5.png" class="character" alt="Arrow" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 6: Tea & Sugar -->
-    <div class="chrome-card" role="button" onclick="openProject('teandsugar')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover6.png" class="cover-image" alt="Tea & Sugar Cover" />
-          </div>
-          <h3 class="title">Tea & Sugar</h3>
-          <img src="./images/proj6.png" class="character" alt="Cup" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 7: Tostlama -->
-    <div class="chrome-card" role="button" onclick="openProject('tostlama')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover7.png" class="cover-image" alt="Tostlama Cover" />
-          </div>
-          <h3 class="title">Tostlama</h3>
-          <img src="./images/proj7.png" class="character" alt="Phone" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 8: VerteX Markets -->
-    <div class="chrome-card" role="button" onclick="openProject('vertex')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover8.png" class="cover-image" alt="VerteX Markets Cover" />
-          </div>
-          <h3 class="title">VerteX Markets</h3>
-          <img src="./images/proj8.png" class="character" alt="Globe" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 9: AI Automation Hub -->
-    <div class="chrome-card" role="button" onclick="openProject('future_ai')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover9.png" class="cover-image" alt="AI Hub Cover" />
-          </div>
-          <h3 class="title">AI Hub</h3>
-          <img src="./images/proj9.png" class="character" alt="Brain" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 10: Web3 Decentra Dashboard -->
-    <div class="chrome-card" role="button" onclick="openProject('future_web3')">
-      <span class="glow"></span>
-      <div class="chrome-body">
-        <div class="card">
-          <div class="wrapper">
-            <img src="./images/cover10.png" class="cover-image" alt="Web3 Dash Cover" />
-          </div>
-          <h3 class="title">Web3 Dash</h3>
-          <img src="./images/proj10.png" class="character" alt="Ethereum" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Detail Modal -->
-  <div class="modal-backdrop" id="projectModal" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-      <h2 class="modal-title" id="modalTitle">Project Title</h2>
-      <div class="modal-tags" id="modalTags"></div>
-      <p class="modal-desc" id="modalDesc"></p>
-      <a href="" target="_blank" class="modal-btn" id="modalBtn">Projeye Git</a>
-    </div>
+  <div class="projects-list">
+    <!-- Projects will be dynamically generated here by script.js -->
   </div>
 
   <script type="module" src="./script.js"></script>

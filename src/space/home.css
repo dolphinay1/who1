@@ -1,0 +1,89 @@
+/* ==========================================
+ * Space Desktop Workspace Layout
+ * ========================================== */
+#space-viewport {
+  background: #0c0c0c;
+  display: none;
+}
+#space-viewport.active {
+  display: block;
+  opacity: 1;
+}
+/* ==========================================
+ * Symmetrical 3D Folder & Portrait Layout
+ * ========================================== */
+.workspace-layout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(260px, 28vw, 440px);
+  padding: 40px;
+  box-sizing: border-box;
+  pointer-events: auto;
+  z-index: 10;
+}
+.workspace-bg-title-wrap {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.workspace-bg-title {
+  font-family: 'Kanit', sans-serif;
+  font-size: 17vw;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+  user-select: none;
+  white-space: nowrap;
+}
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.folder-col {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+  z-index: 3;
+  width: 160px;
+  margin-top: 12vh;
+}
+.folder-col-left {
+  margin-left: 0;
+}
+.folder-col-right {
+  margin-right: 0;
+}
+
+@media (max-width: 768px) {
+  .workspace-layout {
+    gap: clamp(140px, 45vw, 240px); /* Adjust gap on mobile to fit screen width perfectly */
+    padding: 16px;
+  }
+  .workspace-bg-title-wrap {
+    top: 11.5vh;
+  }
+  .workspace-bg-title {
+    font-size: 15vw; /* Slightly adjust font size on mobile */
+  }
+  .folder-col {
+    margin-top: 14.5vh;
+    gap: 40px;
+  }
+  #space-viewport {
+    touch-action: auto !important;
+  }
+}
